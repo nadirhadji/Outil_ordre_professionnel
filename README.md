@@ -7,8 +7,8 @@ formation continue pour les membres d'un ordre professionnel.
 ## Table des matières
 
 + Introduction
-+ Format de *declaration.json*
-+ Format de *reponse.json*
++ Format de Déclaration
++ Format de Reponse
 + Comment Installer
 + Comment Utiliser
 + Technologies
@@ -17,16 +17,19 @@ formation continue pour les membres d'un ordre professionnel.
 
 ## Introduction
 
-L'application **FormationContinue.jar** va lire un fichier JSON nommé  **declaration.json** et vérifier : 
+L'application **FormationContinue.jar** va lire le fichier **declaration.json** et vérifier : 
+
 + Le format du document
 + La validité des données
 + Le respect des règles d'affaires
   
 Après le traitement, un fichier **resultat.json** sera créé et contiendra un compte rendu de la déclaration.
 
-## 🔣 Format de *declaration.json*
+## 🔣 Format de Déclaration*
 
-Ceci représente un exemple de déclaration valide 
+Ce fichier doit s'appeler *declaration.json*
+
+Example de format valide : 
 
 ```json
 {
@@ -50,9 +53,11 @@ Ceci représente un exemple de déclaration valide
 }
 ```
 
-## 🏁 Format de *reponse.json*
+## 🏁 Format de Reponse*
 
-Voici un exemple de réponse dans le cas d'une déclaration invalide :
+Ce fichier doit s'appeler *reponse.json*
+
+Exemple de réponse dans le cas d'une déclaration invalide :
 
 ```json
 {
@@ -65,7 +70,7 @@ Voici un exemple de réponse dans le cas d'une déclaration invalide :
 }
 ```
 
-Dans le cas d'une déclaration valide : 
+Exemple de réponse dans le cas d'une déclaration valide :
 
 ```json
 {
@@ -81,9 +86,9 @@ TODO
 
 Tout d'abord s'assurer d'avoir Java installé sur ça machine. 
 
-Placer dans un même répertoire le fichier *FormationContinue.jar* ainsi que les deux fichiers JSON *declaration.json* et *resultat.json*.
+Placer dans un même répertoire le fichier *FormationContinue.jar* ainsi que les deux fichiers *declaration.json* et *resultat.json*.
 
-Le fichier *declaration.json* doit respecter le format d'écriture JSON. Dans le cas contraire, une exception sera levée et le traitement ne pourra pas avoir lieu.
+Le fichier *declaration.json* doit respecter les régles d'écriture JSON. Dans le cas contraire, une exception sera levée et le traitement ne pourra pas avoir lieu.
 
 Le fichier *resultat.json* peut être vide au moment de l'exécution.
 
@@ -102,7 +107,7 @@ Une fois terminée, ouvrir le fichier *resultat.json* pour connaitre le résulta
 
 + Language : Java DK11 
 + IDE : IntelliJ
-+ Format de fichier : JSON
++ Format des fichiers : JSON
 + Encodage de fichier : UTF-8
 
 
