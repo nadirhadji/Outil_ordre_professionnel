@@ -12,7 +12,6 @@ formation continue pour les membres d'un ordre professionnel.
 + Comment Installer
 + Comment Utiliser
 + Technologies
-+ Test
 
 -------------------------
 
