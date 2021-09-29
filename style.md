@@ -40,7 +40,7 @@ La langue qui sera utilisée sera le **français** et ce dans tous les composant
 ### 2.1 - *Séparateurs*
 Il faudra utiliser des séparateurs lors de la rédaction du code tel que les retours à la ligne, les espaces, les lignes blanches ... afin d'**aérer** le code et le rendre plus lisible. Nous allons définir quelques règles de base pour nous mettre en contexte.
 
-+ Le nombre de caractères maximum par ligne sera 120
++ Le nombre de caractères maximum par ligne sera 80
 
 + Utiliser 2 lignes blanches pour séparer les éléments d'un fichier (ex : constructeur, méthodes, attributs)
 
