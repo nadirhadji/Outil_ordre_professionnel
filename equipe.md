@@ -1,11 +1,12 @@
 ## Composition
+
 **Nadir Hadji**
 -  Code MS: fc191918
--   Code Permanent: HADN08069703
+-  Code Permanent: HADN08069703
 
 **Felix Gonzales**
--    Code MS: aa791038
--   Code Permanent:_ GONF27049606
+-   Code MS: aa791038
+-   Code Permanent: GONF27049606
 
 **Beyram Chaieb**
 -   Code MS: jf891034
