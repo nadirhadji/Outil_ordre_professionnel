@@ -1,23 +1,21 @@
-
 ## Composition
-Nadir Hadji
-- _Code MS:_
-- _Code Permanent:_
+**Nadir Hadji**
+-  Code MS: fc191918
+-   Code Permanent: HADN08069703
 
-Felix
-- _Code MS:_ aa791038
-- _Code Permanent:_ GONF27049606
+**Felix Gonzales**
+-    Code MS: aa791038
+-   Code Permanent:_ GONF27049606
 
-Beyram Tunsi
-- _Code MS:_
-- _Code Permanent:_
+**Beyram Chaieb**
+-   Code MS: jf891034
+-   Code Permanent: CHAB06039609
 
-Steffie Morene
-- _Code MS:_
-- _Code Permanent:_
+**Steffie Morene**
+-   Code MS: gh391909
+-   Code Permanent: CISS03539601
 
 ## Charte
-
 |              |   Nadir   |    Felix    |   Beyram    |  Steffie   |
 | :---         |   :----:  |    :----:   |    :----:   |     ---:   |
 | Rencontre    |   10/10   |    10/10    |    10/10    |    10/10   |
