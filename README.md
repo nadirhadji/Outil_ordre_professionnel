@@ -8,7 +8,7 @@ formation continue pour les membres d'un ordre professionnel.
 
 + Introduction
 + Format de Déclaration
-+ Format de Reponse
++ Format de Entite.Reponse
 + Comment Installer
 + Comment Utiliser
 + Technologies
@@ -53,7 +53,7 @@ Example de format valide :
 }
 ```
 
-## 🏁 Format de Reponse*
+## 🏁 Format de Entite.Reponse*
 
 Ce fichier doit s'appeler *reponse.json*
 
