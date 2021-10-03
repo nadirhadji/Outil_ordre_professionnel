@@ -1,6 +1,9 @@
+package Entite;
+
 import java.util.Date;
 
 public class Activite {
+
     private String description;
     private String categorie;
     private int heures;

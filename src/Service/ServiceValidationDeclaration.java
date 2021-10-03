@@ -1,22 +1,20 @@
 package Service;
 
-import Entite.Declaration;
+import Entite.General;
 import Entite.Reponse;
 import Utils.Constantes;
 
-import java.util.Iterator;
-
 public class ServiceValidationDeclaration {
 
-    public static boolean verifierDeclaration( Declaration declaration, Reponse reponse ) {
-        verifierNumeroDePermis(declaration,reponse);
-        verifierCycle(declaration.obtenirCycle());
+    public static boolean verifierDeclaration(General general, Reponse reponse ) {
+        verifierNumeroDePermis(general,reponse);
+        verifierCycle(general.obtenirCycle());
         return false;
     }
 
     //TODO - Appeler le bon service de message.
-    private static void verifierNumeroDePermis(Declaration declaration, Reponse reponse) {
-        if ( ! estNumeroDePermisValide(declaration.obtenirNumeroDePermis()) )
+    private static void verifierNumeroDePermis(General general, Reponse reponse) {
+        if ( ! estNumeroDePermisValide(general.obtenirNumeroDePermis()) )
             reponse.ajouterMessage("TODO");
     }
 
@@ -67,29 +65,29 @@ public class ServiceValidationDeclaration {
         return cycle.equals(Constantes.CYCLE_AUTORISEE);
     }
 
-    private static boolean verifierHeureTransfere( Declaration declaration, Reponse reponse) {
+    private static boolean verifierHeureTransfere(General general, Reponse reponse) {
         //TODO
         return false;
     }
 
-    private static boolean verifierActivites( Declaration declaration, Reponse reponse) {
+    private static boolean verifierActivites(General general, Reponse reponse) {
         //TODO
         return false;
     }
 
-    private static boolean verifierNombreHeuresTotaleDansDeclaration( Declaration declaration ,
+    private static boolean verifierNombreHeuresTotaleDansDeclaration( General general,
                                                                       Reponse reponse) {
         //TODO
         return false;
     }
 
-    private static int obtenirNombreHeuresManquante( Declaration declaration) {
+    private static int obtenirNombreHeuresManquante( General general) {
         //TODO
         return 0;
     }
 
-    private static boolean verifierActiviteDeGroupe( Declaration declaration, Reponse reponse,
-                                                     int nombreHeures) {
+    private static boolean verifierActiviteDeGroupe(General general, Reponse reponse,
+                                                    int nombreHeures) {
         //TODO
         return false;
     }
