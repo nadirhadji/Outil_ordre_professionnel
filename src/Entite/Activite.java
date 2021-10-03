@@ -1,6 +1,25 @@
-package Entite;
+import java.util.Date;
 
-import java.util.ArrayList;
+public class Activite {
+    private String description;
+    private String categorie;
+    private int heures;
+    private Date date;
+    private boolean estIgnoree;
 
-public class Activite extends ArrayList {
+    public void sauvegarderHeures (int heures){
+        this.heures = heures;
+    }
+    public String obtenirDescription () {
+        return this.description;
+    }
+    public int obtenirHeures (){
+        return this.heures;
+    }
+    public boolean isEstIgnoree (){
+        return this.estIgnoree;
+    }
+    public Date obtenirDate (){
+        return  this.date;
+    }
 }
