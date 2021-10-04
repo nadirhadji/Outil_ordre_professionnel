@@ -1,28 +1,34 @@
 package Entite;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Activite {
 
     private String description;
     private String categorie;
     private int heures;
-    private Date date;
-    private boolean estIgnoree;
+    private LocalDate date;
+    private boolean ignoree;
 
-    public void sauvegarderHeures (int heures){
-        this.heures = heures;
-    }
     public String obtenirDescription () {
         return this.description;
+    }
+    public String obtenirCategorie() {
+        return categorie;
     }
     public int obtenirHeures (){
         return this.heures;
     }
-    public boolean isEstIgnoree (){
-        return this.estIgnoree;
-    }
-    public Date obtenirDate (){
+    public LocalDate obtenirDate (){
         return  this.date;
+    }
+    public void sauvegarderHeures (int heures){
+        this.heures = heures;
+    }
+    public boolean estIgnoree (){
+        return this.ignoree;
+    }
+    public void ignorerActivite () {
+        this.ignoree = true;
     }
 }

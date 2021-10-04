@@ -6,19 +6,25 @@ import java.util.List;
 public class Reponse {
 
     private boolean complet;
-    private List<String> messages;
+    private List<String> messagesErreur;
+    private List<String> messageInformation;
 
     public Reponse() {
         this.complet = false;
-        this.messages = new ArrayList<>();
+        this.messagesErreur = new ArrayList<>();
+        this.messageInformation = new ArrayList<>();
     }
 
     public void estComplet() {
         this.complet = true;
     }
 
-    public void ajouterMessage(String message) {
-        this.messages.add(message);
+    public void ajouterMessageErreur(String message) {
+        this.messagesErreur.add(message);
+    }
+
+    public void ajouterMessageInformation(String message) {
+        this.messageInformation.add(message);
     }
 
     //private JsonObject creerObjectDeSortie() {

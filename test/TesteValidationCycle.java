@@ -5,23 +5,25 @@ import org.junit.jupiter.api.Test;
 
 public class TesteValidationCycle {
 
+    ServiceValidationDeclaration serviceValidationDeclaration = new ServiceValidationDeclaration();
+
     @Test
     public void verifierCycleValideAvecConstante() {
-        boolean resultat = ServiceValidationDeclaration.verifierCycle(Constantes.CYCLE_AUTORISEE);
+        boolean resultat = serviceValidationDeclaration.estCycleValide(Constantes.CYCLE_AUTORISEE);
         Assertions.assertTrue(resultat);
     }
 
     @Test
     public void verifierCycleValideAvecVariable() {
         String s = "2020-2022";
-        boolean resultat = ServiceValidationDeclaration.verifierCycle(s);
+        boolean resultat = serviceValidationDeclaration.estCycleValide(s);
         Assertions.assertTrue(resultat);
     }
 
     @Test
     public void verifierCycleInvalide() {
         String s = "2021-2012";
-        boolean resultat = ServiceValidationDeclaration.verifierCycle(s);
+        boolean resultat = serviceValidationDeclaration.estCycleValide(s);
         Assertions.assertFalse(resultat);
     }
 }
