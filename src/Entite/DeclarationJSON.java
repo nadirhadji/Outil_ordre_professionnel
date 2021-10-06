@@ -72,15 +72,27 @@ public class DeclarationJSON {
         return returnInfo;
     }
 
-    public String getInfoActivites(String infoDemande, String infoActivite){
+    public int getNombreActivites(){
+        int nbActivites=0;
+        JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
+        for (Object arrayObj : jsonArray){
+            nbActivites++;
+        }
+        return nbActivites;
+    }
+
+    public String getInfoActivites(String info, int indexActivite){
         String returnInfo = null;
         String stringComparaison = null;
         JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
+        int i = 0;
         for (Object arrayObj : jsonArray) {
             JSONObject activites = (JSONObject) arrayObj;
-            if(infoActivite.equals((String)activites.get("description"))){
-                returnInfo = (String) activites.get(infoDemande);
+
+            if(i + 1 == indexActivite){
+                returnInfo = (String) activites.get(info);
             }
+            i++;
         }
         return returnInfo;
     }
