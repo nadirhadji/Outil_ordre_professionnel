@@ -10,6 +10,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/*
+    Classe qui gere l'entree d'un fichier JSON
+    avec des methodes qui transforme ce fichier
+    en objet maleable en language java et qui peut
+    aller chercher des informations specifiques
+    a cet objet.
+
+*/
 public class DeclarationJSON {
     private String inputFile;
     private String outputFile;
@@ -58,4 +66,10 @@ public class DeclarationJSON {
 
         }
     }
+
+    public String getInfoGen(String info){
+        String returnInfo = (String) jsonObj.get(info);
+        return returnInfo;
+    }
+
 }
