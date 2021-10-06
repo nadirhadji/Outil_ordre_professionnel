@@ -44,7 +44,7 @@ public class DeclarationJSON {
         pw.flush();
         pw.close();
     }
-
+    /*
     public void to_string() {
         String numeroDePermis = (String) jsonObj.get("numero_de_permis");
         System.out.println("numero de permis : "+ numeroDePermis); //a enelever apres testing
@@ -66,7 +66,7 @@ public class DeclarationJSON {
 
         }
     }
-
+    */
     public String getInfoGen(String info){
         String returnInfo = (String) jsonObj.get(info);
         return returnInfo;
@@ -78,7 +78,7 @@ public class DeclarationJSON {
         JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
         for (Object arrayObj : jsonArray) {
             JSONObject activites = (JSONObject) arrayObj;
-            if(activites.get(infoActivite).equals(activites.get("description"))){
+            if(infoActivite.equals((String)activites.get("description"))){
                 returnInfo = (String) activites.get(infoDemande);
             }
         }
