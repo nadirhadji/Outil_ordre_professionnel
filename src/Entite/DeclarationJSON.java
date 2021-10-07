@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
     Classe qui gere l'entree d'un fichier JSON
@@ -71,7 +74,7 @@ public class DeclarationJSON {
         String returnInfo = (String) jsonObj.get(info);
         return returnInfo;
     }
-
+    /*
     public int getNombreActivites(){
         int nbActivites=0;
         JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
@@ -95,5 +98,20 @@ public class DeclarationJSON {
             i++;
         }
         return returnInfo;
+    }
+     */
+
+    public List<Activite> obtenirActivites() {
+        List<Activite> listeActivite = new ArrayList<Activite>();
+        JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
+        for (Object arrayObj : jsonArray) {
+            JSONObject activites = (JSONObject) arrayObj;
+            String description = (String) activites.get("description");//a enelever apres testing
+            String cat = (String) activites.get("categorie");//a enelever apres testing
+            int heures = (int) activites.get("heures");//a enelever apres testing
+            LocalDate date = LocalDate.parse((String) activites.get("date"));//a enelever apres testing
+            listeActivite.add(new Activite(description, cat, heures, date));
+        }
+        return listeActivite;
     }
 }
