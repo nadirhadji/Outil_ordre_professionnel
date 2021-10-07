@@ -1,84 +1,44 @@
 package Entite;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * classe qui transforme les activite de l'object JSOn en String avec des
- * constructeurs
- */
-public class Activite {
+public class General {
 
-    private String description;
-    private String categorie;
-    private int heures;
-    private LocalDate date;
-    private boolean ignoree;
+    private String numeroDePermis;
+    private String cycle;
+    private int heuresTransfereesDuCyclePrecedent;
+    private List<Activite> activites;
 
-    /**
-     *
-     * @param description
-     * @param categorie
-     * @param heures
-     * @param date
-     */
-    public Activite(String description, String categorie, int heures, LocalDate date) {
-        this.description = description;
-        this.categorie = categorie;
-        this.heures = heures;
-        this.date = date;
-
+    public void General (DeclarationJSON declarationJson){
+        this.activites = new ArrayList<>();
     }
 
-    /**
-     * @return this.description
-     */
-    public String obtenirDescription () {
-        return this.description;
+    public String obtenirNumeroDePermis (){
+        return this.numeroDePermis;
     }
 
-    /**
-     * @return categorie
-     */
-    public String obtenirCategorie() {
-        return categorie;
+    public String obtenirCycle (){
+        return this.cycle;
     }
 
-    /**
-     * @return this.heures
-     */
-    public int obtenirHeures (){
-        return this.heures;
+    public int obtenirHeurestransfere (){
+        return this.heuresTransfereesDuCyclePrecedent;
     }
 
-    /**
-     * @return this.date
-     */
-    public LocalDate obtenirDate (){
-        return  this.date;
+    public List<Activite> obtenirActivites (){
+        return this.activites;
     }
 
-    /**
-     *sauvegarde les heures entrées pour plus tard les valider
-     * @param heures
-     */
-    public void sauvegarderHeures (int heures){
-        this.heures = heures;
+    public void soustraireAuNombreHeuresTransfere(int nombre) {
+        heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent - nombre;
     }
 
-    /**
-     *verifie si l'activité est à ignorer: quand l'activité est  déclarée à
-     * l'extérieur de 2020/04/01-2022/04/01, si l'activité est dans une
-     * catégorie non reconnue ou si l'activité possède une heure inferieur a 1
-     * @return this.Ignoree
-     */
-    public boolean estIgnoree (){
-        return this.ignoree;
+    public void modifierNombreHeuresTransfereA7() {
+        this.heuresTransfereesDuCyclePrecedent = 7;
     }
 
-    /**
-     * ignore l'activite quand elle est à ignorer
-     */
-    public void ignorerActivite () {
-        this.ignoree = true;
+    public void modifierNombreHeuresTransfereA0() {
+        this.heuresTransfereesDuCyclePrecedent = 0;
     }
 }
