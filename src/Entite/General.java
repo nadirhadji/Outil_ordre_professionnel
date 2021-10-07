@@ -5,9 +5,9 @@ import java.util.List;
 
 public class General {
 
-    private String numero_de_permis;
+    private String numeroDePermis;
     private String cycle;
-    private int heures_transferees_du_cycle_precedent;
+    private int heuresTransfereesDuCyclePrecedent;
     private List<Activite> activites;
 
     public void General (DeclarationJSON declarationJson){
@@ -15,19 +15,30 @@ public class General {
     }
 
     public String obtenirNumeroDePermis (){
-        return this.numero_de_permis;
+        return this.numeroDePermis;
     }
+
     public String obtenirCycle (){
         return this.cycle;
     }
+
     public int obtenirHeurestransfere (){
-        return this.heures_transferees_du_cycle_precedent;
+        return this.heuresTransfereesDuCyclePrecedent;
     }
+
     public List<Activite> obtenirActivites (){
         return this.activites;
     }
 
+    public void soustraireAuNombreHeuresTransfere(int nombre) {
+        heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent - nombre;
+    }
+
     public void modifierNombreHeuresTransfereA7() {
-        this.heures_transferees_du_cycle_precedent = 7;
+        this.heuresTransfereesDuCyclePrecedent = 7;
+    }
+
+    public void modifierNombreHeuresTransfereA0() {
+        this.heuresTransfereesDuCyclePrecedent = 0;
     }
 }

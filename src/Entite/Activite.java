@@ -10,6 +10,13 @@ public class Activite {
     private LocalDate date;
     private boolean ignoree;
 
+    public Activite(String description, String categorie, int heures, LocalDate date) {
+        this.description = description;
+        this.categorie = categorie;
+        this.heures = heures;
+        this.date = date;
+    }
+
     public String obtenirDescription () {
         return this.description;
     }

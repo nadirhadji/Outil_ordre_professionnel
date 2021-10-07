@@ -4,7 +4,6 @@ import Entite.Activite;
 import Entite.Categorie;
 import Entite.Reponse;
 import Utils.Constantes;
-
 import java.time.LocalDate;
 
 public class ServiceValidationActivite {
