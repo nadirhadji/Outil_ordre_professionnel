@@ -22,26 +22,26 @@ import java.util.List;
 
 */
 public class DeclarationJSON {
-    private String inputFile;
-    private String outputFile;
+    private String fichierEntre;
+    private String fichierSortie;
     private JSONObject jsonObj;
 
-    public DeclarationJSON(String inputFile, String outputFile){
+    public DeclarationJSON(String fichierEntre, String fichierSortie){
 
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
+        this.fichierEntre = fichierEntre;
+        this.fichierSortie = fichierSortie;
         this.jsonObj = null;
     }
 
-    public void load() throws IOException, ParseException {
+    public void charger() throws IOException, ParseException {
 
-        Object obj = new JSONParser().parse(new FileReader(inputFile));
+        Object obj = new JSONParser().parse(new FileReader(fichierEntre));
         jsonObj = (JSONObject) obj;
     }
 
     public void save() throws FileNotFoundException {
 
-        PrintWriter pw = new PrintWriter(outputFile);
+        PrintWriter pw = new PrintWriter(fichierSortie);
         pw.write(jsonObj.toJSONString());
 
         pw.flush();
@@ -70,9 +70,8 @@ public class DeclarationJSON {
         }
     }
     */
-    public String getInfoGen(String info){
-        String returnInfo = (String) jsonObj.get(info);
-        return returnInfo;
+    public String ObtenirInfoGen(String info){
+        return (String) jsonObj.get(info);
     }
     /*
     public int getNombreActivites(){
