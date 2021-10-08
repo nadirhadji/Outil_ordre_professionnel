@@ -16,10 +16,9 @@ public class ServiceValidationActivite {
 
     /*#################### Verification de la categorie #######################*/
 
-    // TODO - Appeler la bonne methode de message
     private void verifierCategorie(Activite activite, Reponse reponse ) {
         if ( ! estUneCategorieReconnue(activite.obtenirCategorie()) ) {
-            reponse.ajouterMessageInformation("TODO");
+            reponse.ajouterMessageInformation(ServiceMessages.erreurMessageCategorieNonReconnue(activite));
             activite.ignorerActivite();
         }
     }
@@ -35,10 +34,9 @@ public class ServiceValidationActivite {
 
     /*#################### Verification du nombre d'heure #######################*/
 
-    // TODO - Appeler la bonne methode de message
     private void verifierNombreHeurePourActivite(Activite activite, Reponse reponse) {
         if( ! aNombreHeurePourActiviteValide(activite.obtenirHeures()) ) {
-            reponse.ajouterMessageInformation("TODO");
+            reponse.ajouterMessageInformation(ServiceMessages.messageErreurNombreHeuresPourActiviteInvalide(activite));
             activite.ignorerActivite();
         }
     }
@@ -49,11 +47,10 @@ public class ServiceValidationActivite {
 
     /*#################### Verification la date d'une activité #######################*/
 
-    // TODO - Appeler la bonne methode de message
     private void verifierDateActivite(Activite activite, Reponse reponse) {
         if ( ! estDateValide(activite.obtenirDate()) ){
             activite.ignorerActivite();
-            reponse.ajouterMessageInformation("TODO");
+            reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteHorsDateReconnue(activite));
         }
     }
 
