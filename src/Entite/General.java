@@ -10,7 +10,7 @@ public class General {
     private int heuresTransfereesDuCyclePrecedent;
     private List<Activite> activites;
 
-    public void General (DeclarationJSON declarationJson){
+    public General (DeclarationJSON declarationJson){
         this.activites = new ArrayList<>();
     }
 
