@@ -17,7 +17,7 @@ public class Principale {
         General general = new General(declarationJSON);
         ServiceValidationDeclaration service = new ServiceValidationDeclaration();
         service.verifierDeclaration(general,reponse);
-        reponse.ecrireFichierDeSortie();
+        reponse.ecrireFichierDeSortie(args[1]);
     }
 
     private static void verifierSiArgumentExiste(String[] args) {
