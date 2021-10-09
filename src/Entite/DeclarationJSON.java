@@ -48,11 +48,14 @@ public class DeclarationJSON {
     public String obtenirStringDeCle(String cle) {
         return (String) jsonObj.get(cle);
     }
-
+/*
     public int obtenirIntDeCle(String cle) {
         return Integer.parseInt(cle);
     }
-
+*/
+public int obtenirIntDeCle(String cle) {
+    return (int) (long) jsonObj.get(cle);
+}
     /*
     public int getNombreActivites(){
         int nbActivites=0;
@@ -94,7 +97,7 @@ public class DeclarationJSON {
     public Activite creerActivite(JSONObject activites) {
         String description = (String) activites.get(Constantes.cleDescription);
         String categorie = (String) activites.get(Constantes.cleCategorie);
-        int heures = (int) activites.get(Constantes.cleNombreHeure);
+        int heures = (int) (long) activites.get(Constantes.cleNombreHeure);
         LocalDate date = LocalDate.parse((String) activites.get(Constantes.cleDate));
         return new Activite(description, categorie, heures, date);
     }
