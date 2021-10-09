@@ -1,6 +1,6 @@
 package Entite;
 
-import java.util.ArrayList;
+import Utils.Constantes;
 import java.util.List;
 
 /**
@@ -20,7 +20,11 @@ public class General {
      * @param declarationJson
      */
     public General (DeclarationJSON declarationJson){
-        this.activites = new ArrayList<>();
+        this.numeroDePermis = declarationJson.obtenirStringDeCle(Constantes.cleNumeroDePermis);
+        this.cycle = declarationJson.obtenirStringDeCle(Constantes.cleCycle);
+        this.heuresTransfereesDuCyclePrecedent =
+                declarationJson.obtenirIntDeCle(Constantes.cleNombreHeureTransfere);
+        this.activites = declarationJson.obtenirActivites();
     }
 
     /**

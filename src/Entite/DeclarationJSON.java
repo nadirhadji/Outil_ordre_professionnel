@@ -1,10 +1,10 @@
 package Entite;
 
+import Utils.Constantes;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +19,6 @@ import java.util.List;
     en objet maleable en language java et qui peut
     aller chercher des informations specifiques
     a cet objet.
-
 */
 public class DeclarationJSON {
     private String fichierEntre;
@@ -39,40 +38,21 @@ public class DeclarationJSON {
         jsonObj = (JSONObject) obj;
     }
 
-    public void save() throws FileNotFoundException {
-
+    public void enregister() throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(fichierSortie);
         pw.write(jsonObj.toJSONString());
-
         pw.flush();
         pw.close();
     }
-    /*
-    public void to_string() {
-        String numeroDePermis = (String) jsonObj.get("numero_de_permis");
-        System.out.println("numero de permis : "+ numeroDePermis); //a enelever apres testing
 
-        String cycle = (String) jsonObj.get("cycle");
-        System.out.println("cycle : "+ cycle);//a enelever apres testing
-
-        String heuresTransfere = (String) jsonObj.get("heures_transferees_du_cycle_precedent");
-        System.out.println("heures transferees du cycle precedent : "+ heuresTransfere);//a enelever apres testing
-
-        JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
-        for (Object arrayObj : jsonArray) {
-            JSONObject activites = (JSONObject) arrayObj;
-            System.out.println("===========================");//a enelever apres testing
-            System.out.println("description : " + activites.get("description"));//a enelever apres testing
-            System.out.println("categorie : " + activites.get("categorie"));//a enelever apres testing
-            System.out.println("heures : " + activites.get("heures"));//a enelever apres testing
-            System.out.println("date : " + activites.get("date"));//a enelever apres testing
-
-        }
+    public String obtenirStringDeCle(String cle) {
+        return (String) jsonObj.get(cle);
     }
-    */
-    public String ObtenirInfoGen(String info){
-        return (String) jsonObj.get(info);
+
+    public int obtenirIntDeCle(String cle) {
+        return Integer.parseInt(cle);
     }
+
     /*
     public int getNombreActivites(){
         int nbActivites=0;
@@ -102,15 +82,20 @@ public class DeclarationJSON {
 
     public List<Activite> obtenirActivites() {
         List<Activite> listeActivite = new ArrayList<Activite>();
-        JSONArray jsonArray = (JSONArray) jsonObj.get("activites");
+        JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.cleListeActivite);
         for (Object arrayObj : jsonArray) {
-            JSONObject activites = (JSONObject) arrayObj;
-            String description = (String) activites.get("description");//a enelever apres testing
-            String cat = (String) activites.get("categorie");//a enelever apres testing
-            int heures = (int) activites.get("heures");//a enelever apres testing
-            LocalDate date = LocalDate.parse((String) activites.get("date"));//a enelever apres testing
-            listeActivite.add(new Activite(description, cat, heures, date));
+            JSONObject activiteEnJson = (JSONObject) arrayObj;
+            Activite activite = creerActivite(activiteEnJson);
+            listeActivite.add(activite);
         }
         return listeActivite;
+    }
+
+    public Activite creerActivite(JSONObject activites) {
+        String description = (String) activites.get(Constantes.cleDescription);
+        String categorie = (String) activites.get(Constantes.cleCategorie);
+        int heures = (int) activites.get(Constantes.cleNombreHeure);
+        LocalDate date = LocalDate.parse((String) activites.get(Constantes.cleDate));
+        return new Activite(description, categorie, heures, date);
     }
 }

@@ -26,11 +26,11 @@ public class Activite {
         this.categorie = categorie;
         this.heures = heures;
         this.date = date;
-
+        this.ignoree = false;
     }
 
     /**
-     * @return this.description
+     * @return description
      */
     public String obtenirDescription () {
         return this.description;
@@ -44,14 +44,14 @@ public class Activite {
     }
 
     /**
-     * @return this.heures
+     * @return heures
      */
     public int obtenirHeures (){
         return this.heures;
     }
 
     /**
-     * @return this.date
+     * @return date
      */
     public LocalDate obtenirDate (){
         return  this.date;
@@ -66,12 +66,12 @@ public class Activite {
     }
 
     /**
-     *verifie si l'activité est à ignorer: quand l'activité est  déclarée à
+     *verifie si l'activité est à ignorer: quand l'activité est déclarée à
      * l'extérieur de 2020/04/01-2022/04/01, si l'activité est dans une
      * catégorie non reconnue ou si l'activité possède une heure inferieur a 1
      * @return this.Ignoree
      */
-    public boolean estIgnoree (){
+    public boolean estIgnoree(){
         return this.ignoree;
     }
 

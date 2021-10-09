@@ -11,19 +11,29 @@ import java.util.List;
 
 public class ServiceValidationDeclaration {
 
-    private int totalDesHeures;
+    private int heuresActiviteDeGroupe;
+    private int heuresPresentation;
+    private int heuresGroupeDeDiscussion;
+    private int heuresProjetDeRecherche;
+    private int heuresRedactionProfessionel;
 
     public ServiceValidationDeclaration() {
-        this.totalDesHeures = 0;
+        this.heuresActiviteDeGroupe = 0;
+        this.heuresPresentation = 0;
+        this.heuresGroupeDeDiscussion = 0;
+        this.heuresProjetDeRecherche = 0;
+        this.heuresRedactionProfessionel = 0;
     }
 
     public void verifierDeclaration(General general, Reponse reponse ) {
         verifierNumeroDePermis(general,reponse);
-        verifierCycle(general,reponse);
-        verifierHeureTransfere(general,reponse);
-        verifierActivites(general,reponse);
-        verifierNombreHeuresTotaleDansDeclaration(reponse);
-        verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
+        if ( verifierCycle(general,reponse) ) {
+            verifierHeureTransfere(general,reponse);
+            verifierActivites(general,reponse);
+            verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
+            verifierMaximumHeureParGroupeDeCategorie();
+            verifierNombreHeuresTotaleDansDeclaration(reponse);
+        }
     }
 
     /*########################## Verification Numero De Permis ############################*/
@@ -79,11 +89,12 @@ public class ServiceValidationDeclaration {
 
     /*############################### Verification Cycle ##################################*/
 
-    //TODO - Appeler le bon service de message.
-    public void verifierCycle( General general, Reponse reponse ) {
+    public boolean verifierCycle( General general, Reponse reponse ) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
-            reponse.ajouterMessageErreur("TODO");
+            reponse.ajouterMessageErreur(ServiceMessages.messageErreurCycleInvalide());
+            return false;
         }
+        return true;
     }
 
     public boolean estCycleValide( String cycle ) {
@@ -97,19 +108,17 @@ public class ServiceValidationDeclaration {
         verifierSiHeuresTransfereNegatif(general,reponse);
     }
 
-    //TODO - Appeler la méthode du service de message.
     private void verifierSiHeuresTransfereSuperieurA7 ( General general , Reponse reponse) {
         if ( general.obtenirHeurestransfere() > Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
             general.modifierNombreHeuresTransfereA7();
-            reponse.ajouterMessageInformation("TODO");
+            reponse.ajouterMessageInformation(ServiceMessages.messageInfosHeuresTransfereSuperieurA7());
         }
     }
 
-    //TODO - Appeler la méthode du service de message.
     private void verifierSiHeuresTransfereNegatif(General general , Reponse reponse ) {
         if ( general.obtenirHeurestransfere() < 0 ) {
             general.modifierNombreHeuresTransfereA0();
-            reponse.ajouterMessageErreur("TODO");
+            reponse.ajouterMessageErreur(ServiceMessages.messageErreurHeuresTransfereInferieurA0());
         }
     }
 
@@ -121,39 +130,24 @@ public class ServiceValidationDeclaration {
         for (Activite activite : general.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite, reponse);
             if ( ! activite.estIgnoree() )
-                totalDesHeures = totalDesHeures + activite.obtenirHeures();
+                incrementerCompteurHeures(activite);
         }
     }
 
-    /*#################### Verification du nombre totale d'heures #######################*/
-
-    //TODO - Appeler la méthode du service de message.
-    private void verifierNombreHeuresTotaleDansDeclaration( Reponse reponse ) {
-        if( obtenirNombreHeuresManquante() > 0 ) {
-            reponse.ajouterMessageErreur("TODO");
-        }
+    private void incrementerCompteurHeures(Activite activite) {
+        String categorie = activite.obtenirCategorie();
+        int nombreHeure = activite.obtenirHeures();
+        verifierSiCategorieDeGroupe(categorie,nombreHeure);
+        verifierSiCategoriePresentation(categorie,nombreHeure);
+        verifierSiCategorieGroupeDeDiscussion(categorie,nombreHeure);
+        verifierSiCategorieProjetDeRecherche(categorie,nombreHeure);
+        verifierSiCategorieRedactionProfessionnelle(categorie,nombreHeure);
     }
 
-    private int obtenirNombreHeuresManquante() {
-        int resultat = 0;
-        if ( totalDesHeures < 40 )
-            resultat = 40 - totalDesHeures;
-        return resultat;
-    }
-
-    /*########## Verification du nombre minimal pour activite de groupe ####################*/
-
-    //TODO - Appeler la méthode du service de message.
-    private void verifierNombreHeuresPourActiviteDeGroupe(General general, Reponse reponse) {
-        if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
-            reponse.ajouterMessageErreur("TODO");
-    }
-
-    private boolean estNombreHeuresPourActiviteDeGroupeValide(General general) {
-        List<String> categories = obtenirListeDesActivitesDeGroupe();
-        int total = obtenirTotalHeurePourGroupeDactivite(general.obtenirActivites(),categories);
-        return verifierTotalHeurePourActivite(general,total,
-                Constantes.NOMBRE_MINIMALE_HEURE_ACTIVITE_DE_GROUPE);
+    public void verifierSiCategorieDeGroupe(String categorie, int nombreHeure) {
+        List<String> liste = obtenirListeDesActivitesDeGroupe();
+        if ( liste.contains(categorie) )
+            this.heuresActiviteDeGroupe += nombreHeure;
     }
 
     private List<String> obtenirListeDesActivitesDeGroupe() {
@@ -167,15 +161,36 @@ public class ServiceValidationDeclaration {
         return activateDeGroup;
     }
 
-    private int obtenirTotalHeurePourGroupeDactivite(List<Activite> activites, List<String> categories) {
-        int total = 0;
-        for (Activite activite : activites ) {
-            if ( categories.contains( activite.obtenirCategorie() ) &&
-                    ( ! activite.estIgnoree() ) ) {
-                total += activite.obtenirHeures();
-            }
-        }
-        return total;
+    public void verifierSiCategoriePresentation(String categorie, int nombreHeure) {
+        if( categorie.equals(Categorie.PRESENTATION.toString()))
+            this.heuresPresentation += nombreHeure;
+    }
+
+    public void verifierSiCategorieGroupeDeDiscussion(String categorie, int nombreHeure) {
+        if ( categorie.equals(Categorie.GROUPE_DE_DISCUSSION.toString()))
+            this.heuresGroupeDeDiscussion += nombreHeure;
+    }
+
+    public void verifierSiCategorieProjetDeRecherche(String categorie, int nombreHeure) {
+        if ( categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
+            this.heuresProjetDeRecherche += nombreHeure;
+    }
+
+    public void verifierSiCategorieRedactionProfessionnelle(String categorie, int nombreHeure) {
+        if ( categorie.equals(Categorie.REDACTION_PROFESSIONNELLE.toString()))
+            this.heuresRedactionProfessionel += nombreHeure;
+    }
+
+    /*########## Verification du nombre minimal pour activite de groupe ####################*/
+
+    private void verifierNombreHeuresPourActiviteDeGroupe(General general, Reponse reponse) {
+        if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
+            reponse.ajouterMessageErreur(ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
+    }
+
+    private boolean estNombreHeuresPourActiviteDeGroupeValide(General general) {
+        return verifierTotalHeurePourActivite(general,heuresActiviteDeGroupe,
+                Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
     }
 
     private boolean verifierTotalHeurePourActivite(General general, int total, int minimum) {
@@ -196,48 +211,52 @@ public class ServiceValidationDeclaration {
 
     /*#################### Verification du nombre maximale par Activite  #######################*/
 
-    //TODO - Appeler la méthode du service de message.
-    private void verifierMaximumHeureParCategorie(General general, Reponse reponse, String categorie) {
-        if ( ! estNombreHeurePourCategorieValide ( general, categorie) )
-            reponse.ajouterMessageErreur("TODO");
+    private void verifierMaximumHeureParGroupeDeCategorie() {
+        verifierMaximumHeureDePresentation();
+        verifierMaximumHeureGroupeDeDiscussion();
+        verifierMaximumHeureProjetDeRecherche();
+        verifierMaximumHeuresHeuresRedactionProfessionel();
+
     }
 
-    private boolean estNombreHeurePourCategorieValide(General general, String categorie) {
-        int total = obtenirTotalHeureDansActivitePourCategorie(general.obtenirActivites(),categorie);
-        int nombreHeureMaximale = obtenirNombreHeureMaximaleParCategorie(categorie);
-        return verifierTotalHeurePourActivite(general.obtenirActivites(),total,nombreHeureMaximale);
+    private void verifierMaximumHeureDePresentation() {
+        if( heuresPresentation > Constantes.MAXIMUM_HEURE_PRESENTATION)
+            this.heuresPresentation = Constantes.MAXIMUM_HEURE_PRESENTATION;
     }
 
-    private int obtenirTotalHeureDansActivitePourCategorie(List<Activite> activites, String categorie) {
-        int total = 0;
-        for (Activite activite : activites ) {
-            if ( categorie.equals( activite.obtenirCategorie() ) &&
-                    ( ! activite.estIgnoree() ) ) {
-                total += activite.obtenirHeures();
-            }
+    private void verifierMaximumHeureGroupeDeDiscussion() {
+        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
+            this.heuresGroupeDeDiscussion = Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION;
+    }
+
+    private void verifierMaximumHeureProjetDeRecherche() {
+        if( heuresProjetDeRecherche > Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER)
+            this.heuresProjetDeRecherche = Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER;
+    }
+
+    private void verifierMaximumHeuresHeuresRedactionProfessionel() {
+        if( heuresRedactionProfessionel > Constantes.MAXIMUM_HEURE_REDACTION)
+            this.heuresRedactionProfessionel = Constantes.MAXIMUM_HEURE_REDACTION;
+    }
+
+    /*#################### Verification du nombre totale d'heures #######################*/
+
+    private void verifierNombreHeuresTotaleDansDeclaration( Reponse reponse ) {
+        int nombreHeuresManquante = obtenirNombreHeuresManquante();
+        if( nombreHeuresManquante > 0 ) {
+            reponse.ajouterMessageErreur(ServiceMessages.messageNombreHeuresTotalMoinsDe40(nombreHeuresManquante));
         }
-        return total;
-    }
-
-    private int obtenirNombreHeureMaximaleParCategorie(String categorie) {
-        if ( categorie.equals(Categorie.PRESENTATION.toString()) ||
-                categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()) ) {
-            return 23;
-        }
-        else if ( categorie.equals(Categorie.GROUPE_DE_DISCUSSION.toString()) ||
-                categorie.equals(Categorie.REDACTION_PROFESSIONNELLE.toString()) ) {
-            return 17;
-        }
-        return 0;
-    }
-
-    private boolean verifierTotalHeurePourActivite(List<Activite> activites, int total, int maximum) {
-        if (total <= maximum)
-            return true;
         else
-            return false;
+            reponse.estComplet();
     }
 
-    //private boolean verifierParCategorieEtNombreHeures(General general, Categorie categorie) {
-    //}
+    private int obtenirNombreHeuresManquante() {
+        int total = heuresActiviteDeGroupe + heuresPresentation +
+                heuresGroupeDeDiscussion + heuresProjetDeRecherche +
+                heuresRedactionProfessionel;
+        if ( total < 40 )
+            return 40 - total;
+        else
+            return 0;
+    }
 }
