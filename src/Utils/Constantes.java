@@ -23,6 +23,7 @@ public class Constantes {
     public static final LocalDate DATE_DEBUT_ACTIVITE_AUTORISEE = LocalDate.parse("2020-04-01");
     public static final LocalDate DATE_FIN_ACTIVITE_AUTORISEE = LocalDate.parse("2022-04-01");
 
+    public static final int MINIMUM_HEURE_POUR_UNE_DECLARATION = 40;
     public static final int MINIMUM_HEURE_ACTIVITE_DE_GROUPE = 17;
     public static final int MAXIMUM_HEURE_PRESENTATION = 23;
     public static final int MAXIMUM_HEURE_GROUPE_DE_DISCUSSION = 17;

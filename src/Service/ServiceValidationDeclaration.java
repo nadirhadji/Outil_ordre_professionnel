@@ -6,6 +6,7 @@ import Entite.General;
 import Entite.Reponse;
 import Utils.Constantes;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -251,12 +252,16 @@ public class ServiceValidationDeclaration {
     }
 
     private int obtenirNombreHeuresManquante() {
-        int total = heuresActiviteDeGroupe + heuresPresentation +
-                heuresGroupeDeDiscussion + heuresProjetDeRecherche +
-                heuresRedactionProfessionel;
-        if ( total < 40 )
-            return 40 - total;
+        int total = obtenirNombreTotalHeures();
+        if ( total < Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
+            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - total;
         else
             return 0;
+    }
+
+    private int obtenirNombreTotalHeures() {
+        return heuresActiviteDeGroupe + heuresPresentation +
+                heuresGroupeDeDiscussion + heuresProjetDeRecherche +
+                heuresRedactionProfessionel;
     }
 }
