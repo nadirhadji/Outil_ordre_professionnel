@@ -8,11 +8,7 @@
 -   Code MS: aa791038
 -   Code Permanent: GONF27049606
 
-**Beyram Chaieb**
--   Code MS: jf891034
--   Code Permanent: CHAB06039609
-
-**Steffie Morene**
+**Steffie Morène Cishahayo**
 -   Code MS: gh391909
 -   Code Permanent: CISS03539601
 

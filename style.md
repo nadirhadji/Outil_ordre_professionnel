@@ -5,7 +5,7 @@
 
 @cours : INF2050 – outils et pratiques de développement logiciel
 
-@équipe : Beyram, Steffie, Félix et Nadir
+@équipe : Félix, Nadir et Steffie
 
 @date : 19/09/2021
 
