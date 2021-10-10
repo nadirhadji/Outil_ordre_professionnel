@@ -39,13 +39,26 @@ public class Reponse {
 
     public void ecrireFichierDeSortie(String nomFichierSortie){
         JSONObject sortieInfo = new JSONObject();
-        String erreurComplet = null;
-        for(int i=0 ; i < this.messagesErreur.size() ; i++){
-            erreurComplet = messagesErreur.get(i)+" [stop] " +erreurComplet;
-        }
-        sortieInfo.put("complet", this.complet); //le true or false faut aller le chercher
 
+        //JSONObject sortieC = new JSONObject();
+        //JSONArray sortieList = new JSONArray();
+
+        String erreurComplet = null;
+        for(int i=0 ; i < this.messageInformation.size()-1 ; i++){
+            erreurComplet = messageInformation.get(i) +erreurComplet;
+        }
+        erreurComplet = erreurComplet + " essaie ";
+        sortieInfo.put("complet", this.complet);
         sortieInfo.put("erreurs", erreurComplet);
+
+        /*
+        erreurComplet.replace("\n","\\n");
+        sortieC.put("complet", this.complet);
+        sortieInfo.put("erreurs", erreurComplet);
+        sortieList.add(sortieC);
+        sortieList.add(sortieInfo);
+        */
+
         try (FileWriter file = new FileWriter(nomFichierSortie)) {
             file.write(sortieInfo.toJSONString());
             file.flush();
