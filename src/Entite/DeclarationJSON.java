@@ -48,14 +48,11 @@ public class DeclarationJSON {
     public String obtenirStringDeCle(String cle) {
         return (String) jsonObj.get(cle);
     }
-/*
+
     public int obtenirIntDeCle(String cle) {
-        return Integer.parseInt(cle);
+        return (int) (long) jsonObj.get(cle);
     }
-*/
-public int obtenirIntDeCle(String cle) {
-    return (int) (long) jsonObj.get(cle);
-}
+
     /*
     public int getNombreActivites(){
         int nbActivites=0;

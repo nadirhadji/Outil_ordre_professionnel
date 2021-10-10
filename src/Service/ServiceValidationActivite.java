@@ -25,7 +25,7 @@ public class ServiceValidationActivite {
 
     public boolean estUneCategorieReconnue(String chaine) {
         for (Categorie c : Categorie.values()) {
-            if ( c.name().equals(chaine) ) {
+            if ( c.toString().equals(chaine) ) {
                 return true;
             }
         }
