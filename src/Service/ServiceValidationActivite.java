@@ -5,8 +5,9 @@ import Entite.Categorie;
 import Entite.Reponse;
 import Utils.Constantes;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class ServiceValidationActivite {
+public class ServiceValidationActivite{
 
     public void verifierActivite(Activite activite, Reponse reponse) {
         verifierDateActivite(activite,reponse);
@@ -48,18 +49,34 @@ public class ServiceValidationActivite {
     /*#################### Verification la date d'une activité #######################*/
 
     private void verifierDateActivite(Activite activite, Reponse reponse) {
-        if ( ! estDateValide(activite.obtenirDate()) ){
+        if (! formatDateValide(activite.obtenirDate())){
             activite.ignorerActivite();
-            reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteHorsDateReconnue(activite));
+            reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
+        }else {
+            if (!estDateValide(activite.obtenirDate())) {
+                activite.ignorerActivite();
+                reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteHorsDateReconnue(activite));
+            }
         }
     }
 
-    private boolean estDateValide(LocalDate date) {
+    private boolean estDateValide(String date) {
         boolean resultat;
-        if ( date.isBefore(Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE) )
+        if ( LocalDate.parse(date).isBefore(Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE) )
             resultat = false;
         else
-            resultat = !date.isAfter(Constantes.DATE_FIN_ACTIVITE_AUTORISEE);
+            resultat = !LocalDate.parse(date).isAfter(Constantes.DATE_FIN_ACTIVITE_AUTORISEE);
         return resultat;
     }
+
+    private boolean formatDateValide(String date){
+        try {
+            LocalDate.parse(date);
+            return true;
+        } catch (java.time.format.DateTimeParseException e) {
+            return false;
+        }
+    }
+
+
 }

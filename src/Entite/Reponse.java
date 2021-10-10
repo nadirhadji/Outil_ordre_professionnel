@@ -39,10 +39,10 @@ public class Reponse {
 
     public void ecrireFichierDeSortie(String nomFichierSortie){
         JSONObject sortieInfo = new JSONObject();
-        JSONArray sortieList = new JSONArray();
-        messageDeSortie(sortieList);
+        JSONArray sortieListErreur = new JSONArray();
+        messageDeSortie(sortieListErreur);
         sortieInfo.put("complet", this.complet);
-        sortieInfo.put("erreurs", sortieList);
+        sortieInfo.put("erreurs", sortieListErreur);
         try (FileWriter file = new FileWriter(nomFichierSortie)) {
             file.write(sortieInfo.toJSONString());
             file.flush();
@@ -52,14 +52,13 @@ public class Reponse {
     }
 
     public JSONArray messageDeSortie( JSONArray listErreur){
-
         for(int i=0 ; i < this.messageInformation.size() ; i++){
             listErreur.add(messageInformation.get(i).trim());
-           // System.out.println(messageInformation.get(i));
+            System.out.println(messageInformation.get(i));
         }
         for(int i=0 ; i < this.messagesErreur.size() ; i++){
             listErreur.add(messagesErreur.get(i).trim());
-           // System.out.println(messagesErreur.get(i));
+            System.out.println(messagesErreur.get(i));
         }
         return listErreur;
     }

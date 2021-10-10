@@ -16,6 +16,10 @@ public class ServiceMessages {
                 Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE+ " et "+
                 Constantes.DATE_FIN_ACTIVITE_AUTORISEE;
     }
+    public static String messageErreurActiviteDateNonReconnue(Activite activite) {
+        return " L'activité " + activite.obtenirCategorie() +
+                " n'a pas la Date en format ISO8601 (AAAA-MM-JJ)";
+    }
 
     public static String erreurMessageCategorieNonReconnue(Activite activite){
         return "L'activité "+
