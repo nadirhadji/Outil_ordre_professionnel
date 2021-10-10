@@ -59,7 +59,7 @@ public class Reponse {
     public JSONArray messageDeSortie(List<String> listInfo, JSONArray listErreur){
 
         for(int i=0 ; i < this.messageInformation.size() ; i++){
-            listErreur.add(messageInformation.get(i).trim() + ", ");
+            listErreur.add(messageInformation.get(i).trim());
         }
         return listErreur;
     }
