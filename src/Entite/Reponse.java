@@ -40,24 +40,13 @@ public class Reponse {
     public void ecrireFichierDeSortie(String nomFichierSortie){
         JSONObject sortieInfo = new JSONObject();
 
-        //JSONObject sortieC = new JSONObject();
-        //JSONArray sortieList = new JSONArray();
+        JSONArray sortieList = new JSONArray();
 
-        String erreurComplet = null;
-        for(int i=0 ; i < this.messageInformation.size()-1 ; i++){
-            erreurComplet = messageInformation.get(i) +erreurComplet;
-        }
-        erreurComplet = erreurComplet + " essaie ";
+        messageDeSortie(messagesErreur, sortieList);
+        messageDeSortie(messageInformation, sortieList);
+
         sortieInfo.put("complet", this.complet);
-        sortieInfo.put("erreurs", erreurComplet);
-
-        /*
-        erreurComplet.replace("\n","\\n");
-        sortieC.put("complet", this.complet);
-        sortieInfo.put("erreurs", erreurComplet);
-        sortieList.add(sortieC);
-        sortieList.add(sortieInfo);
-        */
+        sortieInfo.put("erreurs", sortieList);
 
         try (FileWriter file = new FileWriter(nomFichierSortie)) {
             file.write(sortieInfo.toJSONString());
@@ -66,4 +55,14 @@ public class Reponse {
             e.printStackTrace();
         }
     }
+
+    public JSONArray messageDeSortie(List<String> listInfo, JSONArray listErreur){
+
+        for(int i=0 ; i < this.messageInformation.size() ; i++){
+            listErreur.add(messageInformation.get(i).trim() + ", ");
+        }
+        return listErreur;
+    }
 }
+
+
