@@ -19,7 +19,7 @@ public class ServiceMessages {
 
     public static String erreurMessageCategorieNonReconnue(Activite activite){
         return "L'activité "+
-                activite.obtenirCategorie() + " n'est pas dans une "+
+                activite.obtenirDescription() + " n'est pas dans une "+
                 "catégorie reconnue. Elle sera ignorée\n";
     }
 
