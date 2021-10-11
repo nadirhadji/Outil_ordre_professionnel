@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-    Classe qui gere l'entree d'un fichier JSON
-    avec des methodes qui transforme ce fichier
-    en objet maleable en language java et qui peut
-    aller chercher des informations specifiques
-    a cet objet.
+   * Classe qui gère l'entrée d'un fichier JSON
+   * avec des méthodes qui transforme celui-ci
+   * en objets maléables de language java.
+   * On peut ensuite aller chercher les
+   * informations spécifiques désirées
+   * pour éventuellement les analyser.
 */
 public class DeclarationJSON {
     private String fichierEntre;
