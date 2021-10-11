@@ -8,17 +8,13 @@
 -   Code MS: aa791038
 -   Code Permanent: GONF27049606
 
-**Beyram Chaieb**
--   Code MS: jf891034
--   Code Permanent: CHAB06039609
-
-**Steffie Morene**
+**Steffie Morène Cishahayo**
 -   Code MS: gh391909
 -   Code Permanent: CISS03539601
 
 ## Charte
-|              |   Nadir   |    Felix    |   Beyram    |  Steffie   |
-| :---         |   :----:  |    :----:   |    :----:   |     ---:   |
-| Rencontre    |   10/10   |    10/10    |    10/10    |    10/10   |
-| Ponctualite  |   10/10   |    10/10    |    10/10    |    10/10   |
-| Travail      |   10/10   |    10/10    |    10/10    |    10/10   |
+|              |   Nadir   |    Felix    |   Steffie   |
+| :---         |   :----:  |    :----:   |    :----:   |
+| Rencontre    |   10/10   |    10/10    |    10/10    |
+| Ponctualite  |   10/10   |    10/10    |    10/10    |
+| Travail      |   10/10   |    10/10    |    10/10    |

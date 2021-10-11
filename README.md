@@ -109,5 +109,6 @@ Une fois terminée, ouvrir le fichier *resultat.json* pour connaitre le résulta
 + IDE : IntelliJ
 + Format des fichiers : JSON
 + Encodage de fichier : UTF-8
++ Librarie: com.google.code.gson:gson:2.8.8
 
 
