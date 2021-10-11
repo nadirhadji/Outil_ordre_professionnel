@@ -49,14 +49,9 @@ public class ServiceValidationActivite{
     /*#################### Verification la date d'une activité #######################*/
 
     private void verifierDateActivite(Activite activite, Reponse reponse) {
-        if (! formatDateValide(activite.obtenirDate())){
+        if (! formatDateValide(activite.obtenirDate()) || !estDateValide(activite.obtenirDate())){
             activite.ignorerActivite();
             reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
-        }else {
-            if (!estDateValide(activite.obtenirDate())) {
-                activite.ignorerActivite();
-                reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteHorsDateReconnue(activite));
-            }
         }
     }
 
@@ -77,6 +72,4 @@ public class ServiceValidationActivite{
             return false;
         }
     }
-
-
 }
