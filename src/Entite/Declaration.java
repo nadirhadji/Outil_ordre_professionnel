@@ -17,7 +17,6 @@ public class Declaration {
 
     /**
      * constructeur qui transforme le document JSON dans une liste d'activités
-     * @param declarationJson
      */
     public Declaration(DeclarationJSON declarationJson){
         this.numeroDePermis = declarationJson.obtenirStringDeCle(
