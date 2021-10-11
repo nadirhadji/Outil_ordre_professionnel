@@ -13,8 +13,8 @@
 -   Code Permanent: CISS03539601
 
 ## Charte
-|              |   Nadir   |    Felix    |   Beyram    |  Steffie   |
-| :---         |   :----:  |    :----:   |    :----:   |     ---:   |
-| Rencontre    |   10/10   |    10/10    |    10/10    |    10/10   |
-| Ponctualite  |   10/10   |    10/10    |    10/10    |    10/10   |
-| Travail      |   10/10   |    10/10    |    10/10    |    10/10   |
+|              |   Nadir   |    Felix    |   Steffie   |
+| :---         |   :----:  |    :----:   |    :----:   |
+| Rencontre    |   10/10   |    10/10    |    10/10    |
+| Ponctualite  |   10/10   |    10/10    |    10/10    |
+| Travail      |   10/10   |    10/10    |    10/10    |
