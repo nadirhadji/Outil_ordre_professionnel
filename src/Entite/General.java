@@ -20,37 +20,26 @@ public class General {
      * @param declarationJson
      */
     public General (DeclarationJSON declarationJson){
-        this.numeroDePermis = declarationJson.obtenirStringDeCle(Constantes.cleNumeroDePermis);
+        this.numeroDePermis = declarationJson.obtenirStringDeCle(
+                Constantes.cleNumeroDePermis);
         this.cycle = declarationJson.obtenirStringDeCle(Constantes.cleCycle);
         this.heuresTransfereesDuCyclePrecedent =
                 declarationJson.obtenirIntDeCle(Constantes.cleNombreHeureTransfere);
         this.activites = declarationJson.obtenirActivites();
     }
 
-    /**
-     * @return this.numeroDePermis
-     */
     public String obtenirNumeroDePermis (){
         return this.numeroDePermis;
     }
 
-    /**
-     * @return this.cycle
-     */
     public String obtenirCycle (){
         return this.cycle;
     }
 
-    /**
-     * @return this.heuresTransfereesDuCyclePrecedent
-     */
     public int obtenirHeurestransfere (){
         return this.heuresTransfereesDuCyclePrecedent;
     }
 
-    /**
-     * @return this.activites
-     */
     public List<Activite> obtenirActivites (){
         return this.activites;
     }

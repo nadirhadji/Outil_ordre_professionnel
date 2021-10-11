@@ -27,38 +27,22 @@ public class Activite {
         this.ignoree = false;
     }
 
-    /**
-     * @return description
-     */
     public String obtenirDescription () {
         return this.description;
     }
 
-    /**
-     * @return categorie
-     */
     public String obtenirCategorie() {
         return categorie;
     }
 
-    /**
-     * @return heures
-     */
     public int obtenirHeures (){
         return this.heures;
     }
 
-    /**
-     * @return date
-     */
     public String obtenirDate (){
         return  this.date;
     }
 
-    /**
-     *sauvegarde les heures entrées pour plus tard les valider
-     * @param heures
-     */
     public void sauvegarderHeures (int heures){
         this.heures = heures;
     }
@@ -72,10 +56,7 @@ public class Activite {
     public boolean estIgnoree(){
         return this.ignoree;
     }
-
-    /**
-     * ignore l'activite quand elle est à ignorer
-     */
+    
     public void ignorerActivite () {
         this.ignoree = true;
     }

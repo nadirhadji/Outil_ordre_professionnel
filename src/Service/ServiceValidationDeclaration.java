@@ -31,7 +31,8 @@ public class ServiceValidationDeclaration {
             verifierActivites(general,reponse);
             verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
             verifierMaximumHeureParGroupeDeCategorie();
-            verifierNombreHeuresTotaleDansDeclaration(general.obtenirHeurestransfere(),reponse);
+            verifierNombreHeuresTotaleDansDeclaration(
+                    general.obtenirHeurestransfere(),reponse);
         }
     }
 
@@ -39,7 +40,8 @@ public class ServiceValidationDeclaration {
 
     public boolean verifierCycle( General general, Reponse reponse ) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
-            reponse.ajouterMessageErreur(ServiceMessages.messageErreurCycleInvalide());
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageErreurCycleInvalide());
             return false;
         }
         return true;
@@ -49,31 +51,37 @@ public class ServiceValidationDeclaration {
         return cycle.equals(Constantes.CYCLE_AUTORISEE);
     }
 
-    /*######################### Verification Heures Transfere ############################*/
+    /*################## Verification Heures Transfere ######################*/
 
     private void verifierHeureTransfere(General general, Reponse reponse) {
         verifierSiHeuresTransfereSuperieurA7(general,reponse);
         verifierSiHeuresTransfereNegatif(general,reponse);
     }
 
-    private void verifierSiHeuresTransfereSuperieurA7 ( General general , Reponse reponse) {
-        if ( general.obtenirHeurestransfere() > Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
+    private void verifierSiHeuresTransfereSuperieurA7 ( General general ,
+                                                        Reponse reponse) {
+        if ( general.obtenirHeurestransfere() >
+                Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
             general.modifierNombreHeuresTransfereA7();
-            reponse.ajouterMessageInformation(ServiceMessages.messageInfosHeuresTransfereSuperieurA7());
+            reponse.ajouterMessageInformation(
+                    ServiceMessages.messageInfosHeuresTransfereSuperieurA7());
         }
     }
 
-    private void verifierSiHeuresTransfereNegatif(General general , Reponse reponse ) {
+    private void verifierSiHeuresTransfereNegatif(General general ,
+                                                  Reponse reponse ) {
         if ( general.obtenirHeurestransfere() < 0 ) {
             general.modifierNombreHeuresTransfereA0();
-            reponse.ajouterMessageErreur(ServiceMessages.messageErreurHeuresTransfereInferieurA0());
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageErreurHeuresTransfereInferieurA0());
         }
     }
 
-    /*######################### Verification des activités ############################*/
+    /*##################### Verification des activités #######################*/
 
     private void verifierActivites(General general, Reponse reponse) {
-        ServiceValidationActivite serviceValidationActivite = new ServiceValidationActivite();
+        ServiceValidationActivite serviceValidationActivite = new
+                ServiceValidationActivite();
 
         for (Activite activite : general.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite, reponse);
@@ -109,31 +117,37 @@ public class ServiceValidationDeclaration {
         return activateDeGroup;
     }
 
-    public void verifierSiCategoriePresentation(String categorie, int nombreHeure) {
+    public void verifierSiCategoriePresentation(String categorie,
+                                                int nombreHeure) {
         if( categorie.equals(Categorie.PRESENTATION.toString()))
             this.heuresPresentation += nombreHeure;
     }
 
-    public void verifierSiCategorieGroupeDeDiscussion(String categorie, int nombreHeure) {
+    public void verifierSiCategorieGroupeDeDiscussion(String categorie,
+                                                      int nombreHeure) {
         if ( categorie.equals(Categorie.GROUPE_DE_DISCUSSION.toString()))
             this.heuresGroupeDeDiscussion += nombreHeure;
     }
 
-    public void verifierSiCategorieProjetDeRecherche(String categorie, int nombreHeure) {
+    public void verifierSiCategorieProjetDeRecherche(String categorie,
+                                                     int nombreHeure) {
         if ( categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
             this.heuresProjetDeRecherche += nombreHeure;
     }
 
-    public void verifierSiCategorieRedactionProfessionnelle(String categorie, int nombreHeure) {
+    public void verifierSiCategorieRedactionProfessionnelle(String categorie,
+                                                            int nombreHeure) {
         if ( categorie.equals(Categorie.REDACTION_PROFESSIONNELLE.toString()))
             this.heuresRedactionProfessionel += nombreHeure;
     }
 
-    /*########## Verification du nombre minimal pour activite de groupe ####################*/
+    /*########## Verification du nombre minimal pour activite de groupe ######*/
 
-    private void verifierNombreHeuresPourActiviteDeGroupe(General general, Reponse reponse) {
+    private void verifierNombreHeuresPourActiviteDeGroupe(General general,
+                                                          Reponse reponse) {
         if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
-            reponse.ajouterMessageErreur(ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
     }
 
     private boolean estNombreHeuresPourActiviteDeGroupeValide(General general) {
@@ -141,14 +155,17 @@ public class ServiceValidationDeclaration {
                 Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
     }
 
-    private boolean verifierTotalHeurePourActivite(General general, int total, int minimum) {
+    private boolean verifierTotalHeurePourActivite(General general, int total,
+                                                   int minimum) {
         if ( total >= minimum )
             return true;
         else
-            return verifierSiNombreHeureTransfereSuffisantePourValider(general, total, minimum);
+            return verifierSiNombreHeureTransfereSuffisantePourValider(general,
+                    total, minimum);
     }
 
-    private boolean verifierSiNombreHeureTransfereSuffisantePourValider(General general , int total, int minimum) {
+    private boolean verifierSiNombreHeureTransfereSuffisantePourValider(
+            General general , int total, int minimum) {
         if ( total + general.obtenirHeurestransfere() >= minimum ) {
             int nombreASoustraire = minimum - total;
             general.soustraireAuNombreHeuresTransfere(nombreASoustraire);
@@ -157,7 +174,7 @@ public class ServiceValidationDeclaration {
         return false;
     }
 
-    /*#################### Verification du nombre maximale par Activite  #######################*/
+    /*############# Verification du nombre maximale par Activite  ############*/
 
     private void verifierMaximumHeureParGroupeDeCategorie() {
         verifierMaximumHeureDePresentation();
@@ -173,13 +190,17 @@ public class ServiceValidationDeclaration {
     }
 
     private void verifierMaximumHeureGroupeDeDiscussion() {
-        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
-            this.heuresGroupeDeDiscussion = Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION;
+        if ( heuresGroupeDeDiscussion >
+                Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
+            this.heuresGroupeDeDiscussion =
+                    Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION;
     }
 
     private void verifierMaximumHeureProjetDeRecherche() {
-        if( heuresProjetDeRecherche > Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER)
-            this.heuresProjetDeRecherche = Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER;
+        if( heuresProjetDeRecherche >
+                Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER)
+            this.heuresProjetDeRecherche =
+                    Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER;
     }
 
     private void verifierMaximumHeuresHeuresRedactionProfessionel() {
@@ -187,12 +208,15 @@ public class ServiceValidationDeclaration {
             this.heuresRedactionProfessionel = Constantes.MAXIMUM_HEURE_REDACTION;
     }
 
-    /*#################### Verification du nombre totale d'heures #######################*/
+    /*############# Verification du nombre totale d'heures ###################*/
 
-    private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere, Reponse reponse ) {
+    private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere,
+                                                           Reponse reponse ) {
         int nombreHeuresManquante = obtenirNombreHeuresManquante(heuresTransfere);
         if( nombreHeuresManquante > 0 ) {
-            reponse.ajouterMessageErreur(ServiceMessages.messageNombreHeuresTotalMoinsDe40(nombreHeuresManquante));
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageNombreHeuresTotalMoinsDe40(
+                            nombreHeuresManquante));
         }
     }
 
@@ -201,8 +225,10 @@ public class ServiceValidationDeclaration {
         if ( total >= Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
             return 0;
 
-        if ( (total + heuresTransfere) < Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
-            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - (total + heuresTransfere);
+        if ( (total + heuresTransfere) <
+                Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
+            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - (
+                    total + heuresTransfere);
         else
             return 0;
     }
