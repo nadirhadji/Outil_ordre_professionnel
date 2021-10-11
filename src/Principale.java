@@ -1,6 +1,5 @@
-import Entite.Activite;
 import Entite.DeclarationJSON;
-import Entite.General;
+import Entite.Declaration;
 import Entite.Reponse;
 import Service.ServiceValidationDeclaration;
 import org.json.simple.parser.ParseException;
@@ -14,7 +13,7 @@ public class Principale {
         DeclarationJSON declarationJSON = new DeclarationJSON(args[0], args[1]);
         charger(declarationJSON);
         Reponse reponse = new Reponse();
-        General general = new General(declarationJSON);
+        Declaration general = new Declaration(declarationJSON);
         ServiceValidationDeclaration service = new ServiceValidationDeclaration();
         service.verifierDeclaration(general,reponse);
         reponse.ecrireFichierDeSortie(args[1]);
