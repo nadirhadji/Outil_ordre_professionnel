@@ -1,8 +1,6 @@
 package Entite;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,7 +42,6 @@ public class Reponse {
 
     private String obtenirReponsePrete() {
         JSONObject reponse = new JSONObject();
-
         if ( messagesErreur.isEmpty() ) {
             reponse.put(Constantes.cleReponseComplet,"true");
             reponse.put(Constantes.cleReponseErreur, obtenirListEnJson(messageInformation));
@@ -73,18 +70,6 @@ public class Reponse {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         JsonElement elementJson = JsonParser.parseString(jsonMoche);
         return gson.toJson(elementJson);
-    }
-
-    public JSONArray messageDeSortie( JSONArray listErreur){
-        for(int i=0 ; i < this.messageInformation.size() ; i++){
-            listErreur.add(messageInformation.get(i).trim());
-            System.out.println(messageInformation.get(i));
-        }
-        for(int i=0 ; i < this.messagesErreur.size() ; i++){
-            listErreur.add(messagesErreur.get(i).trim());
-            System.out.println(messagesErreur.get(i));
-        }
-        return listErreur;
     }
 }
 

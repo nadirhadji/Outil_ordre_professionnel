@@ -26,7 +26,6 @@ public class ServiceValidationDeclaration {
     }
 
     public void verifierDeclaration(General general, Reponse reponse ) {
-        verifierNumeroDePermis(general,reponse);
         if ( verifierCycle(general,reponse) ) {
             verifierHeureTransfere(general,reponse);
             verifierActivites(general,reponse);

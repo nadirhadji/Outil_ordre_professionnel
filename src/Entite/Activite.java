@@ -1,7 +1,5 @@
 package Entite;
 
-import java.time.LocalDate;
-
 /**
  * classe qui transforme les activite de l'object JSOn en String avec des
  * constructeurs

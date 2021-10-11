@@ -20,15 +20,6 @@ public enum Categorie {
         this.categorie = categorie;
     }
 
-    public boolean contains(String chaine) {
-        for(Categorie categorie : Categorie.values()) {
-            if(categorie.name().equals(chaine)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         return categorie;

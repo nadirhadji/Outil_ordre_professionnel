@@ -16,6 +16,7 @@ public class ServiceMessages {
                 Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE+ " et "+
                 Constantes.DATE_FIN_ACTIVITE_AUTORISEE;
     }
+
     public static String messageErreurActiviteDateNonReconnue(Activite activite) {
         return " L'activité " + activite.obtenirDescription() +
                 " n'a pas la Date en format ISO8601 (AAAA-MM-JJ)";
@@ -40,7 +41,7 @@ public class ServiceMessages {
     public static String messageNombreHeuresTotalMoinsDe40(int nombreHeuresManquante) {
         return "Incomplet, il manque " +
                 nombreHeuresManquante +
-                " pour compléter le cycle";
+                " heures pour compléter le cycle";
     }
 
     public static String messageErreurHeuresDansActiviteDeGroupe(){
