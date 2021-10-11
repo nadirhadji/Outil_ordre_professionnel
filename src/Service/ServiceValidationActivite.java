@@ -15,11 +15,12 @@ public class ServiceValidationActivite{
         verifierCategorie(activite,reponse);
     }
 
-    /*#################### Verification de la categorie #######################*/
+    /*#################### Verification de la categorie #####################*/
 
     private void verifierCategorie(Activite activite, Reponse reponse ) {
         if ( ! estUneCategorieReconnue(activite.obtenirCategorie()) ) {
-            reponse.ajouterMessageInformation(ServiceMessages.erreurMessageCategorieNonReconnue(activite));
+            reponse.ajouterMessageInformation(
+                  ServiceMessages.erreurMessageCategorieNonReconnue(activite));
             activite.ignorerActivite();
         }
     }
@@ -33,11 +34,14 @@ public class ServiceValidationActivite{
         return false;
     }
 
-    /*#################### Verification du nombre d'heure #######################*/
+    /*#################### Verification du nombre d'heure ####################*/
 
-    private void verifierNombreHeurePourActivite(Activite activite, Reponse reponse) {
+    private void verifierNombreHeurePourActivite(Activite activite,
+                                                 Reponse reponse) {
         if( ! aNombreHeurePourActiviteValide(activite.obtenirHeures()) ) {
-            reponse.ajouterMessageInformation(ServiceMessages.messageErreurNombreHeuresPourActiviteInvalide(activite));
+            reponse.ajouterMessageInformation(
+                 ServiceMessages.messageErreurNombreHeuresPourActiviteInvalide(
+                         activite));
             activite.ignorerActivite();
         }
     }
@@ -46,21 +50,25 @@ public class ServiceValidationActivite{
         return nombre >= Constantes.NOMBRE_HEURE_MINIMALE_POUR_ACTIVITE;
     }
 
-    /*#################### Verification la date d'une activité #######################*/
+    /*############## Verification la date d'une activité ##################*/
 
     private void verifierDateActivite(Activite activite, Reponse reponse) {
-        if (! formatDateValide(activite.obtenirDate()) || !estDateValide(activite.obtenirDate())){
+        if (! formatDateValide(activite.obtenirDate()) ||
+                !estDateValide(activite.obtenirDate())){
             activite.ignorerActivite();
-            reponse.ajouterMessageInformation(ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
+            reponse.ajouterMessageInformation(
+               ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
         }
     }
 
     private boolean estDateValide(String date) {
         boolean resultat;
-        if ( LocalDate.parse(date).isBefore(Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE) )
+        if ( LocalDate.parse(date).isBefore(
+                Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE) )
             resultat = false;
         else
-            resultat = !LocalDate.parse(date).isAfter(Constantes.DATE_FIN_ACTIVITE_AUTORISEE);
+            resultat = !LocalDate.parse(date).isAfter(
+                    Constantes.DATE_FIN_ACTIVITE_AUTORISEE);
         return resultat;
     }
 
