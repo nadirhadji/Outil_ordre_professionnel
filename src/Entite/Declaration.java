@@ -8,7 +8,7 @@ import java.util.List;
  * utiliser ces Strings tout au long du programme sans qu'on ne traduise chaque
  * fois l'objet JSON
  */
-public class General {
+public class Declaration {
 
     private String numeroDePermis;
     private String cycle;
@@ -19,7 +19,7 @@ public class General {
      * constructeur qui transforme le document JSON dans une liste d'activités
      * @param declarationJson
      */
-    public General (DeclarationJSON declarationJson){
+    public Declaration(DeclarationJSON declarationJson){
         this.numeroDePermis = declarationJson.obtenirStringDeCle(
                 Constantes.cleNumeroDePermis);
         this.cycle = declarationJson.obtenirStringDeCle(Constantes.cleCycle);

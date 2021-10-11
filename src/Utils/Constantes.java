@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 public class Constantes {
 
-    public static final String FICHIER_ENTREE = "declaration.json";
-    public static final String FICHIER_SORTIE = "reponse.json";
     public static final String cleNumeroDePermis = "numero_de_permis";
     public static final String cleCycle = "cycle";
     public static final String cleNombreHeureTransfere = "heures_transferees_du_cycle_precedent";
