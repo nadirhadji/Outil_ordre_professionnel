@@ -12,14 +12,9 @@ public class Activite {
     private String date;
     private boolean ignoree;
 
-    /**
-     *
-     * @param description
-     * @param categorie
-     * @param heures
-     * @param date
-     */
-    public Activite(String description, String categorie, int heures, String date) {
+    
+    public Activite(String description, String categorie, int heures,
+                    String date) {
         this.description = description;
         this.categorie = categorie;
         this.heures = heures;
@@ -56,7 +51,7 @@ public class Activite {
     public boolean estIgnoree(){
         return this.ignoree;
     }
-    
+
     public void ignorerActivite () {
         this.ignoree = true;
     }
