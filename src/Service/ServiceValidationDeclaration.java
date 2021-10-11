@@ -35,57 +35,6 @@ public class ServiceValidationDeclaration {
         }
     }
 
-    /*########################## Verification Numero De Permis ############################*/
-
-    //TODO - Appeler le bon service de message.
-    private void verifierNumeroDePermis(General general, Reponse reponse) {
-        if ( ! estNumeroDePermisValide(general.obtenirNumeroDePermis()) )
-            reponse.ajouterMessageInformation("TODO");
-    }
-
-    public boolean estNumeroDePermisValide( String numeroDePermis ) {
-        boolean resultat;
-
-        resultat = verifierPremierCaractereNumeroDePermis(numeroDePermis);
-        resultat = resultat && verifierLongueurDuNumeroDePermis(numeroDePermis);
-        resultat = resultat && verifierSiNumeroDePermisContientDesNombres(numeroDePermis);
-        return resultat;
-    }
-
-    private boolean verifierPremierCaractereNumeroDePermis(String numeroDePermis) {
-        boolean resultat = false;
-
-        if ( numeroDePermis.charAt(0) >= 65 && numeroDePermis.charAt(0) <= 90 )
-            resultat = true;
-        return resultat;
-    }
-
-    private boolean verifierLongueurDuNumeroDePermis(String numeroDePermis) {
-        boolean resultat = false;
-
-        if ( numeroDePermis.length() == 5)
-            resultat = true;
-        return resultat;
-    }
-
-    /**
-     * Dans l'example d'execution du TP, le numero de permis a cette forme "A0001".
-     * l'implémentation de la methode qui suit verifie si les 4 dernier caracteres
-     * sont des chiffres.
-     *
-     * @param numeroDePermis
-     * @return True si la condition est respecté
-     */
-    private boolean verifierSiNumeroDePermisContientDesNombres(String numeroDePermis) {
-        boolean resultat = true;
-
-        for (char c : numeroDePermis.substring(1).toCharArray()) {
-            if ( !Character.isDigit(c) )
-                resultat = false;
-        }
-        return resultat;
-    }
-
     /*############################### Verification Cycle ##################################*/
 
     public boolean verifierCycle( General general, Reponse reponse ) {

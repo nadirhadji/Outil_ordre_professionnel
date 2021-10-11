@@ -5,10 +5,7 @@ import java.util.List;
 import java.io.FileWriter;
 import java.io.IOException;
 import Utils.Constantes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -44,7 +41,9 @@ public class Reponse {
         JSONObject reponse = new JSONObject();
         if ( messagesErreur.isEmpty() ) {
             reponse.put(Constantes.cleReponseComplet,"true");
-            reponse.put(Constantes.cleReponseErreur, obtenirListEnJson(messageInformation));
+            JSONArray liste = obtenirListEnJson(messageInformation);
+            if(! obtenirListEnJson(messageInformation).isEmpty())
+                reponse.put(Constantes.cleReponseErreur, obtenirListEnJson(messageInformation));
         }
         else {
             reponse.put(Constantes.cleReponseComplet,"false");
