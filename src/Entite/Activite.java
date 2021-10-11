@@ -11,7 +11,7 @@ public class Activite {
     private String description;
     private String categorie;
     private int heures;
-    private LocalDate date;
+    private String date;
     private boolean ignoree;
 
     /**
@@ -21,7 +21,7 @@ public class Activite {
      * @param heures
      * @param date
      */
-    public Activite(String description, String categorie, int heures, LocalDate date) {
+    public Activite(String description, String categorie, int heures, String date) {
         this.description = description;
         this.categorie = categorie;
         this.heures = heures;
@@ -53,7 +53,7 @@ public class Activite {
     /**
      * @return date
      */
-    public LocalDate obtenirDate (){
+    public String obtenirDate (){
         return  this.date;
     }
 

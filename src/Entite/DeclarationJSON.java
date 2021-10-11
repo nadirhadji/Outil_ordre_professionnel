@@ -95,7 +95,7 @@ public class DeclarationJSON {
         String description = (String) activites.get(Constantes.cleDescription);
         String categorie = (String) activites.get(Constantes.cleCategorie);
         int heures = (int) (long) activites.get(Constantes.cleNombreHeure);
-        LocalDate date = LocalDate.parse((String) activites.get(Constantes.cleDate));
+        String date = (String) activites.get(Constantes.cleDate);
         return new Activite(description, categorie, heures, date);
     }
 }

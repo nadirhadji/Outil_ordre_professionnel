@@ -32,7 +32,7 @@ public class ServiceValidationDeclaration {
             verifierActivites(general,reponse);
             verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
             verifierMaximumHeureParGroupeDeCategorie();
-            verifierNombreHeuresTotaleDansDeclaration(reponse);
+            verifierNombreHeuresTotaleDansDeclaration(general.obtenirHeurestransfere(),reponse);
         }
     }
 
@@ -241,19 +241,20 @@ public class ServiceValidationDeclaration {
 
     /*#################### Verification du nombre totale d'heures #######################*/
 
-    private void verifierNombreHeuresTotaleDansDeclaration( Reponse reponse ) {
-        int nombreHeuresManquante = obtenirNombreHeuresManquante();
+    private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere, Reponse reponse ) {
+        int nombreHeuresManquante = obtenirNombreHeuresManquante(heuresTransfere);
         if( nombreHeuresManquante > 0 ) {
             reponse.ajouterMessageErreur(ServiceMessages.messageNombreHeuresTotalMoinsDe40(nombreHeuresManquante));
         }
-        else
-            reponse.estComplet();
     }
 
-    private int obtenirNombreHeuresManquante() {
+    private int obtenirNombreHeuresManquante(int heuresTransfere) {
         int total = obtenirNombreTotalHeures();
-        if ( total < Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
-            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - total;
+        if ( total >= Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
+            return 0;
+
+        if ( (total + heuresTransfere) < Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
+            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - (total + heuresTransfere);
         else
             return 0;
     }
