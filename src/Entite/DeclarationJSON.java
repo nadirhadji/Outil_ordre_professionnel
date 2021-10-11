@@ -49,7 +49,7 @@ public class DeclarationJSON {
 
     public List<Activite> obtenirActivites() {
         List<Activite> listeActivite = new ArrayList<Activite>();
-        JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.cleListeActivite);
+        JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.CLE_LISTE_ACTIVITE);
         for (Object arrayObj : jsonArray) {
             JSONObject activiteEnJson = (JSONObject) arrayObj;
             Activite activite = creerActivite(activiteEnJson);
@@ -59,10 +59,10 @@ public class DeclarationJSON {
     }
 
     public Activite creerActivite(JSONObject activites) {
-        String description = (String) activites.get(Constantes.cleDescription);
-        String categorie = (String) activites.get(Constantes.cleCategorie);
-        int heures = (int) (long) activites.get(Constantes.cleNombreHeure);
-        String date = (String) activites.get(Constantes.cleDate);
+        String description = (String) activites.get(Constantes.CLE_DESCRIPTION);
+        String categorie = (String) activites.get(Constantes.CLE_CATEGORIE);
+        int heures = (int) (long) activites.get(Constantes.CLE_NOMBRE_HEURE);
+        String date = (String) activites.get(Constantes.CLE_DATE);
         return new Activite(description, categorie, heures, date);
     }
 }

@@ -20,10 +20,10 @@ public class Declaration {
      */
     public Declaration(DeclarationJSON declarationJson){
         this.numeroDePermis = declarationJson.obtenirStringDeCle(
-                Constantes.cleNumeroDePermis);
-        this.cycle = declarationJson.obtenirStringDeCle(Constantes.cleCycle);
+                Constantes.CLE_NUMERO_DE_PERMIS);
+        this.cycle = declarationJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
         this.heuresTransfereesDuCyclePrecedent =
-                declarationJson.obtenirIntDeCle(Constantes.cleNombreHeureTransfere);
+                declarationJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
         this.activites = declarationJson.obtenirActivites();
     }
 
