@@ -80,7 +80,8 @@ Exemple de réponse dans le cas d'une déclaration valide :
 
 ## 📦 Comment Installer
 
-TODO
+dans la structure du projet, il faut télécharger et 
+définir comme librairies : com.google.code.gson:gson:2.8.8 et json-simple-1.1
 
 ## 🚀 Comment Utiliser
 
@@ -109,6 +110,8 @@ Une fois terminée, ouvrir le fichier *resultat.json* pour connaitre le résulta
 + IDE : IntelliJ
 + Format des fichiers : JSON
 + Encodage de fichier : UTF-8
-+ Librarie: com.google.code.gson:gson:2.8.8
++ Librarie: 
+  + com.google.code.gson:gson:2.8.8
+  + json-simple-1.1
 
 

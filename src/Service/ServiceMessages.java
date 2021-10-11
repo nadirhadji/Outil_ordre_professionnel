@@ -52,7 +52,7 @@ public class ServiceMessages {
 
     public static String messageErreurNombreHeuresPourActiviteInvalide(Activite activite) {
         return "Le nombre d'heures entré pour " +
-                activite.obtenirCategorie() + " est invalide, il doit être"+
+                activite.obtenirCategorie() + " est invalide, il doit être "+
                         "supérieur ou égal à 1. L'activité sera ignorée";
     }
 }

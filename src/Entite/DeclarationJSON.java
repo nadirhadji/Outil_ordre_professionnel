@@ -39,7 +39,12 @@ public class DeclarationJSON {
     }
 
     public int obtenirIntDeCle(String cle) {
-        return (int) (long) jsonObj.get(cle);
+        try{
+            return (int) (long) jsonObj.get(cle);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public List<Activite> obtenirActivites() {

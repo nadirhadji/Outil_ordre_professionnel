@@ -2,7 +2,7 @@ package Service;
 
 import Entite.Activite;
 import Entite.Categorie;
-import Entite.General;
+import Entite.Declaration;
 import Entite.Reponse;
 import Utils.Constantes;
 
@@ -25,7 +25,7 @@ public class ServiceValidationDeclaration {
         this.heuresRedactionProfessionel = 0;
     }
 
-    public void verifierDeclaration(General general, Reponse reponse ) {
+    public void verifierDeclaration(Declaration general, Reponse reponse ) {
         if ( verifierCycle(general,reponse) ) {
             verifierHeureTransfere(general,reponse);
             verifierActivites(general,reponse);
@@ -36,63 +36,9 @@ public class ServiceValidationDeclaration {
         }
     }
 
-    /*#################### Verification Numero De Permis #####################*/
+    /*############################### Verification Cycle ##################################*/
 
-    //TODO - Appeler le bon service de message.
-    private void verifierNumeroDePermis(General general, Reponse reponse) {
-        if ( ! estNumeroDePermisValide(general.obtenirNumeroDePermis()) )
-            reponse.ajouterMessageInformation("TODO");
-    }
-
-    public boolean estNumeroDePermisValide( String numeroDePermis ) {
-        boolean resultat;
-
-        resultat = verifierPremierCaractereNumeroDePermis(numeroDePermis);
-        resultat = resultat && verifierLongueurDuNumeroDePermis(numeroDePermis);
-        resultat = resultat && verifierSiNumeroDePermisContientDesNombres(
-                numeroDePermis);
-        return resultat;
-    }
-
-    private boolean verifierPremierCaractereNumeroDePermis(
-            String numeroDePermis) {
-        boolean resultat = false;
-
-        if ( numeroDePermis.charAt(0) >= 65 && numeroDePermis.charAt(0) <= 90 )
-            resultat = true;
-        return resultat;
-    }
-
-    private boolean verifierLongueurDuNumeroDePermis(String numeroDePermis) {
-        boolean resultat = false;
-
-        if ( numeroDePermis.length() == 5)
-            resultat = true;
-        return resultat;
-    }
-
-    /**
-     * Dans l'example d'execution du TP, le numero de permis a cette forme "A0001".
-     * l'implémentation de la methode qui suit verifie si les 4 dernier caracteres
-     * sont des chiffres.
-     *
-     * @param numeroDePermis
-     * @return True si la condition est respecté
-     */
-    private boolean verifierSiNumeroDePermisContientDesNombres(
-            String numeroDePermis) {
-        boolean resultat = true;
-
-        for (char c : numeroDePermis.substring(1).toCharArray()) {
-            if ( !Character.isDigit(c) )
-                resultat = false;
-        }
-        return resultat;
-    }
-
-    /*##################### Verification Cycle ############################*/
-
-    public boolean verifierCycle( General general, Reponse reponse ) {
+    public boolean verifierCycle(Declaration general, Reponse reponse ) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
             reponse.ajouterMessageErreur(
                     ServiceMessages.messageErreurCycleInvalide());
@@ -107,12 +53,12 @@ public class ServiceValidationDeclaration {
 
     /*################## Verification Heures Transfere ######################*/
 
-    private void verifierHeureTransfere(General general, Reponse reponse) {
+    private void verifierHeureTransfere(Declaration general, Reponse reponse) {
         verifierSiHeuresTransfereSuperieurA7(general,reponse);
         verifierSiHeuresTransfereNegatif(general,reponse);
     }
 
-    private void verifierSiHeuresTransfereSuperieurA7 ( General general ,
+    private void verifierSiHeuresTransfereSuperieurA7 ( Declaration general ,
                                                         Reponse reponse) {
         if ( general.obtenirHeurestransfere() >
                 Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
@@ -122,7 +68,7 @@ public class ServiceValidationDeclaration {
         }
     }
 
-    private void verifierSiHeuresTransfereNegatif(General general ,
+    private void verifierSiHeuresTransfereNegatif(Declaration general ,
                                                   Reponse reponse ) {
         if ( general.obtenirHeurestransfere() < 0 ) {
             general.modifierNombreHeuresTransfereA0();
@@ -133,7 +79,7 @@ public class ServiceValidationDeclaration {
 
     /*##################### Verification des activités #######################*/
 
-    private void verifierActivites(General general, Reponse reponse) {
+    private void verifierActivites(Declaration general, Reponse reponse) {
         ServiceValidationActivite serviceValidationActivite = new
                 ServiceValidationActivite();
 
@@ -197,19 +143,19 @@ public class ServiceValidationDeclaration {
 
     /*########## Verification du nombre minimal pour activite de groupe ######*/
 
-    private void verifierNombreHeuresPourActiviteDeGroupe(General general,
+    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general,
                                                           Reponse reponse) {
         if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
             reponse.ajouterMessageErreur(
                     ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
     }
 
-    private boolean estNombreHeuresPourActiviteDeGroupeValide(General general) {
+    private boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration general) {
         return verifierTotalHeurePourActivite(general,heuresActiviteDeGroupe,
                 Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
     }
 
-    private boolean verifierTotalHeurePourActivite(General general, int total,
+    private boolean verifierTotalHeurePourActivite(Declaration general, int total,
                                                    int minimum) {
         if ( total >= minimum )
             return true;
@@ -219,7 +165,7 @@ public class ServiceValidationDeclaration {
     }
 
     private boolean verifierSiNombreHeureTransfereSuffisantePourValider(
-            General general , int total, int minimum) {
+            Declaration general , int total, int minimum) {
         if ( total + general.obtenirHeurestransfere() >= minimum ) {
             int nombreASoustraire = minimum - total;
             general.soustraireAuNombreHeuresTransfere(nombreASoustraire);
