@@ -1,7 +1,7 @@
 import Entite.DeclarationJSON;
 import Entite.Declaration;
 import Entite.Reponse;
-import Service.ServiceValidationDeclaration;
+import Service.ServiceValidationArchitecte;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -14,8 +14,8 @@ public class Principale {
         charger(declarationJSON);
         Reponse reponse = new Reponse();
         Declaration general = new Declaration(declarationJSON);
-        ServiceValidationDeclaration service = new ServiceValidationDeclaration();
-        service.verifierDeclaration(general,reponse);
+        ServiceValidationArchitecte service = new ServiceValidationArchitecte();
+        service.verifier(general,reponse);
         reponse.ecrireFichierDeSortie(args[1]);
     }
 
