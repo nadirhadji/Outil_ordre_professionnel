@@ -11,12 +11,12 @@ import org.json.simple.JSONObject;
 
 public class Reponse {
 
-    private List<String> messagesErreur;
-    private List<String> messageInformation;
+    private ArrayList<String> messagesErreur;
+    private ArrayList<String> messageInformation;
 
     public Reponse() {
-        this.messagesErreur = new ArrayList<>();
-        this.messageInformation = new ArrayList<>();
+        this.messagesErreur = new ArrayList<String>();
+        this.messageInformation = new ArrayList<String>();
     }
 
     public void ajouterMessageErreur(String message) {
