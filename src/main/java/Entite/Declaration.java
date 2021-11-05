@@ -12,6 +12,7 @@ public class Declaration {
 
     private String numeroDePermis;
     private String cycle;
+    private String ordre;
     private int heuresTransfereesDuCyclePrecedent;
     private List<Activite> activites;
 
@@ -22,6 +23,7 @@ public class Declaration {
         this.numeroDePermis = declarationJson.obtenirStringDeCle(
                 Constantes.CLE_NUMERO_DE_PERMIS);
         this.cycle = declarationJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
+        this.ordre = declarationJson.obtenirStringDeCle(Constantes.CLE_ORDRE);
         this.heuresTransfereesDuCyclePrecedent =
                 declarationJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
         this.activites = declarationJson.obtenirActivites();
@@ -37,6 +39,10 @@ public class Declaration {
 
     public int obtenirHeurestransfere (){
         return this.heuresTransfereesDuCyclePrecedent;
+    }
+
+    public String obtenirOrdre() {
+        return this.ordre;
     }
 
     public List<Activite> obtenirActivites (){

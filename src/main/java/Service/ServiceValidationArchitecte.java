@@ -9,7 +9,7 @@ import Utils.Constantes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceValidationDeclaration {
+public class ServiceValidationArchitecte implements InterfaceVerification {
 
     private int heuresActiviteDeGroupe;
     private int heuresPresentation;
@@ -17,7 +17,7 @@ public class ServiceValidationDeclaration {
     private int heuresProjetDeRecherche;
     private int heuresRedactionProfessionel;
 
-    public ServiceValidationDeclaration() {
+    public ServiceValidationArchitecte() {
         this.heuresActiviteDeGroupe = 0;
         this.heuresPresentation = 0;
         this.heuresGroupeDeDiscussion = 0;
@@ -25,7 +25,8 @@ public class ServiceValidationDeclaration {
         this.heuresRedactionProfessionel = 0;
     }
 
-    public void verifierDeclaration(Declaration general, Reponse reponse ) {
+    @Override
+    public void verifier(Declaration general, Reponse reponse ) {
         if ( verifierCycle(general,reponse) ) {
             verifierHeureTransfere(general,reponse);
             verifierActivites(general,reponse);
@@ -36,7 +37,7 @@ public class ServiceValidationDeclaration {
         }
     }
 
-    /*############################### Verification Cycle ##################################*/
+    /*############################### Service.Verification Cycle ##################################*/
 
     public boolean verifierCycle(Declaration general, Reponse reponse ) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
@@ -51,7 +52,7 @@ public class ServiceValidationDeclaration {
         return cycle.equals(Constantes.CYCLE_AUTORISEE);
     }
 
-    /*################## Verification Heures Transfere ######################*/
+    /*################## Service.Verification Heures Transfere ######################*/
 
     private void verifierHeureTransfere(Declaration general, Reponse reponse) {
         verifierSiHeuresTransfereSuperieurA7(general,reponse);
@@ -77,7 +78,7 @@ public class ServiceValidationDeclaration {
         }
     }
 
-    /*##################### Verification des activités #######################*/
+    /*##################### Service.Verification des activités #######################*/
 
     private void verifierActivites(Declaration general, Reponse reponse) {
         ServiceValidationActivite serviceValidationActivite = new
@@ -141,7 +142,7 @@ public class ServiceValidationDeclaration {
             this.heuresRedactionProfessionel += nombreHeure;
     }
 
-    /*########## Verification du nombre minimal pour activite de groupe ######*/
+    /*########## Service.Verification du nombre minimal pour activite de groupe ######*/
 
     private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general,
                                                           Reponse reponse) {
@@ -174,7 +175,7 @@ public class ServiceValidationDeclaration {
         return false;
     }
 
-    /*############# Verification du nombre maximale par Activite  ############*/
+    /*############# Service.Verification du nombre maximale par Activite  ############*/
 
     private void verifierMaximumHeureParGroupeDeCategorie() {
         verifierMaximumHeureDePresentation();
@@ -208,7 +209,7 @@ public class ServiceValidationDeclaration {
             this.heuresRedactionProfessionel = Constantes.MAXIMUM_HEURE_REDACTION;
     }
 
-    /*############# Verification du nombre totale d'heures ###################*/
+    /*############# Service.Verification du nombre totale d'heures ###################*/
 
     private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere,
                                                            Reponse reponse ) {

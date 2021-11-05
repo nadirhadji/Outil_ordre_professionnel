@@ -15,7 +15,7 @@ public class ServiceValidationActivite{
         verifierCategorie(activite,reponse);
     }
 
-    /*#################### Verification de la categorie #####################*/
+    /*#################### Service.Verification de la categorie #####################*/
 
     private void verifierCategorie(Activite activite, Reponse reponse ) {
         if ( ! estUneCategorieReconnue(activite.obtenirCategorie()) ) {
@@ -34,7 +34,7 @@ public class ServiceValidationActivite{
         return false;
     }
 
-    /*#################### Verification du nombre d'heure ####################*/
+    /*#################### Service.Verification du nombre d'heure ####################*/
 
     private void verifierNombreHeurePourActivite(Activite activite,
                                                  Reponse reponse) {
@@ -50,7 +50,7 @@ public class ServiceValidationActivite{
         return nombre >= Constantes.NOMBRE_HEURE_MINIMALE_POUR_ACTIVITE;
     }
 
-    /*############## Verification la date d'une activité ##################*/
+    /*############## Service.Verification la date d'une activité ##################*/
 
     private void verifierDateActivite(Activite activite, Reponse reponse) {
         if (! formatDateValide(activite.obtenirDate()) ||
