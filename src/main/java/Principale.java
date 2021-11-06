@@ -10,7 +10,7 @@ public class Principale {
 
     public static void main(String[] args) {
         verifierSiArgumentExiste(args);
-        DeclarationJSON declarationJSON = new DeclarationJSON(args[0], args[1]);
+        DeclarationJSON declarationJSON = new DeclarationJSON(args[0]);
         charger(declarationJSON);
         Reponse reponse = new Reponse();
         Declaration general = new Declaration(declarationJSON);

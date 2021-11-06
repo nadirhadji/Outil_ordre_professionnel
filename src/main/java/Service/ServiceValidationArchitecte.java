@@ -5,17 +5,22 @@ import Entite.Categorie;
 import Entite.Declaration;
 import Entite.Reponse;
 import Utils.Constantes;
+import Utils.ConstantesCycle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceValidationArchitecte implements InterfaceVerification {
 
+    Map<String,Integer> dateMap = new HashMap<>();
     private int heuresActiviteDeGroupe;
     private int heuresPresentation;
     private int heuresGroupeDeDiscussion;
     private int heuresProjetDeRecherche;
     private int heuresRedactionProfessionel;
+    private int nombreMinimumHeuresAvantValidation;
 
     public ServiceValidationArchitecte() {
         this.heuresActiviteDeGroupe = 0;
@@ -23,6 +28,7 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
         this.heuresGroupeDeDiscussion = 0;
         this.heuresProjetDeRecherche = 0;
         this.heuresRedactionProfessionel = 0;
+        this.nombreMinimumHeuresAvantValidation = 0;
     }
 
     @Override
@@ -49,7 +55,29 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     public boolean estCycleValide( String cycle ) {
-        return cycle.equals(Constantes.CYCLE_AUTORISEE);
+        if(estCycle2016a2020(cycle))
+            return true;
+        else
+            return estCycle2020a2022(cycle);
+    }
+
+    public boolean estCycle2016a2020(String cycle) {
+        if (cycle.equals(ConstantesCycle.CYCLE_2016_2018) ||
+                cycle.equals(ConstantesCycle.CYCLE_2018_2020) ) {
+            nombreMinimumHeuresAvantValidation = ConstantesCycle.ARCHITECTE_NOMBRE_HEURE_TOTALE_2016_2020;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean estCycle2020a2022(String cycle) {
+        if (cycle.equals(ConstantesCycle.CYCLE_2020_2022)){
+            nombreMinimumHeuresAvantValidation = ConstantesCycle.ARCHITECTE_NOMBRE_HEURE_TOTALE_2020_2022;
+            return true;
+        }
+        else
+            return false;
     }
 
     /*################## Service.Verification Heures Transfere ######################*/
@@ -79,10 +107,9 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     /*##################### Service.Verification des activités #######################*/
-
     private void verifierActivites(Declaration general, Reponse reponse) {
         ServiceValidationActivite serviceValidationActivite = new
-                ServiceValidationActivite();
+                ServiceValidationActivite(general.obtenirOrdre(),general.obtenirCycle());
 
         for (Activite activite : general.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite, reponse);
@@ -223,12 +250,12 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     private int obtenirNombreHeuresManquante(int heuresTransfere) {
         int total = obtenirNombreTotalHeures();
-        if ( total >= Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
+        if ( total >= this.nombreMinimumHeuresAvantValidation)
             return 0;
 
         if ( (total + heuresTransfere) <
-                Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION)
-            return Constantes.MINIMUM_HEURE_POUR_UNE_DECLARATION - (
+                this.nombreMinimumHeuresAvantValidation)
+            return this.nombreMinimumHeuresAvantValidation - (
                     total + heuresTransfere);
         else
             return 0;

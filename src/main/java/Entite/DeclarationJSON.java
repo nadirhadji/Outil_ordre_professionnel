@@ -20,13 +20,10 @@ import java.util.List;
 */
 public class DeclarationJSON {
     private String fichierEntre;
-    private String fichierSortie;
     private JSONObject jsonObj;
 
-    public DeclarationJSON(String fichierEntre, String fichierSortie){
+    public DeclarationJSON(String fichierEntre){
         this.fichierEntre = fichierEntre;
-        this.fichierSortie = fichierSortie;
-        this.jsonObj = null;
     }
 
     public void charger() throws IOException, ParseException {

@@ -50,9 +50,15 @@ public class ServiceMessages {
                 " colloque, conférence, lecture dirigée n'atteint pas 17";
     }
 
-    public static String messageErreurNombreHeuresPourActiviteInvalide(Activite activite) {
+    public static String messageErreurNombreHeuresPourActiviteNegatif(Activite activite) {
         return "Le nombre d'heures entré pour " +
                 activite.obtenirCategorie() + " est invalide, il doit être "+
                         "supérieur ou égal à 1. L'activité sera ignorée";
+    }
+
+    public static String messageErreurNombreHeuresPourActiviteSuperieurAuMaximum(Activite activite) {
+        return "Le nombre d'heures entré pour " +
+                activite.obtenirCategorie() + " est invalide, il doit être "+
+                "supérieur au maximum 10. Seulement 10 heures seront prise en compte.";
     }
 }

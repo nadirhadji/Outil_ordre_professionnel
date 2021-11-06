@@ -6,9 +6,20 @@ import Entite.Reponse;
 import Utils.Constantes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceValidationActivite{
 
+    private String ordre;
+    private String cycle;
+
+    public ServiceValidationActivite(String ordre, String cycle) {
+        this.ordre = ordre;
+        this.cycle = cycle;
+    }
+
+    //TODO - Verifier la date en fonction de l'ordre et du cycle.
     public void verifierActivite(Activite activite, Reponse reponse) {
         verifierDateActivite(activite,reponse);
         verifierNombreHeurePourActivite(activite,reponse);
@@ -38,16 +49,36 @@ public class ServiceValidationActivite{
 
     private void verifierNombreHeurePourActivite(Activite activite,
                                                  Reponse reponse) {
-        if( ! aNombreHeurePourActiviteValide(activite.obtenirHeures()) ) {
+        verifierNombreHeuresNegatif(activite,reponse);
+        verifierNombreHeuresMaximum(activite,reponse);
+    }
+
+    public void verifierNombreHeuresNegatif( Activite activite, Reponse reponse) {
+        int nombreHeures = activite.obtenirHeures();
+        if (aNombreHeuresNegatif(nombreHeures)) {
             reponse.ajouterMessageInformation(
-                 ServiceMessages.messageErreurNombreHeuresPourActiviteInvalide(
-                         activite));
+                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(
+                            activite));
             activite.ignorerActivite();
         }
     }
 
-    public boolean aNombreHeurePourActiviteValide( int nombre ) {
-        return nombre >= Constantes.NOMBRE_HEURE_MINIMALE_POUR_ACTIVITE;
+    public boolean aNombreHeuresNegatif(int nombreHeures) {
+        return nombreHeures < Constantes.NOMBRE_HEURE_MINIMALE_POUR_UNE_ACTIVITE;
+    }
+
+    public void verifierNombreHeuresMaximum(Activite activite, Reponse reponse) {
+        int nombresHeures = activite.obtenirHeures();
+        if(aNombreHeuresSuperieurAuMaximum(nombresHeures)) {
+            reponse.ajouterMessageInformation(
+                    ServiceMessages.messageErreurNombreHeuresPourActiviteSuperieurAuMaximum(
+                            activite));
+            activite.decrementerNombresHeuresA10();
+        }
+    }
+
+    public boolean aNombreHeuresSuperieurAuMaximum(int nombreHeures) {
+        return nombreHeures > Constantes.NOMBRE_HEURE_MAXIMALE_POUR_UNE_ACTIVITE;
     }
 
     /*############## Service.Verification la date d'une activité ##################*/
