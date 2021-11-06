@@ -3,11 +3,13 @@ package Service;
 import Entite.Activite;
 import Utils.Constantes;
 
+import static Utils.Constantes.*;
+
 public class ServiceMessages {
 
-    public static String messageErreurCycleInvalide () {
+    public static String messageErreurCycleArchitecteInvalide () {
         return "Le cycle entré n'est pas valide, " +
-                "Le cycle doit être "+ Constantes.CYCLE_AUTORISEE;
+                "Le cycle doit être "+ CYCLE_AUTORISE_POUR_ARCHITECTE;
     }
 
     public static String messageErreurActiviteHorsDateReconnue(Activite activite) {
@@ -54,5 +56,14 @@ public class ServiceMessages {
         return "Le nombre d'heures entré pour " +
                 activite.obtenirCategorie() + " est invalide, il doit être "+
                         "supérieur ou égal à 1. L'activité sera ignorée";
+    }
+
+    public static String messageErreurNombreHeuresPourCours(){
+        return "Le nombre d'heures déclarées pour activité cours est incomplet,"+
+                "il doit être 25 au minimum.";
+    }
+    public static String messageErreurCyclePsychologueInvalide(){
+        return "Le cycle entré n'est pas valide. Le cycle doit être "+
+                CYCLE_AUTORISE_POUR_PSYCHOLOGUES;
     }
 }
