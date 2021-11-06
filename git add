@@ -1,0 +1,158 @@
+[33mcommit b93681629c97a8e4b86107bf3b23760556ea43bd[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 80013b7 813df31
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Oct 6 21:07:13 2021 -0400
+
+    Merge branch 'master' of https://gitlab.info.uqam.ca/hadji.nadir/inf2050-a21-projet-equipe17
+
+[33mcommit 80013b7144df9eb6dc99179049832bb29b453059[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Oct 6 21:05:00 2021 -0400
+
+    Ajout de methode pour la validation d'une declaration
+
+[33mcommit 813df31dfc015e31fb3f7e77758bbc3d4aedb4af[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Wed Oct 6 15:49:52 2021 -0400
+
+    Formation objet json et print dans le main pour demontrer les methodes de DeclarationJSON
+
+[33mcommit 2a9aab872367acccee88622957cfe7360b397675[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Wed Oct 6 15:45:10 2021 -0400
+
+    ajout methode getNombreActivites et changement de getInfoActivites
+
+[33mcommit 9bcdcaffd96b2f27bb29e927c731286ddd7bb6da[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Tue Oct 5 23:58:43 2021 -0400
+
+    correction pour la methode getInfoActivite (if-statement)
+
+[33mcommit ed7f24f5935bb80912cd62a81a5b240b9b2811a3[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Tue Oct 5 23:54:17 2021 -0400
+
+    ajout de la methode getInfoActivite pour la classe DeclarationJson
+
+[33mcommit 7a412c6320af742e83357cb5667c7329dfb0e03f[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Tue Oct 5 21:45:13 2021 -0400
+
+    ajout de la methode getInfoGen pour la classe DeclarationJson
+
+[33mcommit 16c9b08af8ad014247495b86008012d209c1cfb7[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Tue Oct 5 21:08:49 2021 -0400
+
+    premiere version de la class DeclarationJSON
+
+[33mcommit ecd16cd9336a474d565040794c25e512359b31f1[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sun Oct 3 22:23:19 2021 -0400
+
+    Implémentation de méthodes de verification pour le service de declaration et d'activité
+
+[33mcommit b37c33190f6f7c70b4cfb5df9d12d285a6755051[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sun Oct 3 19:11:15 2021 -0400
+
+    Ajout du nom du package a la classe Activite pour resoudre les erreur de compilation
+
+[33mcommit 8a6d033c15f4894f23b3ff12dea85d8678ac7cba[m
+Author: Cishahayo, Steffie Morène <cishahayo.steffie_morene@courrier.uqam.ca>
+Date:   Sun Oct 3 16:07:46 2021 -0400
+
+    Declaration
+
+[33mcommit 57d2fb25ca1404bac21c768bab6d5e3fe5c92040[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sat Oct 2 23:41:24 2021 -0400
+
+    Implémentation et test de la verification du Cycle et du numero de Permis + Declaration des classes utile
+
+[33mcommit 0197d6370c0a220a15246f4a6ba9afb43ddfe2a6[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sat Oct 2 21:12:25 2021 -0400
+
+    Création des classes vide
+
+[33mcommit 5ba0c2382289cef4c7a1e063c5c3dc14bb341a54[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 29 12:19:47 2021 -0400
+
+    Correction faute d'ortographe
+
+[33mcommit 7cb0cff7ef781ef0d63db0243644bb7054fc4110[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 29 12:17:27 2021 -0400
+
+    Ajout des codes permanent de tout les membre de l'équipe
+
+[33mcommit 7e1279bc18c6bcb73e3eac935eb601e804fdda91[m
+Merge: 5082d27 e2e3499
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 29 11:59:45 2021 -0400
+
+    Merge branch 'master' of https://gitlab.info.uqam.ca/hadji.nadir/inf2050-a21-projet-equipe17
+
+[33mcommit 5082d278d6ec96de0abb9a886f76abcf770d39aa[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 29 11:59:01 2021 -0400
+
+    Modification du nombre de caractères maximale par ligne a 80
+
+[33mcommit e2e3499d8713ced599ded6da8c8d1994449fb027[m
+Author: Felix Gonzalez <aa791038@ens.uqam.ca>
+Date:   Mon Sep 27 18:31:03 2021 -0400
+
+    Ajout du document equipe.md. Rajoutez vos informations quand vous pourrez
+
+[33mcommit 3f76aa551ce491c6520107ca7527f10c2750722e[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sun Sep 26 17:22:28 2021 -0400
+
+    Suppression des modification test
+
+[33mcommit 66aaae44edbb918a95e7860601eb7828cc750a36[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Sun Sep 26 16:25:38 2021 -0400
+
+    Test de commit
+
+[33mcommit 79dd4ef0ae8b363d593a6b1db8b375dec8a0e249[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Thu Sep 23 17:13:18 2021 -0400
+
+    modification du fichier README
+
+[33mcommit 1ad914810143c9cb32691af77e9e0cddb46316f9[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Thu Sep 23 17:03:51 2021 -0400
+
+    Ajout du fichier README.md
+
+[33mcommit d17f53fce280b18fcf1f77d9c6d36abe9377f3ef[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 22 17:47:20 2021 +0000
+
+    Ajout du fichier gitignore
+
+[33mcommit 68681d3ea07d69bf40713a1565781062a3190434[m
+Merge: 247f491 8709c06
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 22 13:37:42 2021 -0400
+
+    Merge branch 'master' of https://gitlab.info.uqam.ca/hadji.nadir/inf2050-a21-projet-equipe17
+
+[33mcommit 247f4917da5fffe8b9727741e425875ef4164f4f[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 22 12:34:25 2021 -0400
+
+    Initialisation du projet
+
+[33mcommit 8709c06439f8d6e2c21f9dcf31f3365920c39431[m
+Author: Hadji, Nadir <hadji.nadir@courrier.uqam.ca>
+Date:   Wed Sep 22 16:22:45 2021 +0000
+
+    Initial commit
