@@ -11,20 +11,16 @@ import java.util.List;
 
 public class ServiceValidationGeologue implements InterfaceVerification {
 
-    private int heuresActiviteDeGroupe;
-    private int heuresPresentation;
+    private int heuresAutreActiviteGeologue;
     private int heuresGroupeDeDiscussion;
     private int heuresProjetDeRecherche;
-    private int heuresRedactionProfessionel;
     private int heuresCours;
 
 
     public ServiceValidationGeologue() {
-        this.heuresActiviteDeGroupe = 0;
-        this.heuresPresentation = 0;
+        this.heuresAutreActiviteGeologue = 0;
         this.heuresGroupeDeDiscussion = 0;
         this.heuresProjetDeRecherche = 0;
-        this.heuresRedactionProfessionel = 0;
         this.heuresCours = 0;
     }
 
@@ -32,7 +28,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public void verifier(Declaration general, Reponse reponse ) {
         if ( verifierCycleGeologue(general,reponse) ) {
             verifierActivites(general,reponse);
-            verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
+           // verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
             verifierMinimumHeureParGroupeDeCategorie();
             verifierNombreHeuresTotaleDansDeclaration(reponse);
         }
@@ -69,34 +65,28 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     private void incrementerCompteurHeures(Activite activite) {
         String categorie = activite.obtenirCategorie();
         int nombreHeure = activite.obtenirHeures();
-        verifierSiCategorieDeGroupe(categorie,nombreHeure);
-        verifierSiCategoriePresentation(categorie,nombreHeure);
+        verifierSiCategorieAutre(categorie,nombreHeure);
+        verifierSiCategorieCours(categorie,nombreHeure);
         verifierSiCategorieGroupeDeDiscussion(categorie,nombreHeure);
         verifierSiCategorieProjetDeRecherche(categorie,nombreHeure);
-        verifierSiCategorieRedactionProfessionnelle(categorie,nombreHeure);
     }
 
-    public void verifierSiCategorieDeGroupe(String categorie, int nombreHeure) {
+    public void verifierSiCategorieAutre(String categorie, int nombreHeure) {
         List<String> liste = obtenirListeDesActivitesDeGroupe();
         if ( liste.contains(categorie) )
-            this.heuresActiviteDeGroupe += nombreHeure;
+            this.heuresAutreActiviteGeologue += nombreHeure;
     }
 
     private List<String> obtenirListeDesActivitesDeGroupe() {
-        List<String> activateDeGroup = new ArrayList<String>();
-        activateDeGroup.add(Categorie.COURS.toString());
-        activateDeGroup.add(Categorie.ATELIER.toString());
-        activateDeGroup.add(Categorie.SEMINAIRE.toString());
-        activateDeGroup.add(Categorie.COLLOQUE.toString());
-        activateDeGroup.add(Categorie.CONFERENCE.toString());
-        activateDeGroup.add(Categorie.LECTURE_DIRIGEE.toString());
-        return activateDeGroup;
-    }
-
-    public void verifierSiCategoriePresentation(String categorie,
-                                                int nombreHeure) {
-        if( categorie.equals(Categorie.PRESENTATION.toString()))
-            this.heuresPresentation += nombreHeure;
+        List<String> autreActiviteGeologue = new ArrayList<String>();
+        autreActiviteGeologue.add(Categorie.PRESENTATION.toString());
+        autreActiviteGeologue.add(Categorie.ATELIER.toString());
+        autreActiviteGeologue.add(Categorie.SEMINAIRE.toString());
+        autreActiviteGeologue.add(Categorie.COLLOQUE.toString());
+        autreActiviteGeologue.add(Categorie.CONFERENCE.toString());
+        autreActiviteGeologue.add(Categorie.LECTURE_DIRIGEE.toString());
+        autreActiviteGeologue.add(Categorie.REDACTION_PROFESSIONNELLE.toString());
+        return autreActiviteGeologue;
     }
 
     public void verifierSiCategorieGroupeDeDiscussion(String categorie,
@@ -111,32 +101,9 @@ public class ServiceValidationGeologue implements InterfaceVerification {
             this.heuresProjetDeRecherche += nombreHeure;
     }
 
-    public void verifierSiCategorieRedactionProfessionnelle(String categorie,
-                                                            int nombreHeure) {
-        if ( categorie.equals(Categorie.REDACTION_PROFESSIONNELLE.toString()))
-            this.heuresRedactionProfessionel += nombreHeure;
-    }
-
-    /*########## Service.Verification du nombre minimal pour activite de groupe ######*/
-
-    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general,
-                                                          Reponse reponse) {
-        if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
-            reponse.ajouterMessageErreur(
-                    ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
-    }
-
-    private boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration general) {
-        return verifierTotalHeurePourActivite(general,heuresActiviteDeGroupe,
-                Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
-    }
-
-    private boolean verifierTotalHeurePourActivite(Declaration general, int total,
-                                                   int minimum) {
-        if ( total >= minimum )
-            return true;
-        else
-            return false;
+    public void verifierSiCategorieCours(String categorie,int nombreHeure) {
+        if ( categorie.equals(Categorie.COURS.toString()))
+            this.heuresCours += nombreHeure;
     }
 
     /*############# Service.Verification du nombre minimum par Activite pour Geologue  ############*/
@@ -194,9 +161,8 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     private int obtenirNombreTotalHeures() {
-        return heuresActiviteDeGroupe + heuresPresentation +
-                heuresGroupeDeDiscussion + heuresProjetDeRecherche +
-                heuresRedactionProfessionel;
+        return heuresAutreActiviteGeologue + heuresGroupeDeDiscussion +
+                heuresProjetDeRecherche + heuresCours;
     }
 
 
