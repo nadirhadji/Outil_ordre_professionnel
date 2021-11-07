@@ -26,4 +26,11 @@ public class Constantes {
     public static final int MAXIMUM_HEURE_GROUPE_DE_DISCUSSION = 17;
     public static final int MAXIMUM_HEURE_PROJET_DE_RECHERCHER = 23;
     public static final int MAXIMUM_HEURE_REDACTION = 17;
+    public static final int MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE = 55;
+    public static final int MINIMUM_HEURE_COURS_GEOLOGUE = 22;
+    public static final int MINIMUM_HEURE_PROJET_DE_RECHERCHE_GEOLOGUE = 3;
+    public static final int MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE = 1;
+    public static final LocalDate DATE_DEBUT_ACTIVITE_AUTORISEE_GEOLOGUE = LocalDate.parse("2018-06-01");
+    public static final LocalDate DATE_FIN_ACTIVITE_AUTORISEE_GEOLOGUE = LocalDate.parse("2021-06-01");
+    public static final String CYCLE_AUTORISEE_POUR_GEOLOGUE = "2018-2021";
 }
