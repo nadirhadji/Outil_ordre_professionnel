@@ -1,11 +1,8 @@
 package Service;
 
-import Entite.Activite;
-import Entite.Categorie;
-import Entite.Declaration;
-import Entite.Reponse;
+import Entite.*;
 import Utils.Constantes;
-import Utils.ConstantesCycle;
+import Utils.ConstantesArchitecte;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,21 +11,12 @@ import java.util.Map;
 
 public class ServiceValidationArchitecte implements InterfaceVerification {
 
-    Map<String,Integer> dateMap = new HashMap<>();
-    private int heuresActiviteDeGroupe;
-    private int heuresPresentation;
-    private int heuresGroupeDeDiscussion;
-    private int heuresProjetDeRecherche;
-    private int heuresRedactionProfessionel;
-    private int nombreMinimumHeuresAvantValidation;
+    Map<String, Integer> dateMap;
+    HeuresArchitecte heuresArchitecte;
 
     public ServiceValidationArchitecte() {
-        this.heuresActiviteDeGroupe = 0;
-        this.heuresPresentation = 0;
-        this.heuresGroupeDeDiscussion = 0;
-        this.heuresProjetDeRecherche = 0;
-        this.heuresRedactionProfessionel = 0;
-        this.nombreMinimumHeuresAvantValidation = 0;
+        this.dateMap = new HashMap<>();
+        this.heuresArchitecte = new HeuresArchitecte();
     }
 
     @Override
@@ -62,9 +50,10 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     public boolean estCycle2016a2020(String cycle) {
-        if (cycle.equals(ConstantesCycle.CYCLE_2016_2018) ||
-                cycle.equals(ConstantesCycle.CYCLE_2018_2020) ) {
-            nombreMinimumHeuresAvantValidation = ConstantesCycle.ARCHITECTE_NOMBRE_HEURE_TOTALE_2016_2020;
+        if (cycle.equals(ConstantesArchitecte.CYCLE_2016_2018) ||
+                cycle.equals(ConstantesArchitecte.CYCLE_2018_2020) ) {
+            heuresArchitecte.enregistrerMinimumAvantValidation
+                    (ConstantesArchitecte.ARCHITECTE_NOMBRE_HEURE_TOTALE_2016_2020);
             return true;
         }
         else
@@ -72,8 +61,9 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     public boolean estCycle2020a2022(String cycle) {
-        if (cycle.equals(ConstantesCycle.CYCLE_2020_2022)){
-            nombreMinimumHeuresAvantValidation = ConstantesCycle.ARCHITECTE_NOMBRE_HEURE_TOTALE_2020_2022;
+        if (cycle.equals(ConstantesArchitecte.CYCLE_2020_2022)){
+            heuresArchitecte.enregistrerMinimumAvantValidation(
+                    ConstantesArchitecte.ARCHITECTE_NOMBRE_HEURE_TOTALE_2020_2022);
             return true;
         }
         else
@@ -107,15 +97,37 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     /*##################### Service.Verification des activités #######################*/
+
     private void verifierActivites(Declaration general, Reponse reponse) {
         ServiceValidationActivite serviceValidationActivite = new
                 ServiceValidationActivite(general.obtenirOrdre(),general.obtenirCycle());
-
         for (Activite activite : general.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite, reponse);
-            if ( ! activite.estIgnoree() )
+            if ( ! activite.estIgnoree() && ! estActiviteRedondante(activite) ){
+                dateMap.put(activite.obtenirDate(),activite.obtenirHeures());
                 incrementerCompteurHeures(activite);
+            }
         }
+    }
+
+    private boolean estActiviteRedondante(Activite activite) {
+        boolean resultat;
+        String date = activite.obtenirDate();
+        int nombreHeures = activite.obtenirHeures();
+        return estUneDateExistante(date,nombreHeures);
+    }
+
+    private boolean estUneDateExistante(String date, int nombreHeures) {
+        if ( dateMap.containsKey(date) ) {
+            int totalHeures = dateMap.get(date) + nombreHeures;
+            if ( totalHeures > 10) {
+                return true;
+            } else {
+                dateMap.replace(date,totalHeures);
+                return false;
+            }
+        }
+        return false;
     }
 
     private void incrementerCompteurHeures(Activite activite) {
@@ -131,11 +143,11 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public void verifierSiCategorieDeGroupe(String categorie, int nombreHeure) {
         List<String> liste = obtenirListeDesActivitesDeGroupe();
         if ( liste.contains(categorie) )
-            this.heuresActiviteDeGroupe += nombreHeure;
+            heuresArchitecte.incrementerActiviteDeGroupe(nombreHeure);
     }
 
     private List<String> obtenirListeDesActivitesDeGroupe() {
-        List<String> activateDeGroup = new ArrayList<String>();
+        List<String> activateDeGroup = new ArrayList<>();
         activateDeGroup.add(Categorie.COURS.toString());
         activateDeGroup.add(Categorie.ATELIER.toString());
         activateDeGroup.add(Categorie.SEMINAIRE.toString());
@@ -148,25 +160,25 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public void verifierSiCategoriePresentation(String categorie,
                                                 int nombreHeure) {
         if( categorie.equals(Categorie.PRESENTATION.toString()))
-            this.heuresPresentation += nombreHeure;
+            heuresArchitecte.incrementerPresentation(nombreHeure);
     }
 
     public void verifierSiCategorieGroupeDeDiscussion(String categorie,
                                                       int nombreHeure) {
         if ( categorie.equals(Categorie.GROUPE_DE_DISCUSSION.toString()))
-            this.heuresGroupeDeDiscussion += nombreHeure;
+            heuresArchitecte.incrementerGroupeDeDiscussion(nombreHeure);
     }
 
     public void verifierSiCategorieProjetDeRecherche(String categorie,
                                                      int nombreHeure) {
         if ( categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
-            this.heuresProjetDeRecherche += nombreHeure;
+            heuresArchitecte.incrementerProjetDeRecherche(nombreHeure);
     }
 
     public void verifierSiCategorieRedactionProfessionnelle(String categorie,
                                                             int nombreHeure) {
         if ( categorie.equals(Categorie.REDACTION_PROFESSIONNELLE.toString()))
-            this.heuresRedactionProfessionel += nombreHeure;
+            heuresArchitecte.incrementerRedactionProfessionel(nombreHeure);
     }
 
     /*########## Service.Verification du nombre minimal pour activite de groupe ######*/
@@ -179,7 +191,8 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     private boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration general) {
-        return verifierTotalHeurePourActivite(general,heuresActiviteDeGroupe,
+        int nombreHeures = heuresArchitecte.obtenirActiviteDeGroupe();
+        return verifierTotalHeurePourActivite(general,nombreHeures,
                 Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
     }
 
@@ -209,31 +222,32 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
         verifierMaximumHeureGroupeDeDiscussion();
         verifierMaximumHeureProjetDeRecherche();
         verifierMaximumHeuresHeuresRedactionProfessionel();
-
     }
 
     private void verifierMaximumHeureDePresentation() {
-        if( heuresPresentation > Constantes.MAXIMUM_HEURE_PRESENTATION)
-            this.heuresPresentation = Constantes.MAXIMUM_HEURE_PRESENTATION;
+        int nombreHeures = heuresArchitecte.obtenirPresentation();
+        if( nombreHeures > Constantes.MAXIMUM_HEURE_PRESENTATION)
+            heuresArchitecte.enregistrerPresentation(Constantes.MAXIMUM_HEURE_PRESENTATION);
     }
 
     private void verifierMaximumHeureGroupeDeDiscussion() {
-        if ( heuresGroupeDeDiscussion >
-                Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
-            this.heuresGroupeDeDiscussion =
-                    Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION;
+        int heuresGroupeDeDiscussion = heuresArchitecte.obtenirGroupeDeDiscussion();
+        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
+            heuresArchitecte.enregistrerGroupeDeDiscussion
+                    (Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION);
     }
 
     private void verifierMaximumHeureProjetDeRecherche() {
+        int heuresProjetDeRecherche = heuresArchitecte.obtenirProjetDeRecherche();
         if( heuresProjetDeRecherche >
                 Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER)
-            this.heuresProjetDeRecherche =
-                    Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER;
+            heuresArchitecte.enregistrerProjetDeRecherche(Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER);
     }
 
     private void verifierMaximumHeuresHeuresRedactionProfessionel() {
+        int heuresRedactionProfessionel = heuresArchitecte.obtenirRedactionProfessionel();
         if( heuresRedactionProfessionel > Constantes.MAXIMUM_HEURE_REDACTION)
-            this.heuresRedactionProfessionel = Constantes.MAXIMUM_HEURE_REDACTION;
+            heuresArchitecte.enregistrerRedactionProfessionel(Constantes.MAXIMUM_HEURE_REDACTION);
     }
 
     /*############# Service.Verification du nombre totale d'heures ###################*/
@@ -250,20 +264,22 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     private int obtenirNombreHeuresManquante(int heuresTransfere) {
         int total = obtenirNombreTotalHeures();
-        if ( total >= this.nombreMinimumHeuresAvantValidation)
+        if ( total >= heuresArchitecte.obtenirMinimumAvantValidation() )
             return 0;
 
-        if ( (total + heuresTransfere) <
-                this.nombreMinimumHeuresAvantValidation)
-            return this.nombreMinimumHeuresAvantValidation - (
+        if ( (total + heuresTransfere) < heuresArchitecte.obtenirMinimumAvantValidation())
+            return heuresArchitecte.obtenirMinimumAvantValidation() - (
                     total + heuresTransfere);
         else
             return 0;
     }
 
     private int obtenirNombreTotalHeures() {
-        return heuresActiviteDeGroupe + heuresPresentation +
-                heuresGroupeDeDiscussion + heuresProjetDeRecherche +
-                heuresRedactionProfessionel;
+        return  heuresArchitecte.obtenirActiviteDeGroupe() +
+                heuresArchitecte.obtenirPresentation() +
+                heuresArchitecte.obtenirGroupeDeDiscussion() +
+                heuresArchitecte.obtenirGroupeDeDiscussion() +
+                heuresArchitecte.obtenirProjetDeRecherche() +
+                heuresArchitecte.obtenirRedactionProfessionel();
     }
 }

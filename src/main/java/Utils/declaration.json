@@ -1,6 +1,7 @@
 {
   "numero_de_permis": "A0001",
   "cycle": "2020-2022",
+  "ordre": "architectes",
   "heures_transferees_du_cycle_precedent": 2,
   "activites": [
     {
@@ -26,6 +27,12 @@
       "categorie": "groupe de discussion",
       "heures": 6,
       "date": "2021-04-01"
+    },
+    {
+      "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
+      "categorie": "groupe de discussion",
+      "heures": 6,
+      "date": "2016-04-01"
     },
     {
       "description": "Visite d'établissements architecturaux",

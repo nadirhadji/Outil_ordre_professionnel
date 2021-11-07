@@ -13,6 +13,9 @@ public class Constantes {
     public static final String CLE_NOMBRE_HEURE = "heures";
     public static final String CLE_DATE = "date";
     public static final String CLE_ORDRE = "ordre";
+    public static final String VALEUR_ORDRE_ARCHITECTES = "architectes";
+    public static final String VALEUR_ORDRE_GEOLOGUES = "géologues";
+    public static final String VALEUR_ORDRE_PSHYCOLOGUES = "psychologues";
     public static final String CYCLE_AUTORISEE = "2020-2022";
     public static final int NOMBRE_HEURES_MAXIMALE_A_TRANSFERE = 7;
     public static final int NOMBRE_HEURE_MINIMALE_POUR_UNE_ACTIVITE = 1;
