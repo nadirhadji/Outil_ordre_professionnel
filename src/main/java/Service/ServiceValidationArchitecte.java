@@ -42,14 +42,14 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public boolean verifierCycle(Declaration general, Reponse reponse ) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
             reponse.ajouterMessageErreur(
-                    ServiceMessages.messageErreurCycleArchitecteInvalide());
+                    ServiceMessages.messageErreurCycleInvalide());
             return false;
         }
         return true;
     }
 
     public boolean estCycleValide( String cycle ) {
-        return cycle.equals(Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE);
+        return cycle.equals(Constantes.CYCLE_AUTORISEE);
     }
 
     /*################## Service.Verification Heures Transfere ######################*/
