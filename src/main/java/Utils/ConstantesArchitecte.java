@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class ConstantesArchitecte {
 
+    public static final String VALEUR_ORDRE_ARCHITECTES = "architectes";
     public static final String CYCLE_2016_2018 = "2016-2018";
     public static final String CYCLE_2018_2020 = "2018-2020";
     public static final String CYCLE_2020_2022 = "2020-2022";

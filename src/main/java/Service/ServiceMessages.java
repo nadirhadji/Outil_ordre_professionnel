@@ -1,6 +1,7 @@
 package Service;
 
 import Entite.Activite;
+import Entite.Declaration;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
@@ -13,11 +14,46 @@ public class ServiceMessages {
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISEE;
     }
 
-    public static String messageErreurDate(String desciption, String date, String debut, String fin) {
-        return " L'activité "+desciption+" realisée en date du "+
-                date+ " a été faite en dehors des dates du cycle 2016-2018 "+
-                " soit entre le "+ debut +
-                " et "+fin;
+    public static String messageErreurDescription(Activite activite) {
+        return "Erreur : L'activite "+activite.obtenirDescription() +
+                "contient une description inferieur a 20 caracteres.";
+    }
+
+    public static String messageErreurNumeroDePermis(String numeroDePermis) {
+        return "Le numero de permis "+ numeroDePermis +
+                " n'est pas valide.";
+    }
+
+    public static String messageErreurDate(Activite activite, String ordre, String cycle) {
+        return switch (ordre) {
+            case ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES -> choisirMessageErreurArchitecteDate(activite, cycle);
+            case ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES -> choisirMessageErreurGeologueDate(activite, cycle);
+            case ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES -> choisirMessageErreurPsychologueDate(activite, cycle);
+            default -> messageErreurDateDefault(activite);
+        };
+    }
+
+    private static String choisirMessageErreurArchitecteDate(Activite activite, String cycle) {
+        return switch (cycle) {
+            case ConstantesArchitecte.CYCLE_2016_2018 -> messageErreurDateArchitecte2016a2018(activite);
+            case ConstantesArchitecte.CYCLE_2018_2020 -> messageErreurDateArchitecte2018a2020(activite);
+            case ConstantesArchitecte.CYCLE_2020_2022 -> messageErreurDateArchitecte2020a2022(activite);
+            default -> messageErreurDateDefault(activite);
+        };
+    }
+
+    private static String choisirMessageErreurGeologueDate(Activite activite, String cycle) {
+        if ( cycle.equals(ConstantesGeologue.CYCLE_2018_2021) )
+            return  messageErreurDateGeologue2018a2021(activite);
+        else
+            return messageErreurDateDefault(activite);
+    }
+
+    private static String choisirMessageErreurPsychologueDate(Activite activite, String cycle) {
+        if( cycle.equals(ConstantesPsychologues.CYCLE_2018_2023) )
+            return messageErreurDatePsycho2018a2023(activite);
+        else
+            return messageErreurDateDefault(activite);
     }
 
     public static String messageErreurDateArchitecte2016a2018(Activite activite) {
@@ -55,11 +91,9 @@ public class ServiceMessages {
                 " et "+ConstantesPsychologues.PSYCHO_DATE_FIN_2023.toString();
     }
 
-    public static String messageErreurActiviteHorsDateReconnue(Activite activite) {
-        return " L'activité " + activite.obtenirCategorie() +
-              " n'a pas été complétée entre le" +
-                Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE+ " et "+
-                Constantes.DATE_FIN_ACTIVITE_AUTORISEE;
+    public static String messageErreurDateDefault(Activite activite) {
+        return " La date de l'activité "+activite.obtenirDescription() +
+                " n'est pas valide. Verifier votre declaration";
     }
 
     public static String messageErreurActiviteDateNonReconnue(Activite activite) {

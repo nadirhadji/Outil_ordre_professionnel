@@ -1,5 +1,7 @@
 package Service;
 
+import Exception.NombreHeuresNegatifException;
+import Exception.DescriptionInvalideException;
 import Entite.Activite;
 import Entite.Categorie;
 import Entite.Reponse;
@@ -7,16 +9,12 @@ import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
 import Utils.ConstantesPsychologues;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ServiceValidationActivite {
 
-    private String ordre;
-    private String cycle;
+    private final String ordre;
+    private final String cycle;
 
     public ServiceValidationActivite(String ordre, String cycle) {
         this.ordre = ordre;
@@ -24,9 +22,32 @@ public class ServiceValidationActivite {
     }
 
     public void verifierActivite(Activite activite, Reponse reponse) {
+        verifierDescription(activite);
         verifierDateActivite(activite,reponse);
         verifierNombreHeurePourActivite(activite,reponse);
         verifierCategorie(activite,reponse);
+    }
+
+    /*################## Service.Verification de la description #####################*/
+
+    private void verifierDescription(Activite activite) {
+        try {
+            validerDescription(activite);
+        } catch (DescriptionInvalideException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private void validerDescription(Activite activite) throws DescriptionInvalideException {
+        if (activite.obtenirDescription().length() < 20 ) {
+            Reponse reponse = new Reponse();
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageErreurDescription(activite)
+            );
+            reponse.ecrireFichierDeSortie(Constantes.ARG1);
+            throw new DescriptionInvalideException(ServiceMessages.messageErreurDescription(activite));
+        }
     }
 
     /*#################### Service.Verification de la categorie #####################*/
@@ -37,6 +58,7 @@ public class ServiceValidationActivite {
                   ServiceMessages.erreurMessageCategorieNonReconnue(activite));
             activite.ignorerActivite();
         }
+
     }
 
     public boolean estUneCategorieReconnue(String chaine) {
@@ -52,22 +74,31 @@ public class ServiceValidationActivite {
 
     private void verifierNombreHeurePourActivite(Activite activite,
                                                  Reponse reponse) {
-        verifierNombreHeuresNegatif(activite,reponse);
+        validerNombreHeuresNegatif(activite);
         verifierNombreHeuresMaximum(activite,reponse);
     }
 
-    public void verifierNombreHeuresNegatif( Activite activite, Reponse reponse) {
-        int nombreHeures = activite.obtenirHeures();
-        if (aNombreHeuresNegatif(nombreHeures)) {
-            reponse.ajouterMessageInformation(
-                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(
-                            activite));
-            activite.ignorerActivite();
+    public void validerNombreHeuresNegatif( Activite activite) {
+        try {
+            verifierNombreHeureNegatif(activite);
+        } catch (NombreHeuresNegatifException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
         }
     }
 
-    public boolean aNombreHeuresNegatif(int nombreHeures) {
-        return nombreHeures < Constantes.NOMBRE_HEURE_MINIMALE_POUR_UNE_ACTIVITE;
+    public void verifierNombreHeureNegatif(Activite activite)
+            throws NombreHeuresNegatifException {
+        if ( activite.obtenirHeures() < 0) {
+            Reponse reponse = new Reponse();
+            reponse.ajouterMessageErreur(
+                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
+            );
+            reponse.ecrireFichierDeSortie(Constantes.ARG1);
+            throw new NombreHeuresNegatifException(
+                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
+            );
+        }
     }
 
     public void verifierNombreHeuresMaximum(Activite activite, Reponse reponse) {
@@ -86,7 +117,6 @@ public class ServiceValidationActivite {
 
     /*############## Service.Verification la date d'une activité ##################*/
 
-    //TODO - Trouver un moyen d'afficher les bonnes dates dans le message d'erreur sans trop de couplage
     private void verifierDateActivite(Activite activite, Reponse reponse) {
         String date = activite.obtenirDate();
         if ( ! estformatDateValide(date) ) {
@@ -97,7 +127,7 @@ public class ServiceValidationActivite {
         else if ( !estDateValide(date)) {
             activite.ignorerActivite();
             reponse.ajouterMessageInformation(
-                    ServiceMessages.messageErreurActiviteHorsDateReconnue(activite));
+                    ServiceMessages.messageErreurDate(activite,ordre,cycle));
         }
     }
 
@@ -111,13 +141,13 @@ public class ServiceValidationActivite {
     }
 
     private boolean estDateValide(String date) {
-        if( ordre.equals(Constantes.VALEUR_ORDRE_ARCHITECTES) ) {
+        if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
             return estDateArchitecteValide(date);
         }
-        else if ( ordre.equals(Constantes.VALEUR_ORDRE_GEOLOGUES) ) {
+        else if ( ordre.equals(ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES) ) {
             return estDateGeologueValide(date);
         }
-        else if ( ordre.equals(Constantes.VALEUR_ORDRE_PSHYCOLOGUES) ) {
+        else if ( ordre.equals(ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES) ) {
             return estDatePshycologueValide(date);
         }
         return false;

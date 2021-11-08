@@ -3,7 +3,6 @@ package Service;
 import Entite.*;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +110,6 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     private boolean estActiviteRedondante(Activite activite) {
-        boolean resultat;
         String date = activite.obtenirDate();
         int nombreHeures = activite.obtenirHeures();
         return estUneDateExistante(date,nombreHeures);

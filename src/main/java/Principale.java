@@ -3,6 +3,7 @@ import Entite.Declaration;
 import Entite.Reponse;
 import Service.ServiceValidation;
 import Service.ServiceValidationArchitecte;
+import Utils.Constantes;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -24,6 +25,10 @@ public class Principale {
         if (args.length < 2) {
             System.out.println("Argument invalide");
             System.exit(1);
+        }
+        else {
+            Constantes.ARG0 = args[0];
+            Constantes.ARG1 = args[1];
         }
     }
 
