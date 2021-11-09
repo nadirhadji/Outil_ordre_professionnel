@@ -21,11 +21,11 @@ public class ServiceValidationActivite {
         this.cycle = cycle;
     }
 
-    public void verifierActivite(Activite activite, Reponse reponse) {
+    public void verifierActivite(Activite activite) {
         verifierDescription(activite);
-        verifierDateActivite(activite,reponse);
-        verifierNombreHeurePourActivite(activite,reponse);
-        verifierCategorie(activite,reponse);
+        verifierDateActivite(activite);
+        verifierNombreHeurePourActivite(activite);
+        verifierCategorie(activite);
     }
 
     /*################## Service.Verification de la description #####################*/
@@ -45,20 +45,18 @@ public class ServiceValidationActivite {
             reponse.ajouterMessageErreur(
                     ServiceMessages.messageErreurDescription(activite)
             );
-            reponse.ecrireFichierDeSortie(Constantes.ARG1);
+            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
             throw new DescriptionInvalideException(ServiceMessages.messageErreurDescription(activite));
         }
     }
 
     /*#################### Service.Verification de la categorie #####################*/
-
-    private void verifierCategorie(Activite activite, Reponse reponse ) {
+    private void verifierCategorie(Activite activite) {
         if ( ! estUneCategorieReconnue(activite.obtenirCategorie()) ) {
-            reponse.ajouterMessageInformation(
+            Reponse.obtenirInstance().ajouterMessageInformation(
                   ServiceMessages.erreurMessageCategorieNonReconnue(activite));
             activite.ignorerActivite();
         }
-
     }
 
     public boolean estUneCategorieReconnue(String chaine) {
@@ -72,10 +70,9 @@ public class ServiceValidationActivite {
 
     /*#################### Service.Verification du nombre d'heure ####################*/
 
-    private void verifierNombreHeurePourActivite(Activite activite,
-                                                 Reponse reponse) {
+    private void verifierNombreHeurePourActivite(Activite activite) {
         validerNombreHeuresNegatif(activite);
-        verifierNombreHeuresMaximum(activite,reponse);
+        verifierNombreHeuresMaximum(activite);
     }
 
     public void validerNombreHeuresNegatif( Activite activite) {
@@ -94,17 +91,17 @@ public class ServiceValidationActivite {
             reponse.ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
             );
-            reponse.ecrireFichierDeSortie(Constantes.ARG1);
+            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
             throw new NombreHeuresNegatifException(
                     ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
             );
         }
     }
 
-    public void verifierNombreHeuresMaximum(Activite activite, Reponse reponse) {
+    public void verifierNombreHeuresMaximum(Activite activite) {
         int nombresHeures = activite.obtenirHeures();
         if(aNombreHeuresSuperieurAuMaximum(nombresHeures)) {
-            reponse.ajouterMessageInformation(
+            Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageErreurNombreHeuresPourActiviteSuperieurAuMaximum(
                             activite));
             activite.decrementerNombresHeuresA10();
@@ -116,17 +113,16 @@ public class ServiceValidationActivite {
     }
 
     /*############## Service.Verification la date d'une activité ##################*/
-
-    private void verifierDateActivite(Activite activite, Reponse reponse) {
+    private void verifierDateActivite(Activite activite) {
         String date = activite.obtenirDate();
         if ( ! estformatDateValide(date) ) {
             activite.ignorerActivite();
-            reponse.ajouterMessageInformation(
+            Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
         }
         else if ( !estDateValide(date)) {
             activite.ignorerActivite();
-            reponse.ajouterMessageInformation(
+            Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageErreurDate(activite,ordre,cycle));
         }
     }

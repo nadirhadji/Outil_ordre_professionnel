@@ -1,8 +1,8 @@
 import Entite.DeclarationJSON;
 import Entite.Declaration;
 import Entite.Reponse;
+import Service.ServiceReponse;
 import Service.ServiceValidation;
-import Service.ServiceValidationArchitecte;
 import Utils.Constantes;
 import org.json.simple.parser.ParseException;
 
@@ -14,11 +14,10 @@ public class Principale {
         verifierSiArgumentExiste(args);
         DeclarationJSON declarationJSON = new DeclarationJSON(args[0]);
         charger(declarationJSON);
-        Reponse reponse = new Reponse();
         Declaration declaration = new Declaration(declarationJSON);
         ServiceValidation service = new ServiceValidation();
-        service.validerDeclaration(declaration,reponse);
-        reponse.ecrireFichierDeSortie(args[1]);
+        service.validerDeclaration(declaration);
+        ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
     }
 
     private static void verifierSiArgumentExiste(String[] args) {

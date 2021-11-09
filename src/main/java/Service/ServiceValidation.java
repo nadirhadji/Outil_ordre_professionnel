@@ -7,10 +7,10 @@ import Utils.Constantes;
 
 public class ServiceValidation {
 
-    public void validerDeclaration(Declaration declaration, Reponse reponse) {
+    public void validerDeclaration(Declaration declaration) {
         InterfaceVerification interfaceVerification = VerificationFactory.obtenirInstance(declaration.obtenirOrdre());
         validerNumeroDePermis(declaration.obtenirNumeroDePermis());
-        interfaceVerification.verifier(declaration,reponse);
+        interfaceVerification.verifier(declaration);
     }
 
     public void validerNumeroDePermis(String numeroDePermis) {
@@ -24,11 +24,10 @@ public class ServiceValidation {
 
     public void verifierNumeroDePermis(String numeroDePermis) throws NumeroDePermisInvalideException {
         if ( ! estNumeroDePermisValide(numeroDePermis) ) {
-            Reponse reponse = new Reponse();
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNumeroDePermis(numeroDePermis)
             );
-            reponse.ecrireFichierDeSortie(Constantes.ARG1);
+            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
             throw new NumeroDePermisInvalideException(
                     ServiceMessages.messageErreurNumeroDePermis(numeroDePermis)
             );
@@ -62,5 +61,4 @@ public class ServiceValidation {
             return false;
         }
     }
-
 }

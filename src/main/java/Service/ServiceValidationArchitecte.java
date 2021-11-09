@@ -19,22 +19,21 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     @Override
-    public void verifier(Declaration general, Reponse reponse ) {
-        if ( verifierCycle(general,reponse) ) {
-            verifierHeureTransfere(general,reponse);
-            verifierActivites(general,reponse);
-            verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
+    public void verifier(Declaration general) {
+        if ( verifierCycle(general) ) {
+            verifierHeureTransfere(general);
+            verifierActivites(general);
+            verifierNombreHeuresPourActiviteDeGroupe(general);
             verifierMaximumHeureParGroupeDeCategorie();
-            verifierNombreHeuresTotaleDansDeclaration(
-                    general.obtenirHeurestransfere(),reponse);
+            verifierNombreHeuresTotaleDansDeclaration(general.obtenirHeurestransfere());
         }
     }
 
     /*############################### Service.Verification Cycle ##################################*/
 
-    public boolean verifierCycle(Declaration general, Reponse reponse ) {
+    public boolean verifierCycle(Declaration general) {
         if ( ! estCycleValide(general.obtenirCycle()) ) {
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurCycleInvalide());
             return false;
         }
@@ -71,37 +70,35 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*################## Service.Verification Heures Transfere ######################*/
 
-    private void verifierHeureTransfere(Declaration general, Reponse reponse) {
-        verifierSiHeuresTransfereSuperieurA7(general,reponse);
-        verifierSiHeuresTransfereNegatif(general,reponse);
+    private void verifierHeureTransfere(Declaration general) {
+        verifierSiHeuresTransfereSuperieurA7(general);
+        verifierSiHeuresTransfereNegatif(general);
     }
 
-    private void verifierSiHeuresTransfereSuperieurA7 ( Declaration general ,
-                                                        Reponse reponse) {
+    private void verifierSiHeuresTransfereSuperieurA7 (Declaration general) {
         if ( general.obtenirHeurestransfere() >
                 Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
             general.modifierNombreHeuresTransfereA7();
-            reponse.ajouterMessageInformation(
+            Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageInfosHeuresTransfereSuperieurA7());
         }
     }
 
-    private void verifierSiHeuresTransfereNegatif(Declaration general ,
-                                                  Reponse reponse ) {
+    private void verifierSiHeuresTransfereNegatif(Declaration general) {
         if ( general.obtenirHeurestransfere() < 0 ) {
             general.modifierNombreHeuresTransfereA0();
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurHeuresTransfereInferieurA0());
         }
     }
 
     /*##################### Service.Verification des activités #######################*/
 
-    private void verifierActivites(Declaration general, Reponse reponse) {
+    private void verifierActivites(Declaration general) {
         ServiceValidationActivite serviceValidationActivite = new
                 ServiceValidationActivite(general.obtenirOrdre(),general.obtenirCycle());
         for (Activite activite : general.obtenirActivites() ) {
-            serviceValidationActivite.verifierActivite(activite, reponse);
+            serviceValidationActivite.verifierActivite(activite);
             if ( ! activite.estIgnoree() && ! estActiviteRedondante(activite) ){
                 dateMap.put(activite.obtenirDate(),activite.obtenirHeures());
                 incrementerCompteurHeures(activite);
@@ -181,10 +178,9 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*########## Service.Verification du nombre minimal pour activite de groupe ######*/
 
-    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general,
-                                                          Reponse reponse) {
+    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general) {
         if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
     }
 
@@ -250,11 +246,10 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*############# Service.Verification du nombre totale d'heures ###################*/
 
-    private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere,
-                                                           Reponse reponse ) {
+    private void verifierNombreHeuresTotaleDansDeclaration(int heuresTransfere) {
         int nombreHeuresManquante = obtenirNombreHeuresManquante(heuresTransfere);
         if( nombreHeuresManquante > 0 ) {
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageNombreHeuresTotalMoinsDe40(
                             nombreHeuresManquante));
         }
