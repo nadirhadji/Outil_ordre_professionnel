@@ -165,11 +165,4 @@ public class ServiceValidationGeologue implements InterfaceVerification {
                 heuresProjetDeRecherche + heuresCours;
     }
 
-
-
-
-    @Override
-    public void verifier(Declaration declaration, Reponse reponse) {
-
-    }
 }
