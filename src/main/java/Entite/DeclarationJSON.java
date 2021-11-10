@@ -1,5 +1,6 @@
 package Entite;
 
+import Exception.CleJSONInexistanteException;
 import Utils.Constantes;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,7 +20,7 @@ import java.util.List;
    * pour éventuellement les analyser.
 */
 public class DeclarationJSON {
-    private String fichierEntre;
+    private final String fichierEntre;
     private JSONObject jsonObj;
 
     public DeclarationJSON(String fichierEntre){
@@ -31,27 +32,36 @@ public class DeclarationJSON {
         jsonObj = (JSONObject) obj;
     }
 
-    public String obtenirStringDeCle(String cle) {
-        return (String) jsonObj.get(cle);
+    public boolean contientCle(String cle) {
+        return jsonObj.containsKey(cle);
     }
 
-    public int obtenirIntDeCle(String cle) {
-        try{
+    public String obtenirStringDeCle(String cle) throws CleJSONInexistanteException {
+        if( jsonObj.containsKey(cle))
+            return (String) jsonObj.get(cle);
+        else
+            throw new CleJSONInexistanteException("le champ "+cle+" n'existe pas dans le fichier JSON");
+    }
+
+    public int obtenirIntDeCle(String cle) throws CleJSONInexistanteException{
+        if (jsonObj.containsKey(cle))
             return (int) (long) jsonObj.get(cle);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        else
+            throw new CleJSONInexistanteException("le champ "+cle+" n'existe pas dans le fichier JSON");
     }
 
-    public List<Activite> obtenirActivites() {
-        List<Activite> listeActivite = new ArrayList<Activite>();
-        JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.CLE_LISTE_ACTIVITE);
-        for (Object arrayObj : jsonArray) {
-            JSONObject activiteEnJson = (JSONObject) arrayObj;
-            Activite activite = creerActivite(activiteEnJson);
-            listeActivite.add(activite);
+    public List<Activite> obtenirActivites() throws CleJSONInexistanteException{
+        List<Activite> listeActivite = new ArrayList<>();
+        if( jsonObj.containsKey(Constantes.CLE_LISTE_ACTIVITE) ) {
+            JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.CLE_LISTE_ACTIVITE);
+            for (Object arrayObj : jsonArray) {
+                JSONObject activiteEnJson = (JSONObject) arrayObj;
+                Activite activite = creerActivite(activiteEnJson);
+                listeActivite.add(activite);
+            }
         }
+        else
+            throw new CleJSONInexistanteException("La clé activites n'est pas existante");
         return listeActivite;
     }
 

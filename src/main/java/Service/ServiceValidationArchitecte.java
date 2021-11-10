@@ -19,20 +19,20 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     @Override
-    public void verifier(Declaration general) {
-        if ( verifierCycle(general) ) {
-            verifierHeureTransfere(general);
-            verifierActivites(general);
-            verifierNombreHeuresPourActiviteDeGroupe(general);
+    public void verifier(Declaration declaration) {
+        if ( verifierCycle(declaration) ) {
+            verifierHeureTransfere(declaration);
+            verifierActivites(declaration);
+            verifierNombreHeuresPourActiviteDeGroupe(declaration);
             verifierMaximumHeureParGroupeDeCategorie();
-            verifierNombreHeuresTotaleDansDeclaration(general.obtenirHeurestransfere());
+            verifierNombreHeuresTotaleDansDeclaration(declaration.obtenirHeurestransfere());
         }
     }
 
     /*############################### Service.Verification Cycle ##################################*/
 
-    public boolean verifierCycle(Declaration general) {
-        if ( ! estCycleValide(general.obtenirCycle()) ) {
+    public boolean verifierCycle(Declaration declaration) {
+        if ( ! estCycleValide(declaration.obtenirCycle()) ) {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurCycleInvalide());
             return false;
@@ -70,34 +70,33 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*################## Service.Verification Heures Transfere ######################*/
 
-    private void verifierHeureTransfere(Declaration general) {
-        verifierSiHeuresTransfereSuperieurA7(general);
-        verifierSiHeuresTransfereNegatif(general);
+    private void verifierHeureTransfere(Declaration declaration) {
+        verifierSiHeuresTransfereSuperieurA7(declaration);
+        verifierSiHeuresTransfereNegatif(declaration);
     }
 
-    private void verifierSiHeuresTransfereSuperieurA7 (Declaration general) {
-        if ( general.obtenirHeurestransfere() >
+    private void verifierSiHeuresTransfereSuperieurA7 (Declaration declaration) {
+        if ( declaration.obtenirHeurestransfere() >
                 Constantes.NOMBRE_HEURES_MAXIMALE_A_TRANSFERE) {
-            general.modifierNombreHeuresTransfereA7();
+            declaration.modifierNombreHeuresTransfereA7();
             Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageInfosHeuresTransfereSuperieurA7());
         }
     }
 
-    private void verifierSiHeuresTransfereNegatif(Declaration general) {
-        if ( general.obtenirHeurestransfere() < 0 ) {
-            general.modifierNombreHeuresTransfereA0();
+    private void verifierSiHeuresTransfereNegatif(Declaration declaration) {
+        if ( declaration.obtenirHeurestransfere() < 0 ) {
+            declaration.modifierNombreHeuresTransfereA0();
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurHeuresTransfereInferieurA0());
         }
     }
 
     /*##################### Service.Verification des activités #######################*/
-
-    private void verifierActivites(Declaration general) {
+    private void verifierActivites(Declaration declaration) {
         ServiceValidationActivite serviceValidationActivite = new
-                ServiceValidationActivite(general.obtenirOrdre(),general.obtenirCycle());
-        for (Activite activite : general.obtenirActivites() ) {
+                ServiceValidationActivite(declaration.obtenirOrdre(),declaration.obtenirCycle());
+        for (Activite activite : declaration.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite);
             if ( ! activite.estIgnoree() && ! estActiviteRedondante(activite) ){
                 dateMap.put(activite.obtenirDate(),activite.obtenirHeures());
@@ -178,32 +177,32 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*########## Service.Verification du nombre minimal pour activite de groupe ######*/
 
-    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration general) {
-        if ( ! estNombreHeuresPourActiviteDeGroupeValide(general) )
+    private void verifierNombreHeuresPourActiviteDeGroupe(Declaration declaration) {
+        if ( ! estNombreHeuresPourActiviteDeGroupeValide(declaration) )
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurHeuresDansActiviteDeGroupe());
     }
 
-    private boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration general) {
+    private boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration declaration) {
         int nombreHeures = heuresArchitecte.obtenirActiviteDeGroupe();
-        return verifierTotalHeurePourActivite(general,nombreHeures,
+        return verifierTotalHeurePourActivite(declaration,nombreHeures,
                 Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
     }
 
-    private boolean verifierTotalHeurePourActivite(Declaration general, int total,
+    private boolean verifierTotalHeurePourActivite(Declaration declaration, int total,
                                                    int minimum) {
         if ( total >= minimum )
             return true;
         else
-            return verifierSiNombreHeureTransfereSuffisantePourValider(general,
+            return verifierSiNombreHeureTransfereSuffisantePourValider(declaration,
                     total, minimum);
     }
 
     private boolean verifierSiNombreHeureTransfereSuffisantePourValider(
-            Declaration general , int total, int minimum) {
-        if ( total + general.obtenirHeurestransfere() >= minimum ) {
+            Declaration declaration , int total, int minimum) {
+        if ( total + declaration.obtenirHeurestransfere() >= minimum ) {
             int nombreASoustraire = minimum - total;
-            general.soustraireAuNombreHeuresTransfere(nombreASoustraire);
+            declaration.soustraireAuNombreHeuresTransfere(nombreASoustraire);
             return true;
         }
         return false;

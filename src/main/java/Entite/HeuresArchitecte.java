@@ -89,6 +89,4 @@ public class HeuresArchitecte {
     public void enregistrerMinimumAvantValidation(int nombreMinimumHeuresAvantValidation) {
         this.minimumAvantValidation = nombreMinimumHeuresAvantValidation;
     }
-
-
 }

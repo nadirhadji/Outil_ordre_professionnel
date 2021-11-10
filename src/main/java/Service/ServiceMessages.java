@@ -140,4 +140,8 @@ public class ServiceMessages {
                 activite.obtenirCategorie() + " est invalide, il doit être "+
                 "supérieur au maximum 10. Seulement 10 heures seront prise en compte.";
     }
+
+    public static String messageErreurHeureTranfereNonSupporte(String ordre) {
+        return "Les heures transfere ne sont pas supporté pas l'ordre des "+ ordre;
+    }
 }

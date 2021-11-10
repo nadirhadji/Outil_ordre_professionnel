@@ -1,7 +1,5 @@
 package Service;
 
-import Exception.NombreHeuresNegatifException;
-import Exception.DescriptionInvalideException;
 import Entite.Activite;
 import Entite.Categorie;
 import Entite.Reponse;
@@ -31,22 +29,10 @@ public class ServiceValidationActivite {
     /*################## Service.Verification de la description #####################*/
 
     private void verifierDescription(Activite activite) {
-        try {
-            validerDescription(activite);
-        } catch (DescriptionInvalideException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    private void validerDescription(Activite activite) throws DescriptionInvalideException {
         if (activite.obtenirDescription().length() < 20 ) {
-            Reponse reponse = new Reponse();
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurDescription(activite)
             );
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
-            throw new DescriptionInvalideException(ServiceMessages.messageErreurDescription(activite));
         }
     }
 
@@ -71,28 +57,13 @@ public class ServiceValidationActivite {
     /*#################### Service.Verification du nombre d'heure ####################*/
 
     private void verifierNombreHeurePourActivite(Activite activite) {
-        validerNombreHeuresNegatif(activite);
+        verifierNombreHeureNegatif(activite);
         verifierNombreHeuresMaximum(activite);
     }
 
-    public void validerNombreHeuresNegatif( Activite activite) {
-        try {
-            verifierNombreHeureNegatif(activite);
-        } catch (NombreHeuresNegatifException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void verifierNombreHeureNegatif(Activite activite)
-            throws NombreHeuresNegatifException {
+    public void verifierNombreHeureNegatif(Activite activite) {
         if ( activite.obtenirHeures() < 0) {
-            Reponse reponse = new Reponse();
-            reponse.ajouterMessageErreur(
-                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
-            );
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
-            throw new NombreHeuresNegatifException(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
             );
         }
