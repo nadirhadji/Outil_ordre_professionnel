@@ -28,6 +28,17 @@ public class Declaration {
                 declarationJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
         this.activites = declarationJson.obtenirActivites();
     }
+    public Declaration(){
+        this.numeroDePermis = null;
+        this.cycle = null;
+        this.activites = null;
+        this.heuresTransfereesDuCyclePrecedent = 0;
+        this.ordre = null;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
 
     public String obtenirNumeroDePermis (){
         return this.numeroDePermis;
