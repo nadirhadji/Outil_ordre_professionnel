@@ -12,7 +12,6 @@ public class Activite {
     private String date;
     private boolean ignoree;
 
-    
     public Activite(String description, String categorie, int heures,
                     String date) {
         this.description = description;
@@ -54,5 +53,9 @@ public class Activite {
 
     public void ignorerActivite () {
         this.ignoree = true;
+    }
+
+    public void decrementerNombresHeuresA10() {
+        this.heures = 10;
     }
 }

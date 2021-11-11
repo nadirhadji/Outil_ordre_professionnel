@@ -1,7 +1,9 @@
 import Entite.DeclarationJSON;
 import Entite.Declaration;
 import Entite.Reponse;
-import Service.ServiceValidationArchitecte;
+import Service.ServiceReponse;
+import Service.ServiceValidation;
+import Utils.Constantes;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -10,19 +12,22 @@ public class Principale {
 
     public static void main(String[] args) {
         verifierSiArgumentExiste(args);
-        DeclarationJSON declarationJSON = new DeclarationJSON(args[0], args[1]);
+        DeclarationJSON declarationJSON = new DeclarationJSON(args[0]);
         charger(declarationJSON);
-        Reponse reponse = new Reponse();
-        Declaration general = new Declaration(declarationJSON);
-        ServiceValidationArchitecte service = new ServiceValidationArchitecte();
-        service.verifier(general,reponse);
-        reponse.ecrireFichierDeSortie(args[1]);
+        Declaration declaration = new Declaration(declarationJSON);
+        ServiceValidation service = new ServiceValidation();
+        service.validerDeclaration(declaration);
+        ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
     }
 
     private static void verifierSiArgumentExiste(String[] args) {
         if (args.length < 2) {
             System.out.println("Argument invalide");
             System.exit(1);
+        }
+        else {
+            Constantes.ARG0 = args[0];
+            Constantes.ARG1 = args[1];
         }
     }
 
