@@ -49,11 +49,10 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
 
     private boolean estDateValidePourPsychologue(String date) {
         boolean resultat;
-        if ( LocalDate.parse(date).isBefore(DATE_DEBUT_ACTIVITE_PSYCHO_AUTORISEE) )
+        if ( LocalDate.parse(date).isBefore(DATE_DEBUT_ACTIVITE_PSYCHO) )
             resultat = false;
         else
-            resultat = !LocalDate.parse(date).isAfter(
-                    Constantes.DATE_FIN_ACTIVITE_PSYCHO_AUTORISEE);
+            resultat = !LocalDate.parse(date).isAfter(DATE_FIN_ACTIVITE_PSYCHO);
         return resultat;
     }
 
@@ -104,9 +103,9 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     }
 
     private void verifierNombreHeuresMinimumCours(int heuresCours, Reponse reponse){
-        if(this.heuresCours < MINIMUM_HEURE_COURS){
+        if(this.heuresCours < ConstantesPsychologues.MINIMUM_HEURE_COURS){
             reponse.ajouterMessageErreur(
-                    Service.ServiceMessages.messageErreurNombreHeuresCoursPsycho());
+                    ServiceMessages.messageErreurNombreHeuresPourCours());
         }
     }
 
@@ -116,7 +115,7 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     }
 
     private void verifierNombreHeuresPourConferenceSupA15(int heuresConference){
-        if (heuresConference > MAXIMUM_HEURE_CONFERENCE){
+        if (heuresConference > ConstantesPsychologues.MAXIMUM_HEURE_CONFERENCE){
             this.heuresConference = 15;
         }
     }
