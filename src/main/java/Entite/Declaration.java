@@ -39,6 +39,18 @@ public class Declaration {
     public void setCycle(String cycle) {
         this.cycle = cycle;
     }
+    public void setNumeroDePermis(String numeroDePermis){
+        this.numeroDePermis = numeroDePermis;
+    }
+    public void setOrdre(String ordre){
+        this.ordre = ordre;
+    }
+    public void setHeuresTransfereesDuCyclePrecedent(int heuresTransfereesDuCyclePrecedent){
+        this.heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent;
+    }
+    public  void setActivites(List<Activite> activites){
+        this.activites = activites;
+    }
 
     public String obtenirNumeroDePermis (){
         return this.numeroDePermis;

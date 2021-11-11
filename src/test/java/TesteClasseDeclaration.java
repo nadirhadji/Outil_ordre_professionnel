@@ -3,6 +3,7 @@ import Entite.DeclarationJSON;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
@@ -12,13 +13,19 @@ public class TesteClasseDeclaration {
 
     DeclarationJSON declarationJSON;
     Declaration declaration;
-
+/*
     @BeforeAll
     public void initialisation() {
         declarationJSON = new DeclarationJSON("../ressourcesTeste/declaration.json");
         declaration = new Declaration(declarationJSON);
     }
-
+*/
+    @BeforeEach
+    public void initialisation(){
+         declaration = new Declaration();
+         declaration.setCycle("2020-2022");
+        // declaration.setHeuresTransfereesDuCyclePrecedent();
+    }
     @Test
     public void testerObtenirCycle() {
         Assertions.assertEquals("2020-2022",declaration.obtenirCycle());
