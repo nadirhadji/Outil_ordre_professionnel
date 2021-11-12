@@ -26,12 +26,12 @@ public class ServiceValidationGeologue implements InterfaceVerification {
 
     @Override
     public void verifier(Declaration general) {
-        if (verifierCycleGeologue(general)) {
+        //if (verifierCycleGeologue(general)) {
             verifierActivites(general);
-            // verifierNombreHeuresPourActiviteDeGroupe(general,reponse);
+            // verifierNombreHeuresPourActiviteDeGroupe(general);
             verifierMinimumHeureParGroupeDeCategorie();
             verifierNombreHeuresTotaleDansDeclaration();
-        }
+      //  }
     }
 
     /*############################### Service.Verification Cycle ##################################*/
