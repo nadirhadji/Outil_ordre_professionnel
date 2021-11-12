@@ -43,7 +43,7 @@ public class ServiceMessages {
     }
 
     private static String choisirMessageErreurGeologueDate(Activite activite, String cycle) {
-        if ( cycle.equals(ConstantesGeologue.CYCLE_2018_2021) )
+        if ( cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE) )
             return  messageErreurDateGeologue2018a2021(activite);
         else
             return messageErreurDateDefault(activite);
