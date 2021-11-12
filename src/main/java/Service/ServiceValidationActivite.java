@@ -157,7 +157,7 @@ public class ServiceValidationActivite {
     }
 
     private boolean estDateGeologueValide(String date) {
-        if(this.cycle.equals(ConstantesGeologue.CYCLE_2018_2021))
+        if(this.cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE))
             return verifier2018a2021PourGeologue(date);
         else
             return false;
