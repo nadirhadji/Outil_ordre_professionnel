@@ -1,7 +1,7 @@
 package Entite;
 
-import Exception.CleJSONInvalideException;
 import Exception.CleJSONInexistanteException;
+import Service.ServiceJSON;
 import Service.ServiceMessages;
 import Service.ServiceReponse;
 import Utils.Constantes;
@@ -24,12 +24,12 @@ public class Declaration {
     /**
      * constructeur qui transforme le document JSON dans une liste d'activités
      */
-    public Declaration(DeclarationJSON declarationJson){
-        initialiserNumeroDePermis(declarationJson);
-        initiliserCycle(declarationJson);
-        initialiserOrdre(declarationJson);
-        initialiserHeuresTransfere(declarationJson);
-        initialiserActivites(declarationJson);
+    public Declaration(ServiceJSON serviceJson) {
+        initialiserNumeroDePermis(serviceJson);
+        initiliserCycle(serviceJson);
+        initialiserOrdre(serviceJson);
+        initialiserHeuresTransfere(serviceJson);
+        initialiserActivites(serviceJson);
     }
 
     private void termierExecution(Exception e) {
@@ -39,65 +39,65 @@ public class Declaration {
         System.exit(1);
     }
 
-    private void initialiserNumeroDePermis(DeclarationJSON declarationJson) {
+    private void initialiserNumeroDePermis(ServiceJSON serviceJson) {
         try {
-            this.numeroDePermis = declarationJson.obtenirStringDeCle(
+            this.numeroDePermis = serviceJson.obtenirStringDeCle(
                     Constantes.CLE_NUMERO_DE_PERMIS);
         } catch (CleJSONInexistanteException e) {
             termierExecution(e);
         }
     }
 
-    private void initiliserCycle(DeclarationJSON declarationJSON) {
+    private void initiliserCycle(ServiceJSON serviceJson) {
         try {
-            this.cycle = declarationJSON.obtenirStringDeCle(Constantes.CLE_CYCLE);
+            this.cycle = serviceJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
         } catch (CleJSONInexistanteException e) {
             termierExecution(e);
         }
     }
 
-    private void initialiserOrdre( DeclarationJSON declarationJSON) {
+    private void initialiserOrdre( ServiceJSON serviceJson) {
         try {
-            this.ordre = declarationJSON.obtenirStringDeCle(Constantes.CLE_ORDRE);
+            this.ordre = serviceJson.obtenirStringDeCle(Constantes.CLE_ORDRE);
         } catch (CleJSONInexistanteException e) {
             termierExecution(e);
         }
     }
 
-    private void initialiserHeuresTransfere( DeclarationJSON declarationJSON) {
+    private void initialiserHeuresTransfere( ServiceJSON serviceJson) {
         if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES)) {
-            verifierHeureTransfereExistante(declarationJSON);
+            verifierHeureTransfereExistante(serviceJson);
         }
         else {
             try {
-                verifierHeuresTransfereInexistante(declarationJSON);
+                verifierHeuresTransfereInexistante(serviceJson);
             } catch (CleJSONInexistanteException e) {
                 termierExecution(e);
             }
         }
     }
 
-    private void verifierHeureTransfereExistante(DeclarationJSON declarationJSON) {
+    private void verifierHeureTransfereExistante(ServiceJSON serviceJson) {
         try {
             this.heuresTransfereesDuCyclePrecedent =
-                    declarationJSON.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
+                    serviceJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
         } catch (CleJSONInexistanteException e) {
             termierExecution(e);
         }
     }
 
-    private void verifierHeuresTransfereInexistante(DeclarationJSON declarationJSON)
+    private void verifierHeuresTransfereInexistante(ServiceJSON serviceJson)
             throws CleJSONInexistanteException {
-        if ( declarationJSON.contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
+        if ( serviceJson.contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
             throw new CleJSONInexistanteException(
                     ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre)
             );
         }
     }
 
-    private void initialiserActivites( DeclarationJSON declarationJSON) {
+    private void initialiserActivites( ServiceJSON serviceJson) {
         try {
-            this.activites = declarationJSON.obtenirActivites();
+            this.activites = serviceJson.obtenirActivites();
         } catch (CleJSONInexistanteException e) {
             termierExecution(e);
         }

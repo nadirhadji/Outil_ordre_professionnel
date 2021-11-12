@@ -1,5 +1,6 @@
-package Entite;
+package Service;
 
+import Entite.Activite;
 import Exception.CleJSONInexistanteException;
 import Utils.Constantes;
 import org.json.simple.JSONArray;
@@ -19,11 +20,11 @@ import java.util.List;
    * informations spécifiques désirées
    * pour éventuellement les analyser.
 */
-public class DeclarationJSON {
+public class ServiceJSON {
     private final String fichierEntre;
     private JSONObject jsonObj;
 
-    public DeclarationJSON(String fichierEntre){
+    public ServiceJSON(String fichierEntre){
         this.fichierEntre = fichierEntre;
     }
 
@@ -50,7 +51,7 @@ public class DeclarationJSON {
             throw new CleJSONInexistanteException("le champ "+cle+" n'existe pas dans le fichier JSON");
     }
 
-    public List<Activite> obtenirActivites() throws CleJSONInexistanteException{
+    public List<Activite> obtenirActivites() throws CleJSONInexistanteException {
         List<Activite> listeActivite = new ArrayList<>();
         if( jsonObj.containsKey(Constantes.CLE_LISTE_ACTIVITE) ) {
             JSONArray jsonArray = (JSONArray) jsonObj.get(Constantes.CLE_LISTE_ACTIVITE);

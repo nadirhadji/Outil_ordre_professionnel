@@ -56,6 +56,14 @@ public class Activite {
     }
 
     public void decrementerNombresHeuresA10() {
-        this.heures = 10;
+        if(heures > 10)
+            this.heures = 10;
     }
+
+    public boolean egale(Activite activite) {
+       return this.description.equals(activite.description) &&
+               this.categorie.equals(activite.categorie) &&
+               this.heures == activite.heures &&
+               this.date.equals(activite.date);
+   }
 }
