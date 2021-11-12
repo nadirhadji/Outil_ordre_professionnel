@@ -1,22 +1,22 @@
-import Entite.DeclarationJSON;
+import Service.ServiceJSON;
 import Entite.Declaration;
 import Entite.Reponse;
-import Service.ServiceValidationArchitecte;
+import Service.ServiceReponse;
+import Service.ServiceValidation;
+import Utils.Constantes;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 
 public class Principale {
 
     public static void main(String[] args) {
         verifierSiArgumentExiste(args);
-        DeclarationJSON declarationJSON = new DeclarationJSON(args[0], args[1]);
-        charger(declarationJSON);
-        Reponse reponse = new Reponse();
-        Declaration general = new Declaration(declarationJSON);
-        ServiceValidationArchitecte service = new ServiceValidationArchitecte();
-        service.verifier(general,reponse);
-        reponse.ecrireFichierDeSortie(args[1]);
+        ServiceJSON serviceJson = new ServiceJSON(Constantes.ARG0);
+        charger(serviceJson);
+        Declaration declaration = new Declaration(serviceJson);
+        ServiceValidation service = new ServiceValidation();
+        service.validerDeclaration(declaration);
+        ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
     }
 
     private static void verifierSiArgumentExiste(String[] args) {
@@ -24,9 +24,15 @@ public class Principale {
             System.out.println("Argument invalide");
             System.exit(1);
         }
+        else {
+            Constantes.ARG0 = args[0];
+            System.out.println(args[0]);
+            Constantes.ARG1 = args[1];
+            System.out.println(args[1]);
+        }
     }
 
-    private static void charger(DeclarationJSON json) {
+    private static void charger(ServiceJSON json) {
         try {
             json.charger();
         } catch (IOException e) {

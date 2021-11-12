@@ -6,7 +6,7 @@ import Entite.Reponse;
 public class ServiceValidationPsychologues implements InterfaceVerification {
 
     @Override
-    public void verifier(Declaration declaration, Reponse reponse) {
+    public void verifier(Declaration declaration) {
 
     }
 }

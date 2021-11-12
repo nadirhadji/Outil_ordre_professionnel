@@ -1,7 +1,11 @@
 package Service;
 
 import Entite.Activite;
+import Entite.Declaration;
 import Utils.Constantes;
+import Utils.ConstantesArchitecte;
+import Utils.ConstantesGeologue;
+import Utils.ConstantesPsychologues;
 
 public class ServiceMessages {
 
@@ -10,11 +14,86 @@ public class ServiceMessages {
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISEE;
     }
 
-    public static String messageErreurActiviteHorsDateReconnue(Activite activite) {
-        return " L'activité " + activite.obtenirCategorie() +
-              " n'a pas été complétée entre le" +
-                Constantes.DATE_DEBUT_ACTIVITE_AUTORISEE+ " et "+
-                Constantes.DATE_FIN_ACTIVITE_AUTORISEE;
+    public static String messageErreurDescription(Activite activite) {
+        return "Erreur : L'activite "+activite.obtenirDescription() +
+                "contient une description inferieur a 20 caracteres.";
+    }
+
+    public static String messageErreurNumeroDePermis(String numeroDePermis) {
+        return "Le numero de permis "+ numeroDePermis +
+                " n'est pas valide.";
+    }
+
+    public static String messageErreurDate(Activite activite, String ordre, String cycle) {
+        return switch (ordre) {
+            case ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES -> choisirMessageErreurArchitecteDate(activite, cycle);
+            case ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES -> choisirMessageErreurGeologueDate(activite, cycle);
+            case ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES -> choisirMessageErreurPsychologueDate(activite, cycle);
+            default -> messageErreurDateDefault(activite);
+        };
+    }
+
+    private static String choisirMessageErreurArchitecteDate(Activite activite, String cycle) {
+        return switch (cycle) {
+            case ConstantesArchitecte.CYCLE_2016_2018 -> messageErreurDateArchitecte2016a2018(activite);
+            case ConstantesArchitecte.CYCLE_2018_2020 -> messageErreurDateArchitecte2018a2020(activite);
+            case ConstantesArchitecte.CYCLE_2020_2022 -> messageErreurDateArchitecte2020a2022(activite);
+            default -> messageErreurDateDefault(activite);
+        };
+    }
+
+    private static String choisirMessageErreurGeologueDate(Activite activite, String cycle) {
+        if ( cycle.equals(ConstantesGeologue.CYCLE_2018_2021) )
+            return  messageErreurDateGeologue2018a2021(activite);
+        else
+            return messageErreurDateDefault(activite);
+    }
+
+    private static String choisirMessageErreurPsychologueDate(Activite activite, String cycle) {
+        if( cycle.equals(ConstantesPsychologues.CYCLE_2018_2023) )
+            return messageErreurDatePsycho2018a2023(activite);
+        else
+            return messageErreurDateDefault(activite);
+    }
+
+    public static String messageErreurDateArchitecte2016a2018(Activite activite) {
+        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
+                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2016-2018 "+
+                " soit entre le "+ ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2016.toString() +
+                " et "+ConstantesArchitecte.ARCHITECTE_DATE_FIN_2018.toString();
+    }
+
+    public static String messageErreurDateArchitecte2018a2020(Activite activite) {
+        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
+                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2018-2020 "+
+                " soit entre le "+ ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2018.toString() +
+                " et "+ConstantesArchitecte.ARCHITECTE_DATE_FIN_2020.toString();
+    }
+
+    public static String messageErreurDateArchitecte2020a2022(Activite activite) {
+        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
+                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2020-2022 "+
+                " soit entre le "+ ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2020.toString() +
+                " et "+ConstantesArchitecte.ARCHITECTE_DATE_FIN_2022.toString();
+    }
+
+    public static String messageErreurDateGeologue2018a2021(Activite activite) {
+        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
+                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2018-2021 "+
+                " soit entre le "+ ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018.toString() +
+                " et "+ConstantesGeologue.GEOLOGUE_DATE_FIN_2021.toString();
+    }
+
+    public static String messageErreurDatePsycho2018a2023(Activite activite) {
+        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
+                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2018-2023 "+
+                " soit entre le "+ ConstantesPsychologues.PSYCHO_DATE_DEBUT_2018.toString() +
+                " et "+ConstantesPsychologues.PSYCHO_DATE_FIN_2023.toString();
+    }
+
+    public static String messageErreurDateDefault(Activite activite) {
+        return " La date de l'activité "+activite.obtenirDescription() +
+                " n'est pas valide. Verifier votre declaration";
     }
 
     public static String messageErreurActiviteDateNonReconnue(Activite activite) {
@@ -50,9 +129,19 @@ public class ServiceMessages {
                 " colloque, conférence, lecture dirigée n'atteint pas 17";
     }
 
-    public static String messageErreurNombreHeuresPourActiviteInvalide(Activite activite) {
+    public static String messageErreurNombreHeuresPourActiviteNegatif(Activite activite) {
         return "Le nombre d'heures entré pour " +
                 activite.obtenirCategorie() + " est invalide, il doit être "+
                         "supérieur ou égal à 1. L'activité sera ignorée";
+    }
+
+    public static String messageErreurNombreHeuresPourActiviteSuperieurAuMaximum(Activite activite) {
+        return "Le nombre d'heures entré pour " +
+                activite.obtenirCategorie() + " est invalide, il doit être "+
+                "supérieur au maximum 10. Seulement 10 heures seront prise en compte.";
+    }
+
+    public static String messageErreurHeureTranfereNonSupporte(String ordre) {
+        return "Les heures transfere ne sont pas supporté pas l'ordre des "+ ordre;
     }
 }
