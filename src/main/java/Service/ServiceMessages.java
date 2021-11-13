@@ -14,6 +14,12 @@ public class ServiceMessages {
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISEE;
     }
 
+    public static String messageErreurCycleInvalideGeo () {
+        return "Le cycle entré n'est pas valide, " +
+                "Le cycle doit être de "+ ConstantesGeologue.ANNEE_DEBUT +
+                " a "+ ConstantesGeologue.ANNEE_FIN;
+    }
+
     public static String messageErreurDescription(Activite activite) {
         return "Erreur : L'activite "+activite.obtenirDescription() +
                 "contient une description inferieur a 20 caracteres.";
@@ -43,7 +49,7 @@ public class ServiceMessages {
     }
 
     private static String choisirMessageErreurGeologueDate(Activite activite, String cycle) {
-        if ( cycle.equals(ConstantesGeologue.CYCLE_2018_2021) )
+        if ( cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE) )
             return  messageErreurDateGeologue2018a2021(activite);
         else
             return messageErreurDateDefault(activite);
@@ -139,5 +145,23 @@ public class ServiceMessages {
         return "Le nombre d'heures entré pour " +
                 activite.obtenirCategorie() + " est invalide, il doit être "+
                 "supérieur au maximum 10. Seulement 10 heures seront prise en compte.";
+    }
+
+    public static String messageErreurHeureTranfereNonSupporte(String ordre) {
+        return "Les heures transfere ne sont pas supporté par l'ordre des "+ ordre;
+    }
+
+    public static String messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo() {
+        return "Le nombre d'heures entré pour Groupe De Discussion" + " est invalide, il doit être " +
+                "supérieur ou egale a 1.";
+    }
+    public static String messageErreurNombreHeuresMinimumPourProjetGeo() {
+        return "Le nombre d'heures entré pour Projet de Recherche" + " est invalide, il doit être " +
+                "supérieur ou egale a 3.";
+    }
+
+    public static String messageErreurNombreHeuresMinimumPourCoursGeo() {
+        return "Le nombre d'heures entré pour Cours" + " est invalide, il doit être " +
+                "supérieur ou egale a 22.";
     }
 }

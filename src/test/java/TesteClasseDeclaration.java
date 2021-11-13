@@ -1,18 +1,20 @@
 import Entite.Declaration;
-import Entite.DeclarationJSON;
-import org.junit.Assert;
+import Service.ServiceJSON;
 import org.junit.jupiter.api.Assertions;
+<<<<<<< HEAD
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+=======
+>>>>>>> master
 import org.junit.jupiter.api.Test;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TesteClasseDeclaration {
 
-    DeclarationJSON declarationJSON;
+    ServiceJSON serviceJson;
     Declaration declaration;
+<<<<<<< HEAD
 /*
     @BeforeAll
     public void initialisation() {
@@ -26,6 +28,9 @@ public class TesteClasseDeclaration {
          declaration.setCycle("2020-2022");
         // declaration.setHeuresTransfereesDuCyclePrecedent();
     }
+=======
+
+>>>>>>> master
     @Test
     public void testerObtenirCycle() {
         Assertions.assertEquals("2020-2022",declaration.obtenirCycle());

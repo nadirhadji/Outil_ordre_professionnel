@@ -1,7 +1,5 @@
 package Service;
 
-import Exception.NombreHeuresNegatifException;
-import Exception.DescriptionInvalideException;
 import Entite.Activite;
 import Entite.Categorie;
 import Entite.Reponse;
@@ -31,22 +29,10 @@ public class ServiceValidationActivite {
     /*################## Service.Verification de la description #####################*/
 
     private void verifierDescription(Activite activite) {
-        try {
-            validerDescription(activite);
-        } catch (DescriptionInvalideException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    private void validerDescription(Activite activite) throws DescriptionInvalideException {
         if (activite.obtenirDescription().length() < 20 ) {
-            Reponse reponse = new Reponse();
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurDescription(activite)
             );
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
-            throw new DescriptionInvalideException(ServiceMessages.messageErreurDescription(activite));
         }
     }
 
@@ -71,28 +57,13 @@ public class ServiceValidationActivite {
     /*#################### Service.Verification du nombre d'heure ####################*/
 
     private void verifierNombreHeurePourActivite(Activite activite) {
-        validerNombreHeuresNegatif(activite);
+        verifierNombreHeureNegatif(activite);
         verifierNombreHeuresMaximum(activite);
     }
 
-    public void validerNombreHeuresNegatif( Activite activite) {
-        try {
-            verifierNombreHeureNegatif(activite);
-        } catch (NombreHeuresNegatifException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void verifierNombreHeureNegatif(Activite activite)
-            throws NombreHeuresNegatifException {
+    public void verifierNombreHeureNegatif(Activite activite) {
         if ( activite.obtenirHeures() < 0) {
-            Reponse reponse = new Reponse();
-            reponse.ajouterMessageErreur(
-                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
-            );
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,reponse);
-            throw new NombreHeuresNegatifException(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
             );
         }
@@ -140,6 +111,7 @@ public class ServiceValidationActivite {
         if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
             return estDateArchitecteValide(date);
         }
+
         else if ( ordre.equals(ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES) ) {
             return estDateGeologueValide(date);
         }
@@ -160,8 +132,9 @@ public class ServiceValidationActivite {
 
     private boolean verifierSiDateCompriseEntre(String date, LocalDate debut, LocalDate fin) {
         boolean resultat;
-        if ( LocalDate.parse(date).isBefore(debut) )
+        if ( LocalDate.parse(date).isBefore(debut) ) {
             resultat = false;
+        }
         else
             resultat = !LocalDate.parse(date).isAfter(fin);
         return resultat;
@@ -186,8 +159,9 @@ public class ServiceValidationActivite {
     }
 
     private boolean estDateGeologueValide(String date) {
-        if(this.cycle.equals(ConstantesGeologue.CYCLE_2018_2021))
+        if(this.cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE)) {
             return verifier2018a2021PourGeologue(date);
+        }
         else
             return false;
     }
@@ -195,7 +169,7 @@ public class ServiceValidationActivite {
     private boolean verifier2018a2021PourGeologue(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018,
-                ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018);
+                ConstantesGeologue.GEOLOGUE_DATE_FIN_2021);
     }
 
     private boolean estDatePshycologueValide(String date) {

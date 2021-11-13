@@ -1,6 +1,11 @@
 package Entite;
 
+import Exception.CleJSONInexistanteException;
+import Service.ServiceJSON;
+import Service.ServiceMessages;
+import Service.ServiceReponse;
 import Utils.Constantes;
+import Utils.ConstantesArchitecte;
 import java.util.List;
 
 /**
@@ -19,14 +24,83 @@ public class Declaration {
     /**
      * constructeur qui transforme le document JSON dans une liste d'activités
      */
-    public Declaration(DeclarationJSON declarationJson){
-        this.numeroDePermis = declarationJson.obtenirStringDeCle(
-                Constantes.CLE_NUMERO_DE_PERMIS);
-        this.cycle = declarationJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
-        this.ordre = declarationJson.obtenirStringDeCle(Constantes.CLE_ORDRE);
-        this.heuresTransfereesDuCyclePrecedent =
-                declarationJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
-        this.activites = declarationJson.obtenirActivites();
+    public Declaration(ServiceJSON serviceJson) {
+        initialiserNumeroDePermis(serviceJson);
+        initiliserCycle(serviceJson);
+        initialiserOrdre(serviceJson);
+        initialiserHeuresTransfere(serviceJson);
+        initialiserActivites(serviceJson);
+    }
+
+    private void termierExecution(Exception e) {
+        System.out.println(e.getMessage());
+        Reponse.obtenirInstance().ajouterMessageErreur(e.getMessage());
+        ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
+        System.exit(1);
+    }
+
+    private void initialiserNumeroDePermis(ServiceJSON serviceJson) {
+        try {
+            this.numeroDePermis = serviceJson.obtenirStringDeCle(
+                    Constantes.CLE_NUMERO_DE_PERMIS);
+        } catch (CleJSONInexistanteException e) {
+            termierExecution(e);
+        }
+    }
+
+    private void initiliserCycle(ServiceJSON serviceJson) {
+        try {
+            this.cycle = serviceJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
+        } catch (CleJSONInexistanteException e) {
+            termierExecution(e);
+        }
+    }
+
+    private void initialiserOrdre( ServiceJSON serviceJson) {
+        try {
+            this.ordre = serviceJson.obtenirStringDeCle(Constantes.CLE_ORDRE);
+        } catch (CleJSONInexistanteException e) {
+            termierExecution(e);
+        }
+    }
+
+    private void initialiserHeuresTransfere( ServiceJSON serviceJson) {
+        if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES)) {
+            verifierHeureTransfereExistante(serviceJson);
+        }
+        else {
+            try {
+                verifierHeuresTransfereInexistante(serviceJson);
+            } catch (CleJSONInexistanteException e) {
+                termierExecution(e);
+            }
+        }
+    }
+
+    private void verifierHeureTransfereExistante(ServiceJSON serviceJson) {
+        try {
+            this.heuresTransfereesDuCyclePrecedent =
+                    serviceJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
+        } catch (CleJSONInexistanteException e) {
+            termierExecution(e);
+        }
+    }
+
+    private void verifierHeuresTransfereInexistante(ServiceJSON serviceJson)
+            throws CleJSONInexistanteException {
+        if ( serviceJson.contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
+            throw new CleJSONInexistanteException(
+                    ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre)
+            );
+        }
+    }
+
+    private void initialiserActivites( ServiceJSON serviceJson) {
+        try {
+            this.activites = serviceJson.obtenirActivites();
+        } catch (CleJSONInexistanteException e) {
+            termierExecution(e);
+        }
     }
     public Declaration(){
         this.numeroDePermis = null;

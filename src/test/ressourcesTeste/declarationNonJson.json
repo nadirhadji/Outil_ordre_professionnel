@@ -1,0 +1,12 @@
+"numero_de_permis": "A0001",
+"cycle": "2020-2022",
+"ordre": "architecte",
+"heures_transferees_du_cycle_precedent": 2,
+"activites": [
+{
+"description": "Cours sur la déontologie",
+"categorie": "cours",
+"heures": 14,
+"date": "2021-03-20"
+}
+]

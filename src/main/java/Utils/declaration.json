@@ -1,8 +1,7 @@
 {
-  "numero_de_permis": "A00011",
+  "numero_de_permis": "A0011",
   "cycle": "2020-2022",
-  "ordre": "architectes",
-  "heures_transferees_du_cycle_precedent": 2,
+  "ordre": "géologues",
   "activites": [
     {
       "description": "Cours sur la déontologie",
