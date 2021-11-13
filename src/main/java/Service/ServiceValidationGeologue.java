@@ -29,7 +29,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
         if (verifierCycleGeologue(general)) {
             verifierActivites(general);
             // verifierNombreHeuresPourActiviteDeGroupe(general);
-            verifierMinimumHeureParGroupeDeCategorie();
+
             verifierNombreHeuresTotaleDansDeclaration();
         }
     }
@@ -148,6 +148,8 @@ public class ServiceValidationGeologue implements InterfaceVerification {
                         ServiceMessages.messageNombreHeuresTotalMoinsDe40(
                                 nombreHeuresManquante));
             }
+            verifierMinimumHeureParGroupeDeCategorie();
+
         }
 
         private int obtenirNombreHeuresManquante () {

@@ -111,6 +111,7 @@ public class ServiceValidationActivite {
         if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
             return estDateArchitecteValide(date);
         }
+
         else if ( ordre.equals(ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES) ) {
             return estDateGeologueValide(date);
         }
@@ -131,8 +132,9 @@ public class ServiceValidationActivite {
 
     private boolean verifierSiDateCompriseEntre(String date, LocalDate debut, LocalDate fin) {
         boolean resultat;
-        if ( LocalDate.parse(date).isBefore(debut) )
+        if ( LocalDate.parse(date).isBefore(debut) ) {
             resultat = false;
+        }
         else
             resultat = !LocalDate.parse(date).isAfter(fin);
         return resultat;
@@ -157,8 +159,9 @@ public class ServiceValidationActivite {
     }
 
     private boolean estDateGeologueValide(String date) {
-        if(this.cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE))
+        if(this.cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE)) {
             return verifier2018a2021PourGeologue(date);
+        }
         else
             return false;
     }
@@ -166,7 +169,7 @@ public class ServiceValidationActivite {
     private boolean verifier2018a2021PourGeologue(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018,
-                ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018);
+                ConstantesGeologue.GEOLOGUE_DATE_FIN_2021);
     }
 
     private boolean estDatePshycologueValide(String date) {
