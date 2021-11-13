@@ -1,7 +1,3 @@
 {
-  "erreurs": [
-    "Incomplet, il manque 2 heures pour compléter le cycle",
-    "L'activité Visite d'établissements architecturaux n'est pas dans une catégorie reconnue. Elle sera ignorée"
-  ],
-  "complet": "false"
+  "complet": "true"
 }

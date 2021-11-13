@@ -2,7 +2,6 @@ package Service;
 import Entite.*;
 import Utils.Constantes;
 import Utils.ConstantesPsychologues;
-import static Utils.Constantes.*;
 import static Utils.ConstantesPsychologues.*;
 
 import java.time.LocalDate;
@@ -24,21 +23,21 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
 
 
     @Override
-    public void verifier(Declaration general, Reponse reponse) {
-        if ( verifierCyclePsychologue( general, reponse) ) {
-            verifierActivites(general,reponse);
-            verifierNombreHeuresMinimumCours(heuresCours,reponse);
+    public void verifier(Declaration general) {
+        if ( verifierCyclePsychologue( general) ) {
+            verifierActivites(general);
+            verifierNombreHeuresMinimumCours(heuresCours);
             verifierNombreHeuresPourConferenceSupA15(heuresConference);
-            verifierNombreHeuresTotaleDansDeclaration(reponse);
+            verifierNombreHeuresTotaleDansDeclaration();
 
         }
     }
 
     /*################ verification du cycle #################*/
-    public boolean verifierCyclePsychologue(Declaration generale, Reponse reponse){
+    public boolean verifierCyclePsychologue(Declaration generale){
         if ( ! estCyclePsychologueValide(generale.obtenirCycle()) ) {
-            reponse.ajouterMessageErreur(
-                    ServiceMessages.messageErreurCyclePsychologueInvalide());
+            Reponse.obtenirInstance().ajouterMessageErreur(
+                    ServiceMessages.messageErreurDatePsycho2018a2023());
             return false;
         }
         return true;
@@ -57,11 +56,11 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     }
 
 
-    private void verifierActivites(Declaration general, Reponse reponse) {
+    private void verifierActivites(Declaration declaration) {
         ServiceValidationActivite serviceValidationActivite = new
-                ServiceValidationActivite(general.obtenirOrdre(),general.obtenirCycle());
+                ServiceValidationActivite(declaration.obtenirOrdre(),declaration.obtenirCycle());
 
-        for (Activite activite : general.obtenirActivites() ) {
+        for (Activite activite : declaration.obtenirActivites() ) {
             serviceValidationActivite.verifierActivite(activite);
             if ( ! activite.estIgnoree() )
                 incrementerCompteurHeures(activite);
@@ -102,9 +101,9 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
             this.heuresCours += nbrHeure;
     }
 
-    private void verifierNombreHeuresMinimumCours(int heuresCours, Reponse reponse){
+    private void verifierNombreHeuresMinimumCours(int heuresCours){
         if(this.heuresCours < ConstantesPsychologues.MINIMUM_HEURE_COURS){
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresPourCours());
         }
     }
@@ -120,10 +119,10 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
         }
     }
 
-    private void verifierNombreHeuresTotaleDansDeclaration( Reponse reponse ) {
+    private void verifierNombreHeuresTotaleDansDeclaration() {
         int nombreHeuresManquante = obtenirNombreHeuresManquante();
         if( nombreHeuresManquante > 0 ) {
-            reponse.ajouterMessageErreur(
+            Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageNombreHeuresTotalMoinsDe40(
                             nombreHeuresManquante));
         }
