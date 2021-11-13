@@ -26,12 +26,12 @@ public class ServiceValidationGeologue implements InterfaceVerification {
 
     @Override
     public void verifier(Declaration general) {
-        //if (verifierCycleGeologue(general)) {
+        if (verifierCycleGeologue(general)) {
             verifierActivites(general);
             // verifierNombreHeuresPourActiviteDeGroupe(general);
             verifierMinimumHeureParGroupeDeCategorie();
             verifierNombreHeuresTotaleDansDeclaration();
-      //  }
+        }
     }
 
     /*############################### Service.Verification Cycle ##################################*/
@@ -39,7 +39,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public boolean verifierCycleGeologue(Declaration general) {
         if (!estCycleGeologueValide(general.obtenirCycle())) {
             Reponse.obtenirInstance().ajouterMessageErreur(
-                    ServiceMessages.messageErreurCycleInvalide());
+                    ServiceMessages.messageErreurCycleInvalideGeo());
             return false;
         }
         return true;
@@ -118,6 +118,8 @@ public class ServiceValidationGeologue implements InterfaceVerification {
             if (heuresGroupeDeDiscussion <
                     ConstantesGeologue.MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE) {
                 //TODO message d'erreur pour minimum d'heure
+                Reponse.obtenirInstance().ajouterMessageErreur(
+                        ServiceMessages.messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo());
             }
 
         }
