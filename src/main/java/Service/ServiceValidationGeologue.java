@@ -28,8 +28,6 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public void verifier(Declaration general) {
         if (verifierCycleGeologue(general)) {
             verifierActivites(general);
-            // verifierNombreHeuresPourActiviteDeGroupe(general);
-
             verifierNombreHeuresTotaleDansDeclaration();
         }
     }
@@ -117,7 +115,6 @@ public class ServiceValidationGeologue implements InterfaceVerification {
         private void verifierMinimumHeureGroupeDeDiscussion () {
             if (heuresGroupeDeDiscussion <
                     ConstantesGeologue.MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE) {
-                //TODO message d'erreur pour minimum d'heure
                 Reponse.obtenirInstance().ajouterMessageErreur(
                         ServiceMessages.messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo());
             }
@@ -127,14 +124,17 @@ public class ServiceValidationGeologue implements InterfaceVerification {
         private void verifierMinimumHeureProjetDeRecherche () {
             if (heuresProjetDeRecherche <
                     ConstantesGeologue.MINIMUM_HEURE_PROJET_DE_RECHERCHE_GEOLOGUE) {
-                //TODO message d'erreur pour minimum d'heure
+                Reponse.obtenirInstance().ajouterMessageErreur(
+                        ServiceMessages.messageErreurNombreHeuresMinimumPourProjetGeo());
+
             }
 
         }
         private void verifierMinimumHeureCours () {
             if (heuresCours <
                     ConstantesGeologue.MINIMUM_HEURE_COURS_GEOLOGUE) {
-                //TODO message d'erreur pour minimum d'heure
+                Reponse.obtenirInstance().ajouterMessageErreur(
+                        ServiceMessages.messageErreurNombreHeuresMinimumPourCoursGeo());
             }
 
         }
@@ -148,12 +148,11 @@ public class ServiceValidationGeologue implements InterfaceVerification {
                         ServiceMessages.messageNombreHeuresTotalMoinsDe40(
                                 nombreHeuresManquante));
             }
-            verifierMinimumHeureParGroupeDeCategorie();
-
         }
 
         private int obtenirNombreHeuresManquante () {
             int total = obtenirNombreTotalHeures();
+            verifierMinimumHeureParGroupeDeCategorie();
             if (total >= ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE)
                 return 0;
 
@@ -169,5 +168,4 @@ public class ServiceValidationGeologue implements InterfaceVerification {
                     heuresProjetDeRecherche + heuresCours;
         }
 
-    //}
 }

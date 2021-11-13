@@ -153,6 +153,15 @@ public class ServiceMessages {
 
     public static String messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo() {
         return "Le nombre d'heures entré pour Groupe De Discussion" + " est invalide, il doit être " +
-                "supérieur a 1.";
+                "supérieur ou egale a 1.";
+    }
+    public static String messageErreurNombreHeuresMinimumPourProjetGeo() {
+        return "Le nombre d'heures entré pour Projet de Recherche" + " est invalide, il doit être " +
+                "supérieur ou egale a 3.";
+    }
+
+    public static String messageErreurNombreHeuresMinimumPourCoursGeo() {
+        return "Le nombre d'heures entré pour Cours" + " est invalide, il doit être " +
+                "supérieur ou egale a 22.";
     }
 }
