@@ -8,6 +8,8 @@ import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
 import Utils.ConstantesPsychologues;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ServiceValidationActivite {
 
@@ -28,7 +30,7 @@ public class ServiceValidationActivite {
 
     /*################## Service.Verification de la description #####################*/
 
-    private void verifierDescription(Activite activite) {
+    public void verifierDescription(Activite activite) {
         if (activite.obtenirDescription().length() < 20 ) {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurDescription(activite)
@@ -37,7 +39,7 @@ public class ServiceValidationActivite {
     }
 
     /*#################### Service.Verification de la categorie #####################*/
-    private void verifierCategorie(Activite activite) {
+    public void verifierCategorie(Activite activite) {
         if ( ! estUneCategorieReconnue(activite.obtenirCategorie()) ) {
             Reponse.obtenirInstance().ajouterMessageInformation(
                   ServiceMessages.erreurMessageCategorieNonReconnue(activite));
@@ -56,7 +58,7 @@ public class ServiceValidationActivite {
 
     /*#################### Service.Verification du nombre d'heure ####################*/
 
-    private void verifierNombreHeurePourActivite(Activite activite) {
+    public void verifierNombreHeurePourActivite(Activite activite) {
         verifierNombreHeureNegatif(activite);
         verifierNombreHeuresMaximum(activite);
     }
@@ -84,7 +86,7 @@ public class ServiceValidationActivite {
     }
 
     /*############## Service.Verification la date d'une activité ##################*/
-    private void verifierDateActivite(Activite activite) {
+    public void verifierDateActivite(Activite activite) {
         String date = activite.obtenirDate();
         if ( ! estformatDateValide(date) ) {
             activite.ignorerActivite();
@@ -98,16 +100,22 @@ public class ServiceValidationActivite {
         }
     }
 
-    private boolean estformatDateValide(String date){
-        try {
-            LocalDate.parse(date);
-            return true;
-        } catch (java.time.format.DateTimeParseException e) {
-            return false;
+    public boolean estformatDateValide(String date){
+        Pattern pattern = Pattern.compile("^([0-9]{4})(-)(1[0-2]|0[1-9])\\2(3[01]|0[1-9]|[12][0-9])$");
+        Matcher matcher = pattern.matcher(date);
+        if (matcher.find()) {
+            try {
+                LocalDate.parse(date);
+                return true;
+            } catch (java.time.format.DateTimeParseException e) {
+                return false;
+            }
         }
+        else
+            return false;
     }
 
-    private boolean estDateValide(String date) {
+    public boolean estDateValide(String date) {
         if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
             return estDateArchitecteValide(date);
         }
@@ -121,7 +129,7 @@ public class ServiceValidationActivite {
         return false;
     }
 
-    private boolean estDateArchitecteValide(String date) {
+    public boolean estDateArchitecteValide(String date) {
         return switch (this.cycle) {
             case ConstantesArchitecte.CYCLE_2018_2020 -> verifier2018a2020PourArchitecte(date);
             case ConstantesArchitecte.CYCLE_2016_2018 -> verifier2016a2018PourArchitecte(date);
@@ -130,7 +138,7 @@ public class ServiceValidationActivite {
         };
     }
 
-    private boolean verifierSiDateCompriseEntre(String date, LocalDate debut, LocalDate fin) {
+    public boolean verifierSiDateCompriseEntre(String date, LocalDate debut, LocalDate fin) {
         boolean resultat;
         if ( LocalDate.parse(date).isBefore(debut) ) {
             resultat = false;
@@ -140,25 +148,25 @@ public class ServiceValidationActivite {
         return resultat;
     }
 
-    private boolean verifier2016a2018PourArchitecte(String date) {
+    public boolean verifier2016a2018PourArchitecte(String date) {
        return verifierSiDateCompriseEntre(date,
                ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2016,
                ConstantesArchitecte.ARCHITECTE_DATE_FIN_2018);
     }
 
-    private boolean verifier2018a2020PourArchitecte(String date) {
+    public boolean verifier2018a2020PourArchitecte(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2018,
                 ConstantesArchitecte.ARCHITECTE_DATE_FIN_2020);
     }
 
-    private boolean verifier2020a2022PourArchitecte(String date) {
+    public boolean verifier2020a2022PourArchitecte(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2020,
                 ConstantesArchitecte.ARCHITECTE_DATE_FIN_2022);
     }
 
-    private boolean estDateGeologueValide(String date) {
+    public boolean estDateGeologueValide(String date) {
         if(this.cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE)) {
             return verifier2018a2021PourGeologue(date);
         }
@@ -166,20 +174,20 @@ public class ServiceValidationActivite {
             return false;
     }
 
-    private boolean verifier2018a2021PourGeologue(String date) {
+    public boolean verifier2018a2021PourGeologue(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesGeologue.GEOLOGUE_DATE_DEBUT_2018,
                 ConstantesGeologue.GEOLOGUE_DATE_FIN_2021);
     }
 
-    private boolean estDatePshycologueValide(String date) {
+    public boolean estDatePshycologueValide(String date) {
         if(this.cycle.equals(ConstantesPsychologues.CYCLE_2018_2023))
             return verifier2018a2023PourPsychologue(date);
         else
             return false;
     }
 
-    private boolean verifier2018a2023PourPsychologue(String date) {
+    public boolean verifier2018a2023PourPsychologue(String date) {
         return verifierSiDateCompriseEntre(date,
                 ConstantesPsychologues.PSYCHO_DATE_DEBUT_2018,
                ConstantesPsychologues.PSYCHO_DATE_FIN_2023);
