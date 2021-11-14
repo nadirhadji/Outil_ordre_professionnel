@@ -186,7 +186,7 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public boolean estNombreHeuresPourActiviteDeGroupeValide(Declaration declaration) {
         int nombreHeures = heuresArchitecte.obtenirActiviteDeGroupe();
         return verifierTotalHeurePourActivite(declaration,nombreHeures,
-                Constantes.MINIMUM_HEURE_ACTIVITE_DE_GROUPE);
+                ConstantesArchitecte.MINIMUM_HEURE_ACTIVITE_DE_GROUPE_ARCHITECTE);
     }
 
     public boolean verifierTotalHeurePourActivite(Declaration declaration, int total,
@@ -219,28 +219,28 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     public void verifierMaximumHeureDePresentation() {
         int nombreHeures = heuresArchitecte.obtenirPresentation();
-        if( nombreHeures > Constantes.MAXIMUM_HEURE_PRESENTATION)
-            heuresArchitecte.enregistrerPresentation(Constantes.MAXIMUM_HEURE_PRESENTATION);
+        if( nombreHeures > Constantes.MAXIMUM_HEURE_PRESENTATION_ARCHITECTE)
+            heuresArchitecte.enregistrerPresentation(Constantes.MAXIMUM_HEURE_PRESENTATION_ARCHITECTE);
     }
 
     public void verifierMaximumHeureGroupeDeDiscussion() {
         int heuresGroupeDeDiscussion = heuresArchitecte.obtenirGroupeDeDiscussion();
-        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION)
+        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE)
             heuresArchitecte.enregistrerGroupeDeDiscussion
-                    (Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION);
+                    (Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE);
     }
 
     public void verifierMaximumHeureProjetDeRecherche() {
         int heuresProjetDeRecherche = heuresArchitecte.obtenirProjetDeRecherche();
         if( heuresProjetDeRecherche >
-                Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER)
-            heuresArchitecte.enregistrerProjetDeRecherche(Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER);
+                Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER_ARCHITECTE)
+            heuresArchitecte.enregistrerProjetDeRecherche(Constantes.MAXIMUM_HEURE_PROJET_DE_RECHERCHER_ARCHITECTE);
     }
 
     public void verifierMaximumHeuresHeuresRedactionProfessionel() {
         int heuresRedactionProfessionel = heuresArchitecte.obtenirRedactionProfessionel();
-        if( heuresRedactionProfessionel > Constantes.MAXIMUM_HEURE_REDACTION)
-            heuresArchitecte.enregistrerRedactionProfessionel(Constantes.MAXIMUM_HEURE_REDACTION);
+        if( heuresRedactionProfessionel > Constantes.MAXIMUM_HEURE_REDACTION_ARCHITECTE)
+            heuresArchitecte.enregistrerRedactionProfessionel(Constantes.MAXIMUM_HEURE_REDACTION_ARCHITECTE);
     }
 
     /*############# Service.Verification du nombre totale d'heures ###################*/
@@ -269,7 +269,6 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public int obtenirNombreTotalHeures() {
         return  heuresArchitecte.obtenirActiviteDeGroupe() +
                 heuresArchitecte.obtenirPresentation() +
-                heuresArchitecte.obtenirGroupeDeDiscussion() +
                 heuresArchitecte.obtenirGroupeDeDiscussion() +
                 heuresArchitecte.obtenirProjetDeRecherche() +
                 heuresArchitecte.obtenirRedactionProfessionel();

@@ -21,6 +21,10 @@ public class Reponse {
         return instance;
     }
 
+    public static void supprimerInstance() {
+        instance = null;
+    }
+
     public void ajouterMessageErreur(String message) {
         this.messagesErreur.add(message);
     }

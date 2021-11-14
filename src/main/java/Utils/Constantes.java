@@ -26,9 +26,8 @@ public class Constantes {
     public static final int NOMBRE_HEURE_MAXIMALE_POUR_UNE_ACTIVITE = 10;
     public static final String cleReponseComplet = "complet";
     public static final String cleReponseErreur = "erreurs";
-    public static final int MINIMUM_HEURE_ACTIVITE_DE_GROUPE = 17;
-    public static final int MAXIMUM_HEURE_PRESENTATION = 23;
-    public static final int MAXIMUM_HEURE_GROUPE_DE_DISCUSSION = 17;
-    public static final int MAXIMUM_HEURE_PROJET_DE_RECHERCHER = 23;
-    public static final int MAXIMUM_HEURE_REDACTION = 17;
+    public static final int MAXIMUM_HEURE_PRESENTATION_ARCHITECTE = 23;
+    public static final int MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE = 17;
+    public static final int MAXIMUM_HEURE_PROJET_DE_RECHERCHER_ARCHITECTE = 23;
+    public static final int MAXIMUM_HEURE_REDACTION_ARCHITECTE = 17;
 }
