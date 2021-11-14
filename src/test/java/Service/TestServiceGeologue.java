@@ -11,7 +11,6 @@ import java.util.List;
 
 public class TestServiceGeologue {
     Declaration actuel;
-    Reponse reponse;
     ServiceValidationGeologue serviceGeo;
 
     @BeforeEach
