@@ -16,7 +16,6 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     private int heuresProjetDeRecherche;
     private int heuresCours;
 
-
     public ServiceValidationGeologue() {
         this.heuresAutreActiviteGeologue = 0;
         this.heuresGroupeDeDiscussion = 0;
@@ -95,77 +94,67 @@ public class ServiceValidationGeologue implements InterfaceVerification {
 
 
     public void verifierSiCategorieProjetDeRecherche (String categorie,
-                                                      int nombreHeure){
-            if (categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
-                this.heuresProjetDeRecherche += nombreHeure;
+                                                      int nombreHeure) {
+        if (categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
+            this.heuresProjetDeRecherche += nombreHeure;
+    }
+
+    public void verifierSiCategorieCours (String categorie, int nombreHeure){
+        if (categorie.equals(Categorie.COURS.toString()))
+            this.heuresCours += nombreHeure;
+    }
+
+    /*############# Service.Verification du nombre minimum par Activite pour Geologue  ############*/
+
+    private void verifierMinimumHeureParGroupeDeCategorie () {
+        verifierMinimumHeureGroupeDeDiscussion();
+        verifierMinimumHeureProjetDeRecherche();
+        verifierMinimumHeureCours();
+    }
+
+    private void verifierMinimumHeureGroupeDeDiscussion () {
+        if (heuresGroupeDeDiscussion < ConstantesGeologue.MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE) {
+            Reponse.obtenirInstance().ajouterMessageErreur(
+                    ServiceMessages.messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo());
         }
-        public void verifierSiCategorieCours (String categorie, int nombreHeure){
-            if (categorie.equals(Categorie.COURS.toString()))
-                this.heuresCours += nombreHeure;
+    }
+
+    private void verifierMinimumHeureProjetDeRecherche () {
+        if (heuresProjetDeRecherche < ConstantesGeologue.MINIMUM_HEURE_PROJET_DE_RECHERCHE_GEOLOGUE) {
+            Reponse.obtenirInstance().ajouterMessageErreur(
+                    ServiceMessages.messageErreurNombreHeuresMinimumPourProjetGeo());
         }
+    }
 
-        /*############# Service.Verification du nombre minimum par Activite pour Geologue  ############*/
-
-        private void verifierMinimumHeureParGroupeDeCategorie () {
-            verifierMinimumHeureGroupeDeDiscussion();
-            verifierMinimumHeureProjetDeRecherche();
-            verifierMinimumHeureCours();
+    private void verifierMinimumHeureCours () {
+        if (heuresCours < ConstantesGeologue.MINIMUM_HEURE_COURS_GEOLOGUE) {
+            Reponse.obtenirInstance().ajouterMessageErreur(
+                    ServiceMessages.messageErreurNombreHeuresMinimumPourCoursGeo());
         }
+    }
 
-        private void verifierMinimumHeureGroupeDeDiscussion () {
-            if (heuresGroupeDeDiscussion <
-                    ConstantesGeologue.MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE) {
-                Reponse.obtenirInstance().ajouterMessageErreur(
-                        ServiceMessages.messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo());
-            }
-
+    /*############# Service.Verification du nombre totale d'heures ###################*/
+    private void verifierNombreHeuresTotaleDansDeclaration () {
+        int nombreHeuresManquante = obtenirNombreHeuresManquante();
+        if (nombreHeuresManquante > 0) {
+            Reponse.obtenirInstance().ajouterMessageErreur(
+                    ServiceMessages.messageNombreHeuresTotalMoinsDe40(
+                            nombreHeuresManquante));
         }
+    }
 
-        private void verifierMinimumHeureProjetDeRecherche () {
-            if (heuresProjetDeRecherche <
-                    ConstantesGeologue.MINIMUM_HEURE_PROJET_DE_RECHERCHE_GEOLOGUE) {
-                Reponse.obtenirInstance().ajouterMessageErreur(
-                        ServiceMessages.messageErreurNombreHeuresMinimumPourProjetGeo());
+    private int obtenirNombreHeuresManquante () {
+        int total = obtenirNombreTotalHeures();
+        verifierMinimumHeureParGroupeDeCategorie();
 
-            }
+        if (total >= ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE)
+            return 0;
+        else
+            return ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE - total;
+    }
 
-        }
-        private void verifierMinimumHeureCours () {
-            if (heuresCours <
-                    ConstantesGeologue.MINIMUM_HEURE_COURS_GEOLOGUE) {
-                Reponse.obtenirInstance().ajouterMessageErreur(
-                        ServiceMessages.messageErreurNombreHeuresMinimumPourCoursGeo());
-            }
-
-        }
-
-        /*############# Service.Verification du nombre totale d'heures ###################*/
-
-        private void verifierNombreHeuresTotaleDansDeclaration (){
-            int nombreHeuresManquante = obtenirNombreHeuresManquante();
-            if (nombreHeuresManquante > 0) {
-                Reponse.obtenirInstance().ajouterMessageErreur(
-                        ServiceMessages.messageNombreHeuresTotalMoinsDe40(
-                                nombreHeuresManquante));
-            }
-        }
-
-        private int obtenirNombreHeuresManquante () {
-            int total = obtenirNombreTotalHeures();
-            verifierMinimumHeureParGroupeDeCategorie();
-            if (total >= ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE)
-                return 0;
-
-            if (total < ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE)
-                return ConstantesGeologue.MINIMUM_HEURE_POUR_UNE_DECLARATION_GEOLOGUE - (
-                        total);
-            else
-                return 0;
-        }
-
-        private int obtenirNombreTotalHeures () {
-            return heuresAutreActiviteGeologue + heuresGroupeDeDiscussion +
-                    heuresProjetDeRecherche + heuresCours;
-        }
-
+    private int obtenirNombreTotalHeures () {
+        return heuresAutreActiviteGeologue + heuresGroupeDeDiscussion +
+                heuresProjetDeRecherche + heuresCours;
+    }
 }

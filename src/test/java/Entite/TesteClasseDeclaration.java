@@ -1,3 +1,5 @@
+package Entite;
+
 import Entite.Declaration;
 import Service.ServiceJSON;
 import org.junit.jupiter.api.Assertions;
