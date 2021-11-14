@@ -32,6 +32,18 @@ public class Declaration {
         initialiserActivites(serviceJson);
     }
 
+    //Constructeur pour les testes
+    public Declaration(String numeroDePermis,
+                       String cycle, String ordre,
+                       int heuresTransfereesDuCyclePrecedent,
+                       List<Activite> activites) {
+        this.numeroDePermis = numeroDePermis;
+        this.cycle = cycle;
+        this.ordre = ordre;
+        this.heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent;
+        this.activites = activites;
+    }
+
     private void termierExecution(Exception e) {
         System.out.println(e.getMessage());
         Reponse.obtenirInstance().ajouterMessageErreur(e.getMessage());

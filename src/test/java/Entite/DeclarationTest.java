@@ -4,6 +4,7 @@ import Service.ServiceJSON;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 
 /** 
@@ -18,13 +19,11 @@ public class DeclarationTest {
     ServiceJSON json;
     Declaration declaration;
 
-@BeforeAll
+@Before
 public void before() throws Exception {
     json = new ServiceJSON("src/test/ressourcesTeste/declaration.json");
     declaration = new Declaration(json);
-
-    System.out.println("Je suis la");
-} 
+}
 
 /** 
 * 
@@ -32,8 +31,8 @@ public void before() throws Exception {
 * 
 */ 
 @Test
-public void testObtenirNumeroDePermis() throws Exception { 
-//TODO: Test goes here... 
+public void testObtenirNumeroDePermis() throws Exception {
+    Assertions.assertEquals("AOOO1",declaration.obtenirNumeroDePermis());
 } 
 
 /** 
