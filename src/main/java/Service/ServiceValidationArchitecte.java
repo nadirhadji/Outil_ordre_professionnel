@@ -225,9 +225,9 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     public void verifierMaximumHeureGroupeDeDiscussion() {
         int heuresGroupeDeDiscussion = heuresArchitecte.obtenirGroupeDeDiscussion();
-        if ( heuresGroupeDeDiscussion > Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE)
+        if ( heuresGroupeDeDiscussion > ConstantesArchitecte.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE)
             heuresArchitecte.enregistrerGroupeDeDiscussion
-                    (Constantes.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE);
+                    (ConstantesArchitecte.MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE);
     }
 
     public void verifierMaximumHeureProjetDeRecherche() {

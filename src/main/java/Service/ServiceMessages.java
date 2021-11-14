@@ -11,7 +11,12 @@ public class ServiceMessages {
 
     public static String messageErreurCycleInvalide () {
         return "Le cycle entré n'est pas valide, " +
-                "Le cycle doit être "+ Constantes.CYCLE_AUTORISEE;
+                "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
+    }
+
+    public static String messageErreurCycleInvalidePsycho () {
+        return "Le cycle entré n'est pas valide, " +
+                "Le cycle doit être "+ ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES;
     }
 
     public static String messageErreurCycleInvalideGeo () {
@@ -56,17 +61,17 @@ public class ServiceMessages {
     }
 
     private static String choisirMessageErreurPsychologueDate(Activite activite, String cycle) {
-        if( cycle.equals(ConstantesPsychologues.CYCLE_2018_2023) )
+        if( cycle.equals(ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES) )
             return messageErreurDatePsycho2018a2023(activite);
         else
             return messageErreurDateDefault(activite);
     }
 
     public static String messageErreurDateArchitecte2016a2018(Activite activite) {
-        return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
-                activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2016-2018 "+
-                " soit entre le "+ ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2016.toString() +
-                " et "+ConstantesArchitecte.ARCHITECTE_DATE_FIN_2018.toString();
+        return " L'activité " + activite.obtenirDescription() + " realisée en date du " +
+                activite.obtenirDate() + " a été faite en dehors des dates du cycle 2016-2018 " +
+                " soit entre le " + ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2016 +
+                " et " + ConstantesArchitecte.ARCHITECTE_DATE_FIN_2018;
     }
 
     public static String messageErreurDateArchitecte2018a2020(Activite activite) {
@@ -93,8 +98,8 @@ public class ServiceMessages {
     public static String messageErreurDatePsycho2018a2023(Activite activite) {
         return " L'activité "+activite.obtenirDescription()+" realisée en date du "+
                 activite.obtenirDate()+ " a été faite en dehors des dates du cycle 2018-2023 "+
-                " soit entre le "+ ConstantesPsychologues.PSYCHO_DATE_DEBUT_2018.toString() +
-                " et "+ConstantesPsychologues.PSYCHO_DATE_FIN_2023.toString();
+                " soit entre le "+ ConstantesPsychologues.DATE_DEBUT_ACTIVITE_PSYCHO.toString() +
+                " et "+ConstantesPsychologues.DATE_FIN_ACTIVITE_PSYCHO.toString();
     }
 
     public static String messageErreurDateDefault(Activite activite) {
@@ -120,7 +125,7 @@ public class ServiceMessages {
 
     public static String messageInfosHeuresTransfereSuperieurA7(){
         return "Les heures transférées du cycle "+
-             "précédent dépassent 7. Uniquement 7 heures seront considérées";
+                "précédent dépassent 7. Uniquement 7 heures seront considérées";
     }
 
     public static String messageNombreHeuresTotalMoinsDe40(int nombreHeuresManquante) {
@@ -138,7 +143,7 @@ public class ServiceMessages {
     public static String messageErreurNombreHeuresPourActiviteNegatif(Activite activite) {
         return "Le nombre d'heures entré pour " +
                 activite.obtenirCategorie() + " est invalide, il doit être "+
-                        "supérieur ou égal à 1. L'activité sera ignorée";
+                "supérieur ou égal à 1. L'activité sera ignorée";
     }
 
     public static String messageErreurNombreHeuresPourActiviteSuperieurAuMaximum(Activite activite) {
@@ -163,5 +168,9 @@ public class ServiceMessages {
     public static String messageErreurNombreHeuresMinimumPourCoursGeo() {
         return "Le nombre d'heures entré pour Cours" + " est invalide, il doit être " +
                 "supérieur ou egale a 22.";
+    }
+    public static String messageErreurNombreHeuresPourCours() {
+        return "Un minimum de 25 heures par cycle sont nécessaires dans la " +
+                "catégorie cours";
     }
 }

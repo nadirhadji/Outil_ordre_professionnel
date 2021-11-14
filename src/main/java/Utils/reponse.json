@@ -1,3 +1,13 @@
 {
-  "complet": "true"
+  "erreurs": [
+    "Le nombre d'heures entré pour Projet de Recherche est invalide, il doit être supérieur ou egale a 3.",
+    "Le nombre d'heures entré pour Cours est invalide, il doit être supérieur ou egale a 22.",
+    "Incomplet, il manque 39 heures pour compléter le cycle",
+    "Le nombre d'heures entré pour cours est invalide, il doit être supérieur au maximum 10. Seulement 10 heures seront prise en compte.",
+    " L'activité Séminaire sur l'architecture contemporaine n'a pas la Date en format ISO8601 (AAAA-MM-JJ)",
+    " L'activité Rédaction pour le magazine Architecture moderne realisée en date du 2021-10-22 a été faite en dehors des dates du cycle 2018-2021  soit entre le 2018-06-01 et 2021-06-01",
+    " L'activité Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans realisée en date du 2016-04-01 a été faite en dehors des dates du cycle 2018-2021  soit entre le 2018-06-01 et 2021-06-01",
+    "L'activité Visite d'établissements architecturaux n'est pas dans une catégorie reconnue. Elle sera ignorée"
+  ],
+  "complet": "false"
 }

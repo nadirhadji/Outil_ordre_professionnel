@@ -181,7 +181,7 @@ public class ServiceValidationActivite {
     }
 
     public boolean estDatePshycologueValide(String date) {
-        if(this.cycle.equals(ConstantesPsychologues.CYCLE_2018_2023))
+        if(this.cycle.equals(ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES))
             return verifier2018a2023PourPsychologue(date);
         else
             return false;
@@ -189,7 +189,7 @@ public class ServiceValidationActivite {
 
     public boolean verifier2018a2023PourPsychologue(String date) {
         return verifierSiDateCompriseEntre(date,
-                ConstantesPsychologues.PSYCHO_DATE_DEBUT_2018,
-               ConstantesPsychologues.PSYCHO_DATE_FIN_2023);
+                ConstantesPsychologues.DATE_DEBUT_ACTIVITE_PSYCHO,
+               ConstantesPsychologues.DATE_FIN_ACTIVITE_PSYCHO);
     }
 }

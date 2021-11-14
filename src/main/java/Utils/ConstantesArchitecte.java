@@ -17,4 +17,5 @@ public class ConstantesArchitecte {
     public static final LocalDate ARCHITECTE_DATE_DEBUT_2020 = LocalDate.parse("2020-04-01");
     public static final LocalDate ARCHITECTE_DATE_FIN_2022 = LocalDate.parse("2022-04-01");
     public static final int MINIMUM_HEURE_ACTIVITE_DE_GROUPE_ARCHITECTE = 17;
+    public static final int MAXIMUM_HEURE_GROUPE_DE_DISCUSSION_ARCHITECTE = 17;
 }
