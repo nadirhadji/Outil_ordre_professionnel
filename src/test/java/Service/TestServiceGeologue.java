@@ -401,14 +401,14 @@ public class TestServiceGeologue {
         return new Declaration("A0001",
                 "2018-2021",
                 "géologues",
-                0,//---------------------a enlever possiblement, vu quil ne doit pas exister
+                0,
                 listeActivites);
     }
     public Declaration creerDecladationGeoCycleInv(List<Activite> listeActivites) {
         return new Declaration("A0001",
                 "2018-2020",
                 "géologues",
-                0,//---------------------a enlever possiblement, vu quil ne doit pas exister
+                0,
                 listeActivites);
     }
 

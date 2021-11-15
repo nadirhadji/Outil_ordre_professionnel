@@ -18,6 +18,7 @@ class TestServiceValidationPsychologues {
     @BeforeEach
     void initialiser() {
         service = new ServiceValidationPsychologues();
+        declaration = creerDeclaration(obtenirListeActivitePsychologue());
     }
 
     @AfterEach
@@ -133,8 +134,8 @@ class TestServiceValidationPsychologues {
         declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifierCyclePsychologue(declaration);
         Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().toString(),
-                "Le cycle entré n'est pas valide, Le cycle doit être "+
-                        ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES);
+                "[Le cycle entré n'est pas valide, Le cycle doit être "+
+                        ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES+"]");
     }
 
     @Test
@@ -153,6 +154,7 @@ class TestServiceValidationPsychologues {
     @Test
     public void testVerifierActivite(){
         service.verifierActivites(declaration);
+        System.out.println(service.obtenirNombreTotalHeures());
         Assertions.assertEquals(93, service.obtenirNombreTotalHeures());
     }
 
@@ -160,6 +162,7 @@ class TestServiceValidationPsychologues {
     public void testVerifierActiviteInvalide(){
         declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifierActivites(declaration);
+        System.out.println(service.obtenirNombreTotalHeures());
         Assertions.assertEquals(12,service.obtenirNombreTotalHeures());
     }
 
@@ -167,7 +170,7 @@ class TestServiceValidationPsychologues {
     @Test
     public void testVerifierNombreHeuresTotaleDansDeclaration(){
         Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
-        Activite conference = new Activite("ceci est la description de l'activite2", "conference",20,"2018-06-01");
+        Activite conference = new Activite("ceci est la description de l'activite2", "conférence",20,"2018-06-01");
         Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
         Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
         Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
@@ -187,15 +190,29 @@ class TestServiceValidationPsychologues {
         service.incrementerCompteurHeures(groupeDeDiscussion);
         service.incrementerCompteurHeures(projetDeRecherche);
         service.incrementerCompteurHeures(redactionProfessionnelle);
-
-        Assertions.assertEquals(93,service.obtenirNombreTotalHeures());
+        Assertions.assertEquals(100,service.obtenirNombreTotalHeures());
     }
 
     @Test
     public void testVerifierHeuresIncomplet(){
-
-        Assertions.assertEquals(12, service.obtenirNombreTotalHeures());
+        service = new ServiceValidationPsychologues(25,15,20);
+        service.verifierNombreHeuresTotaleDansDeclaration();
+        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
+
+    @Test
+    public void testVerifierHeuresComplet(){
+        service = new ServiceValidationPsychologues(50,15,50);
+        service.verifierNombreHeuresTotaleDansDeclaration();
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+    }
+    @Test
+    public void testVerifierHeuresComplet2(){
+        service = new ServiceValidationPsychologues(25,15,50);
+        service.verifierNombreHeuresTotaleDansDeclaration();
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+    }
+
 
 
 

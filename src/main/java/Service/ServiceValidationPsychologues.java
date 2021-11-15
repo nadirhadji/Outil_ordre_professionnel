@@ -107,19 +107,23 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     }
 
     public void verifierNombreHeuresConference(String categorie,int nbrHeure) {
-        if ( categorie.equals(Categorie.CONFERENCE.toString()))
-            this.heuresConference += nbrHeure;
+        if ( categorie.equals(Categorie.CONFERENCE.toString())){
+            int temp = verifierNombreHeuresPourConferenceSupA15(nbrHeure);
+            this.heuresConference += temp;
+        }
     }
 
     public int verifierNombreHeuresPourConferenceSupA15(int heuresConference){
         if (heuresConference > ConstantesPsychologues.MAXIMUM_HEURE_CONFERENCE){
-            this.heuresConference = 15;
+            return 15;
         }
-        return this.heuresConference;
+        return heuresConference;
     }
     public int obtenirHeuresConference(){
         return heuresConference;
     }
+
+    public int obtenirHeuresAutreActivitesPsy(){ return heuresAutreActivitesPsy; }
 
     public void verifierNombreHeuresTotaleDansDeclaration() {
         int nombreHeuresManquante = obtenirNombreHeuresManquante();
