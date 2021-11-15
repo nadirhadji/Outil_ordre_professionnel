@@ -1,30 +1,207 @@
 package Service;
 
+import Entite.Activite;
+import Entite.Declaration;
+import Entite.Reponse;
+import Utils.ConstantesPsychologues;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
 class TestServiceValidationPsychologues {
+    Declaration declaration;
+    ServiceValidationPsychologues service;
 
     @BeforeEach
     void initialiser() {
+        service = new ServiceValidationPsychologues();
+        declaration = creerDeclaration(obtenirListeActivitePsychologue());
     }
 
     @AfterEach
-    void tearDown() {
+    void detruire() throws Exception{
+        declaration = null;
+        Reponse.supprimerInstance();
     }
 
     @Test
-    void verifier() {
+    public Declaration creerDeclaration(ArrayList<Activite> listeActivites) {
+        return new Declaration();
     }
 
     @Test
-    void verifierCyclePsychologue() {
+    public void testVerifier(){
+        service.verifier(declaration);
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+
     }
 
     @Test
-    void estCyclePsychologueValide() {
+    public void testVerifierSiInvalide(){
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        service.verifier(declaration);
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
+
+    public ArrayList<Activite> obtenirListeActivitePsychologue(){
+        ArrayList<Activite> liste = new ArrayList<>();
+        liste.add(new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21"));
+        liste.add(new Activite("ceci est la description de l'activite2", "conference",8,"2018-06-01"));
+        liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22"));
+        liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23"));
+        liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24"));
+        liste.add(new Activite("Ceci est la description de l'Activite4","colloque",5,"2018-05-23"));
+        liste.add(new Activite("Ceci est la description de l'Activite5","présentation",10,"2019-01-24"));
+        liste.add(new Activite("Ceci est la description de l'Activite6","groupe de discussion",10,"2019-02-26"));
+        liste.add(new Activite("Ceci est la description de l'Activite7","projet de recherche",10,"2020-01-28"));
+        liste.add(new Activite("Ceci est la description de l'Activite8","rédaction professionnelle",10,"2020-01-30"));
+        return liste;
+
+    }
+
+    public ArrayList<Activite> obtenirListeActiviteInvalide(){
+        ArrayList<Activite> listeInvalide = new ArrayList<>();
+        listeInvalide.add(new Activite( "Revision du cours","revision",12, "2015-01-01"));
+        return listeInvalide;
+    }
+
+    @Test
+    public void testVerifierNombreHeuresCours(){
+        Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
+        Activite conference = new Activite("ceci est la description de l'activite2", "conference",8,"2018-06-01");
+        Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
+        Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
+        Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
+        Activite colloque = new Activite("Ceci est la description de l'Activite4","colloque",5,"2018-05-23");
+        Activite presentation  = new Activite("Ceci est la description de l'Activite5","présentation",10,"2019-01-24");
+        Activite groupeDeDiscussion = new Activite("Ceci est la description de l'Activite6","groupe de discussion",10,"2019-02-26");
+        Activite projetDeRecherche = new Activite("Ceci est la description de l'Activite7","projet de recherche",10,"2020-01-28");
+        Activite redactionProfessionnelle= new Activite("Ceci est la description de l'Activite8","rédaction professionnelle",10,"2020-01-30");
+
+        service.incrementerCompteurHeures(atelier);
+        service.incrementerCompteurHeures(conference);
+        service.incrementerCompteurHeures(cours1);
+        service.incrementerCompteurHeures(cours2);
+        service.incrementerCompteurHeures(cours3);
+        service.incrementerCompteurHeures(colloque);
+        service.incrementerCompteurHeures(presentation);
+        service.incrementerCompteurHeures(groupeDeDiscussion);
+        service.incrementerCompteurHeures(projetDeRecherche);
+        service.incrementerCompteurHeures(redactionProfessionnelle);
+
+        Assertions.assertEquals(30, service.obtenirHeuresCoursPsycho());
+
+    }
+
+    @Test
+    public void testVerifierNombreHeuresConference(){
+        declaration = creerDeclaration(obtenirListeActivitePsychologue());
+        Assertions.assertEquals(8, service.obtenirHeuresConference());
+    }
+
+    @Test
+    public void testTropHeuresConference(){
+        Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
+        Activite conference = new Activite("ceci est la description de l'activite2", "conference",20,"2018-06-01");
+        Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
+        Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
+        Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
+        Activite colloque = new Activite("Ceci est la description de l'Activite4","colloque",5,"2018-05-23");
+        Activite presentation  = new Activite("Ceci est la description de l'Activite5","présentation",10,"2019-01-24");
+        Activite groupeDeDiscussion = new Activite("Ceci est la description de l'Activite6","groupe de discussion",10,"2019-02-26");
+        Activite projetDeRecherche = new Activite("Ceci est la description de l'Activite7","projet de recherche",10,"2020-01-28");
+        Activite redactionProfessionnelle= new Activite("Ceci est la description de l'Activite8","rédaction professionnelle",10,"2020-01-30");
+
+        service.incrementerCompteurHeures(atelier);
+        service.incrementerCompteurHeures(conference);
+        service.incrementerCompteurHeures(cours1);
+        service.incrementerCompteurHeures(cours2);
+        service.incrementerCompteurHeures(cours3);
+        service.incrementerCompteurHeures(colloque);
+        service.incrementerCompteurHeures(presentation);
+        service.incrementerCompteurHeures(groupeDeDiscussion);
+        service.incrementerCompteurHeures(projetDeRecherche);
+        service.incrementerCompteurHeures(redactionProfessionnelle);
+
+        Assertions.assertEquals(15,
+                service.verifierNombreHeuresPourConferenceSupA15(service.obtenirHeuresConference()));
+    }
+
+    @Test
+    public void testVerifierCyclePsychologue() {
+        service.verifierCyclePsychologue(declaration);
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+    }
+
+    @Test
+    public void testVerifierCycleInvalideMessage(){
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        service.verifierCyclePsychologue(declaration);
+        Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().toString(),
+                "Le cycle entré n'est pas valide, Le cycle doit être "+
+                        ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES);
+    }
+
+    @Test
+    public void testEstCyclePsychologueValide() {
+        String cycle = declaration.obtenirCycle();
+        Assertions.assertTrue((service.estCyclePsychologueValide(cycle)));
+    }
+
+    @Test
+    public void testEstCyclePsychologueInvalide(){
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        String cycle = declaration.obtenirCycle();
+        Assertions.assertFalse(service.estCyclePsychologueValide(cycle));
+    }
+
+    @Test
+    public void testVerifierActivite(){
+        service.verifierActivites(declaration);
+        Assertions.assertEquals(93, service.obtenirNombreTotalHeures());
+    }
+
+    @Test
+    public void testVerifierActiviteInvalide(){
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        service.verifierActivites(declaration);
+        Assertions.assertEquals(12,service.obtenirNombreTotalHeures());
+    }
+
+
+    @Test
+    public void testVerifierNombreHeuresTotaleDansDeclaration(){
+        Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
+        Activite conference = new Activite("ceci est la description de l'activite2", "conference",20,"2018-06-01");
+        Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
+        Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
+        Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
+        Activite colloque = new Activite("Ceci est la description de l'Activite4","colloque",5,"2018-05-23");
+        Activite presentation  = new Activite("Ceci est la description de l'Activite5","présentation",10,"2019-01-24");
+        Activite groupeDeDiscussion = new Activite("Ceci est la description de l'Activite6","groupe de discussion",10,"2019-02-26");
+        Activite projetDeRecherche = new Activite("Ceci est la description de l'Activite7","projet de recherche",10,"2020-01-28");
+        Activite redactionProfessionnelle= new Activite("Ceci est la description de l'Activite8","rédaction professionnelle",10,"2020-01-30");
+
+        service.incrementerCompteurHeures(atelier);
+        service.incrementerCompteurHeures(conference);
+        service.incrementerCompteurHeures(cours1);
+        service.incrementerCompteurHeures(cours2);
+        service.incrementerCompteurHeures(cours3);
+        service.incrementerCompteurHeures(colloque);
+        service.incrementerCompteurHeures(presentation);
+        service.incrementerCompteurHeures(groupeDeDiscussion);
+        service.incrementerCompteurHeures(projetDeRecherche);
+        service.incrementerCompteurHeures(redactionProfessionnelle);
+
+        Assertions.assertEquals(93,service.obtenirNombreTotalHeures());
+    }
+
+    @Test
+    public void testVerifierHeuresIncomplet(){
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        Assertions.assertEquals(12, service.obtenirNombreTotalHeures());
+    }
+
 }
