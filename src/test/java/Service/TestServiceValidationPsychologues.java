@@ -54,13 +54,13 @@ class TestServiceValidationPsychologues {
     public void testVerifierSiInvalide(){
         declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifier(declaration);
-        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     public ArrayList<Activite> obtenirListeActivitePsychologue(){
         ArrayList<Activite> liste = new ArrayList<>();
         liste.add(new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21"));
-        liste.add(new Activite("ceci est la description de l'activite2", "conference",8,"2018-06-01"));
+        liste.add(new Activite("ceci est la description de l'activite2", "conférence",8,"2018-06-01"));
         liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22"));
         liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23"));
         liste.add(new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24"));
@@ -82,7 +82,7 @@ class TestServiceValidationPsychologues {
     @Test
     public void testVerifierNombreHeuresCours(){
         Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
-        Activite conference = new Activite("ceci est la description de l'activite2", "conference",8,"2018-06-01");
+        Activite conference = new Activite("ceci est la description de l'activite2", "conférence",8,"2018-06-01");
         Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
         Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
         Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
@@ -155,15 +155,17 @@ class TestServiceValidationPsychologues {
     public void testVerifierActivite(){
         service.verifierActivites(declaration);
         System.out.println(service.obtenirNombreTotalHeures());
+        System.out.println(service.obtenirHeuresAutreActivitesPsy());
+        System.out.println(service.obtenirHeuresCoursPsycho());
+        System.out.println(service.obtenirHeuresConference());
         Assertions.assertEquals(93, service.obtenirNombreTotalHeures());
     }
 
     @Test
     public void testVerifierActiviteInvalide(){
-        declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
+        declaration = creerDeclaration(obtenirListeActiviteInvalide());
         service.verifierActivites(declaration);
-        System.out.println(service.obtenirNombreTotalHeures());
-        Assertions.assertEquals(12,service.obtenirNombreTotalHeures());
+        Assertions.assertEquals(0,service.obtenirNombreTotalHeures());
     }
 
 
