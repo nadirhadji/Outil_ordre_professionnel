@@ -34,7 +34,3 @@ pour faire les testes unitaires pour architecte.
 Cette branche est pour les test unitaires concernant la structure de notre projet. 
 Autrement dit, elle verifie que les entités activités et declaration ainsi que les 
 services pour ceux-ci fonctionnent.
-
-### *7. information*
-Une branche créée contenant une première version des documents non java (telle que
-le README.md, equipe.md, etc) et une version primitive d'un schema UML de notre projet. 
