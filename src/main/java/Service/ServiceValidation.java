@@ -18,6 +18,7 @@ public class ServiceValidation {
             verifierNumeroDePermis(numeroDePermis);
         } catch (NumeroDePermisInvalideException e) {
             System.out.println(e.getMessage());
+            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
             System.exit(1);
         }
     }
@@ -27,7 +28,6 @@ public class ServiceValidation {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNumeroDePermis(numeroDePermis)
             );
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
             throw new NumeroDePermisInvalideException(
                     ServiceMessages.messageErreurNumeroDePermis(numeroDePermis)
             );

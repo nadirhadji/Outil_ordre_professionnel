@@ -1,6 +1,7 @@
 package Service;
 
 import Entite.Declaration;
+import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -10,12 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestServiceGeologue {
     Declaration actuel;
 
-    @AfterEach
+    @After
     void reinitialisation()
     {
         actuel = null;
     }
-
 
 
     @Test
@@ -45,8 +45,6 @@ public class TestServiceGeologue {
          //TODO
     }
 
-
-    @Disabled
     @Test
     public void heureProjetRechercheValide()
     {
@@ -54,26 +52,22 @@ public class TestServiceGeologue {
     }
 
 
-    @Disabled
     @Test
     public void heureGroupeDiscussionValide()
     {
         //TODO
     }
 
-    @Disabled
     @Test
     public void heureTotalValide()
     {
         //TODO
     }
 
-    @Disabled
     @Test
     public void champsHeuresTransfereNonExistant()
     {
         //TODO
     }
-
-
+    
 }

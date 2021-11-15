@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ServiceValidationPsychologues implements InterfaceVerification {
 
     private int heuresConference;
@@ -39,6 +38,7 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
         }
         return true;
     }
+
     public boolean estCyclePsychologueValide( String cycle ) {
         return cycle.equals(Constantes.CYCLE_AUTORISE_POUR_PSYCHOLOGUES);
     }
@@ -51,7 +51,6 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
             resultat = !LocalDate.parse(date).isAfter(DATE_FIN_ACTIVITE_PSYCHO);
         return resultat;
     }
-
 
     private void verifierActivites(Declaration declaration) {
         ServiceValidationActivite serviceValidationActivite = new
