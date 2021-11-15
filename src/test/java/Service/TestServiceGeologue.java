@@ -16,13 +16,13 @@ public class TestServiceGeologue {
     Declaration actuel;
     ServiceValidationGeologue serviceGeo;
 
-    @Before
+    @BeforeEach
     void creationSimpleDeclaration(){
         actuel = creerDecladationGeo(obtenirListeActiviteGeo());
         serviceGeo = new ServiceValidationGeologue();
     }
 
-    @After
+    @AfterEach
     void reinitialisation()
     {
         actuel = null;
