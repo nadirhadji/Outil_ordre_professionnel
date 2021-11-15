@@ -1,5 +1,6 @@
-package Entite;
+package Service;
 
+import Entite.Activite;
 import Exception.CleJSONInexistanteException;
 import Service.ServiceJSON;
 import org.json.simple.parser.ParseException;

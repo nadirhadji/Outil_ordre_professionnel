@@ -60,7 +60,7 @@ public class ServiceMessages {
             return messageErreurDateDefault(activite);
     }
 
-    private static String choisirMessageErreurPsychologueDate(Activite activite, String cycle) {
+    public static String choisirMessageErreurPsychologueDate(Activite activite, String cycle) {
         if( cycle.equals(ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES) )
             return messageErreurDatePsycho2018a2023(activite);
         else
