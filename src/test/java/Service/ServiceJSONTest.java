@@ -85,15 +85,6 @@ public class ServiceJSONTest {
     }
 
     @Test
-    public void testObtenirActivites() throws Exception {
-        List<Activite> liste = serviceJson.obtenirActivites();
-        Activite a1 = new Activite("Cours sur la déontologie","cours",14,"2021-03-20");
-        Activite a2 = new Activite("Séminaire sur l'architecture contemporaine","séminaire",
-                10,"2021-01-07");
-        Assertions.assertTrue(a1.egale(liste.get(0)) && a2.egale(liste.get(1)));
-    }
-
-    @Test
     public void testCreerActivite() throws Exception{
         JSONObject jsonObject = new JSONObject();
     }
