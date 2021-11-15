@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
 
 class TestServiceValidationPsychologues {
     Declaration declaration;
@@ -17,7 +18,6 @@ class TestServiceValidationPsychologues {
     @BeforeEach
     void initialiser() {
         service = new ServiceValidationPsychologues();
-        declaration = creerDeclaration(obtenirListeActivitePsychologue());
     }
 
     @AfterEach
@@ -26,9 +26,20 @@ class TestServiceValidationPsychologues {
         Reponse.supprimerInstance();
     }
 
-    @Test
-    public Declaration creerDeclaration(ArrayList<Activite> listeActivites) {
-        return new Declaration();
+    public Declaration creerDeclaration(ArrayList<Activite> liste) {
+        return new Declaration("A0001",
+                "2018-2023",
+                "psychologues",
+                0,
+                liste);
+    }
+
+    public Declaration creerDeclarationCycleInvalide(ArrayList<Activite> liste){
+        return new Declaration("A0001",
+                "2015-2018",
+                "psychologues",
+                0,
+                liste);
     }
 
     @Test
@@ -40,7 +51,7 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testVerifierSiInvalide(){
-        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifier(declaration);
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
@@ -97,33 +108,15 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testVerifierNombreHeuresConference(){
-        declaration = creerDeclaration(obtenirListeActivitePsychologue());
-        Assertions.assertEquals(8, service.obtenirHeuresConference());
+        service = new ServiceValidationPsychologues(25, 8, 35);
+        service.verifierNombreHeuresConference("conférence", 6);
+        Assertions.assertEquals(14, service.obtenirHeuresConference());
     }
+
 
     @Test
     public void testTropHeuresConference(){
-        Activite atelier = new Activite("Ceci est la description de l'Activite1","atelier",10,"2018-05-21");
-        Activite conference = new Activite("ceci est la description de l'activite2", "conference",20,"2018-06-01");
-        Activite cours1 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-22");
-        Activite cours2 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-23");
-        Activite cours3 = new Activite("Ceci est la description de l'Activite3","cours",10,"2018-06-24");
-        Activite colloque = new Activite("Ceci est la description de l'Activite4","colloque",5,"2018-05-23");
-        Activite presentation  = new Activite("Ceci est la description de l'Activite5","présentation",10,"2019-01-24");
-        Activite groupeDeDiscussion = new Activite("Ceci est la description de l'Activite6","groupe de discussion",10,"2019-02-26");
-        Activite projetDeRecherche = new Activite("Ceci est la description de l'Activite7","projet de recherche",10,"2020-01-28");
-        Activite redactionProfessionnelle= new Activite("Ceci est la description de l'Activite8","rédaction professionnelle",10,"2020-01-30");
-
-        service.incrementerCompteurHeures(atelier);
-        service.incrementerCompteurHeures(conference);
-        service.incrementerCompteurHeures(cours1);
-        service.incrementerCompteurHeures(cours2);
-        service.incrementerCompteurHeures(cours3);
-        service.incrementerCompteurHeures(colloque);
-        service.incrementerCompteurHeures(presentation);
-        service.incrementerCompteurHeures(groupeDeDiscussion);
-        service.incrementerCompteurHeures(projetDeRecherche);
-        service.incrementerCompteurHeures(redactionProfessionnelle);
+        service = new ServiceValidationPsychologues(25,20,65);
 
         Assertions.assertEquals(15,
                 service.verifierNombreHeuresPourConferenceSupA15(service.obtenirHeuresConference()));
@@ -137,7 +130,7 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testVerifierCycleInvalideMessage(){
-        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifierCyclePsychologue(declaration);
         Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().toString(),
                 "Le cycle entré n'est pas valide, Le cycle doit être "+
@@ -152,7 +145,7 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testEstCyclePsychologueInvalide(){
-        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         String cycle = declaration.obtenirCycle();
         Assertions.assertFalse(service.estCyclePsychologueValide(cycle));
     }
@@ -165,7 +158,7 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testVerifierActiviteInvalide(){
-        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+        declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifierActivites(declaration);
         Assertions.assertEquals(12,service.obtenirNombreTotalHeures());
     }
@@ -200,8 +193,10 @@ class TestServiceValidationPsychologues {
 
     @Test
     public void testVerifierHeuresIncomplet(){
-        declaration = creerDeclaration(obtenirListeActiviteInvalide());
+
         Assertions.assertEquals(12, service.obtenirNombreTotalHeures());
     }
+
+
 
 }
