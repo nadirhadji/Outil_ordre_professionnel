@@ -20,6 +20,12 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
         this.heuresAutreActivitesPsy=0;
     }
 
+    public ServiceValidationPsychologues(int cours, int conference, int autre){
+        this.heuresConference=conference;
+        this.heuresCours= cours;
+        this.heuresAutreActivitesPsy= autre;
+    }
+
     @Override
     public void verifier(Declaration general) {
         if ( verifierCyclePsychologue( general) ) {
