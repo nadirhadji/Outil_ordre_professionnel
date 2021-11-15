@@ -8,12 +8,12 @@ workflow, visiter l'option **graph** du projet inf2050-a21-projet-equipe-17 sur 
 
 ## Branches
 
-###*1. Master*
+###1. Master
 La branche principale sur laquelle on avait travaillé pour le TP1. Elle comporte 
 toutes les validations initiales. Plus le TP2 avançait, plus que les fonctionnalités
 se rajoutaient sur cette branche. 
 
-###*2. serviceGeologue/validationGeologue*
+##*2. serviceGeologue/validationGeologue*
 La branche qui s'occupe de verifier les restrictions propre à l'ordre des géologues
 et que le fichier reponse comprte les bons messages d'erreurs.
 
