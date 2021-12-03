@@ -31,6 +31,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     @Override
     public void verifier(Declaration general) {
         if (verifierCycleGeologue(general)) {
+            ServiceValidationNumeroDePermis.geologueOUpodologue(general.obtenirNumeroDePermis());
             verifierActivites(general);
             verifierNombreHeuresTotaleDansDeclaration();
         }

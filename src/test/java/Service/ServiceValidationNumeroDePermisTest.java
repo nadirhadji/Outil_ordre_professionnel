@@ -26,9 +26,7 @@ class ServiceValidationNumeroDePermisTest {
      */
     @Test
     void validerNumeroDePermis01() {
-        Assertions.assertTrue(ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                "T0000","architectes")
-        );
+        Assertions.assertTrue(ServiceValidationNumeroDePermis.architecte("T0000"));
     }
 
     /**
@@ -36,8 +34,8 @@ class ServiceValidationNumeroDePermisTest {
      */
     @Test
     void validerNumeroDePermis02() {
-        Assertions.assertTrue(ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                "A0000","architectes")
+        Assertions.assertTrue(ServiceValidationNumeroDePermis.architecte(
+                "A0000")
         );
     }
 
@@ -48,9 +46,8 @@ class ServiceValidationNumeroDePermisTest {
     void validerNumeroDePermis03() throws Exception {
 
         int status = SystemLambda.catchSystemExit(() ->
-                ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                        "M0000","architectes")
-        );
+                ServiceValidationNumeroDePermis.architecte(
+                        "M0000"));
         Assertions.assertEquals(status,5);
     }
 
@@ -61,9 +58,8 @@ class ServiceValidationNumeroDePermisTest {
     void validerNumeroDePermis04() throws Exception {
 
         int status = SystemLambda.catchSystemExit(() ->
-                ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                        "A00000","architectes")
-        );
+                ServiceValidationNumeroDePermis.architecte(
+                        "A00000"));
         Assertions.assertEquals(status,5);
     }
 
@@ -74,9 +70,8 @@ class ServiceValidationNumeroDePermisTest {
     void validerNumeroDePermis05() throws Exception {
 
         int status = SystemLambda.catchSystemExit(() ->
-                ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                        "X00000","architectes")
-        );
+                ServiceValidationNumeroDePermis.architecte(
+                        "X00000"));
         Assertions.assertEquals(status,5);
     }
 
@@ -87,9 +82,8 @@ class ServiceValidationNumeroDePermisTest {
     void validerNumeroDePermis06() throws Exception {
 
         int status = SystemLambda.catchSystemExit(() ->
-                ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                        "00000","architectes")
-        );
+                ServiceValidationNumeroDePermis.architecte(
+                        "00000"));
         Assertions.assertEquals(status,5);
     }
 
@@ -100,9 +94,8 @@ class ServiceValidationNumeroDePermisTest {
     void validerNumeroDePermis07() throws Exception {
 
         int status = SystemLambda.catchSystemExit(() ->
-                ServiceValidationNumeroDePermis.validerNumeroDePermis(
-                        "XCTRT","architectes")
-        );
+                ServiceValidationNumeroDePermis.architecte(
+                        "XCTRT"));
         Assertions.assertEquals(status,5);
     }
 }

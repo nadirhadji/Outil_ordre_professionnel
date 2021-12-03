@@ -8,13 +8,16 @@ import java.util.regex.Pattern;
 
 public class ServiceValidationNumeroDePermis {
 
-    public static boolean validerNumeroDePermis(String numeroDePermis, String ordre) {
-        return switch (ordre) {
-            case "architectes" -> verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.ARCHITECTE);
-            case "géologues", "podologue" -> verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.GEOLOGUE_PODOLOGUE);
-            case "psychologues" -> verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.PSHYCOLOGUE);
-            default -> false;
-        };
+    public static boolean architecte(String numeroDePermis) {
+        return verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.ARCHITECTE);
+    }
+
+    public static boolean geologueOUpodologue(String numeroDePermis) {
+        return verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.GEOLOGUE_PODOLOGUE);
+    }
+
+    public static boolean psychologues(String numeroDePermis) {
+        return verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.PSHYCOLOGUE);
     }
 
     private static boolean verifierNumeroDePermis(String numeroDePermis, String regex) {

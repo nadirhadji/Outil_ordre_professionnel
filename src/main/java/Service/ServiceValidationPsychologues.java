@@ -29,6 +29,7 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     @Override
     public void verifier(Declaration general) {
         if ( verifierCyclePsychologue( general) ) {
+            ServiceValidationNumeroDePermis.psychologues(general.obtenirNumeroDePermis());
             verifierActivites(general);
             verifierNombreHeuresMinimumCours();
             verifierNombreHeuresPourConferenceSupA15(heuresConference);

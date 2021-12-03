@@ -21,6 +21,7 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     @Override
     public void verifier(Declaration declaration) {
         if ( verifierCycle(declaration) ) {
+            ServiceValidationNumeroDePermis.architecte(declaration.obtenirNumeroDePermis());
             verifierHeureTransfere(declaration);
             verifierActivites(declaration);
             verifierNombreHeuresPourActiviteDeGroupe(declaration);
