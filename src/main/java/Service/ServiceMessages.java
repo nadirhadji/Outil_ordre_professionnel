@@ -35,6 +35,11 @@ public class ServiceMessages {
                 " n'est pas valide.";
     }
 
+    public static String messageErreurNumeroDePermis(String numeroDePermis, String ordre) {
+        return "Le numero de permis "+ numeroDePermis + "ne convient pas au éxigences "+
+                " du l'ordre des "+ ordre;
+    }
+
     public static String messageErreurDate(Activite activite, String ordre, String cycle) {
         return switch (ordre) {
             case ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES -> choisirMessageErreurArchitecteDate(activite, cycle);

@@ -30,7 +30,6 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     /*############################### Service.Verification Cycle ##################################*/
-
     public boolean verifierCycle(Declaration declaration) {
         if ( ! estCycleValide(declaration.obtenirCycle()) ) {
             Reponse.obtenirInstance().ajouterMessageErreur(

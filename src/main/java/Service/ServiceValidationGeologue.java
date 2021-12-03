@@ -5,7 +5,6 @@ import Entite.Categorie;
 import Entite.Declaration;
 import Entite.Reponse;
 import Utils.ConstantesGeologue;
-
 import java.util.ArrayList;
 import java.util.List;
 
