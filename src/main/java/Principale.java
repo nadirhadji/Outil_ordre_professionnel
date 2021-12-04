@@ -1,4 +1,4 @@
-import Service.ServiceJSON;
+import Service.ServiceDeclarationJSON;
 import Entite.Declaration;
 import Entite.Reponse;
 import Service.ServiceReponse;
@@ -11,9 +11,8 @@ public class Principale {
 
     public static void main(String[] args) {
         verifierSiArgumentExiste(args);
-        ServiceJSON serviceJson = new ServiceJSON(Constantes.ARG0);
-        charger(serviceJson);
-        Declaration declaration = new Declaration(serviceJson);
+        ServiceDeclarationJSON serviceDeclarationJson = initlialiserServiceJson();
+        Declaration declaration = serviceDeclarationJson.obtenirDeclaration();
         ServiceValidation service = new ServiceValidation();
         service.validerDeclaration(declaration);
         ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
@@ -32,13 +31,15 @@ public class Principale {
         }
     }
 
-    private static void charger(ServiceJSON json) {
+    private static ServiceDeclarationJSON initlialiserServiceJson() {
+        ServiceDeclarationJSON serviceDeclarationJSON = null;
         try {
-            json.charger();
+            serviceDeclarationJSON = new ServiceDeclarationJSON(Constantes.ARG0);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return serviceDeclarationJSON;
     }
 }

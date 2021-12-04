@@ -10,7 +10,7 @@ import Utils.ConstantesPsychologues;
 public class ServiceMessages {
 
     public static String messageErreurCycleInvalide () {
-        return "Le cycle entré n'est pas valide, " +
+        return "Le cycle entrée n'est pas valide, " +
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
     }
 
@@ -177,5 +177,9 @@ public class ServiceMessages {
     public static String messageErreurNombreHeuresPourCours() {
         return "Un minimum de 25 heures par cycle sont nécessaires dans la " +
                 "catégorie cours";
+    }
+
+    public static String messageErreurChampDansJsonInexistante(String champ) {
+        return "Le champ "+ champ +"est inexistant dans votre fichier d'entrée.";
     }
 }

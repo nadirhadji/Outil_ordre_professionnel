@@ -1,43 +1,72 @@
 {
-  "numero_de_permis": "A0011",
-  "cycle": "2018-2021",
+  "numero_de_permis": "R8877",
   "ordre": "géologues",
-  "activites": [
+  "cycle": "2018-2021",
+  "activites": [{
+    "description": "Cours sur la déontologie",
+    "categorie": "cours",
+    "heures": 21,
+    "date": "2018-11-20"
+  },
     {
-      "description": "Cours sur la déontologie",
-      "categorie": "cours",
-      "heures": 14,
-      "date": "2021-03-20"
+      "description": "Migration de système orienté objet ",
+      "categorie": "projet de recherche",
+      "heures": 1,
+      "date": "2020-06-02"
+    },
+    {
+      "description": "Laboratoire de programmation",
+      "categorie": "atelier",
+      "heures": 1,
+      "date": "2019-06-07"
     },
     {
       "description": "Séminaire sur l'architecture contemporaine",
       "categorie": "séminaire",
-      "heures": 10,
-      "date": "20210107"
+      "heures": 1,
+      "date": "2019-01-07"
+    },
+    {
+      "description": "Réunion des professeurs d'informatique",
+      "categorie": "colloque",
+      "heures": 1,
+      "date": "2019-03-21"
+    },
+    {
+      "description": "conférence sur l'architecture contemporaine",
+      "categorie": "conférence",
+      "heures": 2,
+      "date": "2019-04-01"
+    },
+    {
+      "description": "Lectures scientifiques",
+      "categorie": "lecture dirigée",
+      "heures": 2,
+      "date": "2019-03-01"
     },
     {
       "description": "Rédaction pour le magazine Architecture moderne",
       "categorie": "rédaction professionnelle",
-      "heures": 6,
-      "date": "2021-10-22"
-    },
-    {
-      "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
-      "categorie": "groupe de discussion",
-      "heures": 6,
-      "date": "2021-04-01"
-    },
-    {
-      "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
-      "categorie": "groupe de discussion",
-      "heures": 6,
-      "date": "2016-04-01"
+      "heures": 14,
+      "date": "2019-06-01"
     },
     {
       "description": "Visite d'établissements architecturaux",
       "categorie": "voyage",
       "heures": 2,
-      "date": "2021-02-02"
+      "date": "2020-04-01"
+    },
+    {
+      "description": "Séminaire sur l'architecture contemporaine",
+      "categorie": "séminaire",
+      "heures": 10,
+      "date": "2018-05-31"
+    },
+    {
+      "description": "Lectures scientifiques",
+      "categorie": "lecture dirigée",
+      "heures": 2,
+      "date": "2022-06-02"
     }
   ]
 }

@@ -22,8 +22,10 @@ public class ServiceValidationNumeroDePermis {
 
     private static boolean verifierNumeroDePermis(String numeroDePermis, String regex) {
         boolean estNumeroDePermisValide = estNumeroDePermisValide(numeroDePermis, regex);
-        if (! estNumeroDePermisValide )
-            finirExecution(numeroDePermis);
+        if (! estNumeroDePermisValide ) {
+            String message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis);
+            ServiceFinExecutionFatale.finExecutionPermisInvalide(message);
+        }
         return estNumeroDePermisValide;
     }
 
@@ -31,13 +33,5 @@ public class ServiceValidationNumeroDePermis {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(numeroDePermis);
         return matcher.find();
-    }
-
-    private static void finirExecution(String numeroDePermis) {
-        String message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis);
-        Reponse.obtenirInstance().ajouterMessageErreur(message);
-        ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
-        System.out.println(message);
-        System.exit(5);
     }
 }

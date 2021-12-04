@@ -1,13 +1,13 @@
 package Entite;
 
-import Service.ServiceJSON;
+import Service.ServiceDeclarationJSON;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class TesteClasseDeclaration {
 
-    ServiceJSON serviceJson;
+    ServiceDeclarationJSON serviceDeclarationJson;
     Declaration declaration;
 
     @Test

@@ -1,6 +1,6 @@
 {
   "erreurs": [
-    "Le numero de permis XCTRT n'est pas valide."
+    "Erreur : L'activite Activite1contient une description inferieur a 20 caracteres."
   ],
   "complet": "false"
 }

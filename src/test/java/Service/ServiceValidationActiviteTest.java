@@ -293,12 +293,12 @@ public class ServiceValidationActiviteTest {
 
     @Test
     public void testEstformatDateValide() throws Exception {
-    Assertions.assertTrue(service.estformatDateValide("2020-02-28"));
+    Assertions.assertFalse(service.estformatDateInvalide("2020-02-28"));
     }
 
     @Test
     public void testEstformatDateInvalide() throws Exception {
-        Assertions.assertFalse(service.estformatDateValide("20202020"));
+        Assertions.assertTrue(service.estformatDateInvalide("20202020"));
     }
 
     @Test

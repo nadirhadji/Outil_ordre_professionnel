@@ -13,26 +13,39 @@ import java.util.regex.Pattern;
 
 public class ServiceValidationActivite {
 
-    private final String ordre;
-    private final String cycle;
+    private String ordre;
+    private String cycle;
 
     public ServiceValidationActivite(String ordre, String cycle) {
         this.ordre = ordre;
         this.cycle = cycle;
     }
 
+    public void enregistrerCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public void reinitialiserContexte(String ordre, String cycle ) {
+        this.ordre = ordre;
+        this.cycle = cycle;
+    }
+
+    /**
+     * L'odre l'execution des méthode des important.
+     * Il faut commencer par le nombre d'heures de l'activite
+     * @param activite
+     */
     public void verifierActivite(Activite activite) {
+        verifierNombreHeurePourActivite(activite);
         verifierDescription(activite);
         verifierDateActivite(activite);
-        verifierNombreHeurePourActivite(activite);
         verifierCategorie(activite);
     }
 
     /*################## Service.Verification de la description #####################*/
-
     public void verifierDescription(Activite activite) {
         if (activite.obtenirDescription().length() < 20 ) {
-            Reponse.obtenirInstance().ajouterMessageErreur(
+            ServiceFinExecutionFatale.finExecutionDescription(
                     ServiceMessages.messageErreurDescription(activite)
             );
         }
@@ -57,7 +70,6 @@ public class ServiceValidationActivite {
     }
 
     /*#################### Service.Verification du nombre d'heure ####################*/
-
     public void verifierNombreHeurePourActivite(Activite activite) {
         verifierNombreHeureNegatif(activite);
         verifierNombreHeuresMaximum(activite);
@@ -65,9 +77,8 @@ public class ServiceValidationActivite {
 
     public void verifierNombreHeureNegatif(Activite activite) {
         if ( activite.obtenirHeures() < 0) {
-            Reponse.obtenirInstance().ajouterMessageErreur(
-                    ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite)
-            );
+            String message = ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite);
+            ServiceFinExecutionFatale.finExecutionHeuresNegatives(message);
         }
     }
 
@@ -82,51 +93,51 @@ public class ServiceValidationActivite {
     }
 
     public boolean aNombreHeuresSuperieurAuMaximum(int nombreHeures) {
-        return nombreHeures > Constantes.NOMBRE_HEURE_MAXIMALE_POUR_UNE_ACTIVITE;
+        return nombreHeures > Constantes.NOMBRE_HEURE_ACTIVITE_MAX_PAR_JOUR;
     }
 
     /*############## Service.Verification la date d'une activité ##################*/
     public void verifierDateActivite(Activite activite) {
         String date = activite.obtenirDate();
-        if ( ! estformatDateValide(date) ) {
+
+        if ( estformatDateInvalide(date) ) {
             activite.ignorerActivite();
             Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageErreurActiviteDateNonReconnue(activite));
         }
-        else if ( !estDateValide(date)) {
+        else if ( ! estDateValide(date)) {
             activite.ignorerActivite();
             Reponse.obtenirInstance().ajouterMessageInformation(
                     ServiceMessages.messageErreurDate(activite,ordre,cycle));
         }
     }
 
-    public boolean estformatDateValide(String date){
+    public boolean estformatDateInvalide(String date){
         Pattern pattern = Pattern.compile("^([0-9]{4})(-)(1[0-2]|0[1-9])\\2(3[01]|0[1-9]|[12][0-9])$");
         Matcher matcher = pattern.matcher(date);
         if (matcher.find()) {
-            try {
-                LocalDate.parse(date);
-                return true;
-            } catch (java.time.format.DateTimeParseException e) {
-                return false;
-            }
+            return estDateInexistante(date);
         }
         else
+            return true;
+    }
+
+    public boolean estDateInexistante( String date) {
+        try {
+            LocalDate.parse(date);
             return false;
+        } catch (java.time.format.DateTimeParseException e) {
+            return true;
+        }
     }
 
     public boolean estDateValide(String date) {
-        if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
-            return estDateArchitecteValide(date);
-        }
-
-        else if ( ordre.equals(ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES) ) {
-            return estDateGeologueValide(date);
-        }
-        else if ( ordre.equals(ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES) ) {
-            return estDatePshycologueValide(date);
-        }
-        return false;
+        return switch (ordre) {
+            case ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES -> estDateArchitecteValide(date);
+            case ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES -> estDateGeologueValide(date);
+            case ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES -> estDatePshycologueValide(date);
+            default -> false;
+        };
     }
 
     public boolean estDateArchitecteValide(String date) {
@@ -139,13 +150,9 @@ public class ServiceValidationActivite {
     }
 
     public boolean verifierSiDateCompriseEntre(String date, LocalDate debut, LocalDate fin) {
-        boolean resultat;
-        if ( LocalDate.parse(date).isBefore(debut) ) {
-            resultat = false;
-        }
-        else
-            resultat = !LocalDate.parse(date).isAfter(fin);
-        return resultat;
+        LocalDate localDate = LocalDate.parse(date);
+        return (localDate.isAfter(debut) || localDate.isEqual(debut)) &&
+                (localDate.isBefore(fin) || localDate.isEqual(fin));
     }
 
     public boolean verifier2016a2018PourArchitecte(String date) {

@@ -1,44 +1,51 @@
 package Service;
 
-import Entite.Activite;
-import Entite.Categorie;
-import Entite.Declaration;
-import Entite.Reponse;
+import Entite.*;
 import Utils.ConstantesGeologue;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceValidationGeologue implements InterfaceVerification {
 
-    private int heuresAutreActiviteGeologue;
-    private int heuresGroupeDeDiscussion;
-    private int heuresProjetDeRecherche;
-    private int heuresCours;
+    ServiceRedondanceDate serviceRedondanceDate;
+    ServiceValidationActivite serviceValidationActivite;
+    HeuresGeologue heuresGeologue;
 
-    public ServiceValidationGeologue() {
-        this.heuresAutreActiviteGeologue = 0;
-        this.heuresGroupeDeDiscussion = 0;
-        this.heuresProjetDeRecherche = 0;
-        this.heuresCours = 0;
+    public ServiceValidationGeologue(ServiceRedondanceDate serviceRedondanceDate,
+                                     ServiceValidationActivite serviceValidationActivite ) {
+        this.serviceRedondanceDate = serviceRedondanceDate;
+        this.serviceValidationActivite = serviceValidationActivite;
+        heuresGeologue = new HeuresGeologue();
     }
+
     public ServiceValidationGeologue(int autre, int group, int projet, int cours) {
-        this.heuresAutreActiviteGeologue = autre;
-        this.heuresGroupeDeDiscussion = group;
-        this.heuresProjetDeRecherche = projet;
-        this.heuresCours = cours;
+        heuresGeologue = new HeuresGeologue(autre,group,projet,cours);
+    }
+
+    public void verifier(Declaration declaration) {
+        verifiationGeneral(declaration);
+        verificationDesActivite(declaration);
+        verifierSpecifiqueOrdre(declaration);
     }
 
     @Override
-    public void verifier(Declaration general) {
-        if (verifierCycleGeologue(general)) {
-            ServiceValidationNumeroDePermis.geologueOUpodologue(general.obtenirNumeroDePermis());
-            verifierActivites(general);
-            verifierNombreHeuresTotaleDansDeclaration();
+    public void verifiationGeneral(Declaration declaration) {
+        if (verifierCycleGeologue(declaration)) {
+            ServiceValidationNumeroDePermis.geologueOUpodologue(declaration.obtenirNumeroDePermis());
         }
     }
 
-    /*############################### Service.Verification Cycle ##################################*/
+    @Override
+    public void verificationDesActivite(Declaration declaration) {
+        verifierActivites(declaration);
+    }
 
+    @Override
+    public void verifierSpecifiqueOrdre(Declaration declaration) {
+        verifierNombreHeuresTotaleDansDeclaration();
+    }
+
+    /*############################### Service.Verification Cycle ##################################*/
     public boolean verifierCycleGeologue(Declaration general) {
         if (!estCycleGeologueValide(general.obtenirCycle())) {
             Reponse.obtenirInstance().ajouterMessageErreur(
@@ -53,14 +60,11 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     /*##################### Service.Verification des activités #######################*/
-
     public void verifierActivites(Declaration general) {
-        ServiceValidationActivite serviceValidationActivite = new
-                ServiceValidationActivite(general.obtenirOrdre(), general.obtenirCycle());
-
-        for (Activite activite : general.obtenirActivites()) {
+        for (Activite activite : general.obtenirActivites() ) {
+            serviceRedondanceDate.estUneDateDisponible(activite);
             serviceValidationActivite.verifierActivite(activite);
-            if (!activite.estIgnoree()) {
+            if ( ! activite.estIgnoree() ) {
                 incrementerCompteurHeures(activite);
             }
         }
@@ -78,7 +82,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public void verifierSiCategorieAutre(String categorie, int nombreHeure) {
         List<String> liste = obtenirListeDesActivitesDeGroupe();
         if (liste.contains(categorie))
-            this.heuresAutreActiviteGeologue += nombreHeure;
+            this.heuresGeologue.incrementerHeuresAutreActiviteGeologue(nombreHeure);
     }
 
     private List<String> obtenirListeDesActivitesDeGroupe() {
@@ -96,23 +100,21 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public void verifierSiCategorieGroupeDeDiscussion(String categorie,
                                                       int nombreHeure) {
         if (categorie.equals(Categorie.GROUPE_DE_DISCUSSION.toString()))
-            this.heuresGroupeDeDiscussion += nombreHeure;
+            this.heuresGeologue.incrementerHeuresGroupeDeDiscussion(nombreHeure);
     }
-
 
     public void verifierSiCategorieProjetDeRecherche (String categorie,
                                                       int nombreHeure) {
         if (categorie.equals(Categorie.PROJET_DE_RECHERCHE.toString()))
-            this.heuresProjetDeRecherche += nombreHeure;
+            this.heuresGeologue.incrementerHeuresProjetDeRecherche(nombreHeure);
     }
 
     public void verifierSiCategorieCours (String categorie, int nombreHeure){
         if (categorie.equals(Categorie.COURS.toString()))
-            this.heuresCours += nombreHeure;
+            this.heuresGeologue.incrementerHeuresCours(nombreHeure);
     }
 
     /*############# Service.Verification du nombre minimum par Activite pour Geologue  ############*/
-
     public void verifierMinimumHeureParGroupeDeCategorie () {
         verifierMinimumHeureGroupeDeDiscussion();
         verifierMinimumHeureProjetDeRecherche();
@@ -120,6 +122,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     public void verifierMinimumHeureGroupeDeDiscussion () {
+        int heuresGroupeDeDiscussion = heuresGeologue.obtenirHeuresGroupeDeDiscussion();
         if (heuresGroupeDeDiscussion < ConstantesGeologue.MINIMUM_HEURE_GROUPE_DE_DISCUSSION_GEOLOGUE) {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresMinimumPourGroupeDeDiscussionGeo());
@@ -127,6 +130,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     public void verifierMinimumHeureProjetDeRecherche () {
+        int heuresProjetDeRecherche = heuresGeologue.obtenirHeuresProjetDeRecherche();
         if (heuresProjetDeRecherche < ConstantesGeologue.MINIMUM_HEURE_PROJET_DE_RECHERCHE_GEOLOGUE) {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresMinimumPourProjetGeo());
@@ -134,6 +138,7 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     public void verifierMinimumHeureCours () {
+        int heuresCours = heuresGeologue.obtenirHeuresCours();
         if (heuresCours < ConstantesGeologue.MINIMUM_HEURE_COURS_GEOLOGUE) {
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresMinimumPourCoursGeo());
@@ -161,23 +166,23 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     }
 
     public int obtenirNombreTotalHeures () {
-        return heuresAutreActiviteGeologue + heuresGroupeDeDiscussion +
-                heuresProjetDeRecherche + heuresCours;
+        return obtenirAutreActiviteHeures() + obtenirGroupeDiscussionHeures() +
+                obtenirProjetRechercheHeures() + obtenirCoursHeures();
     }
 
     public int obtenirAutreActiviteHeures () {
-        return heuresAutreActiviteGeologue;
+        return this.heuresGeologue.obtenirHeuresAutreActiviteGeologue();
     }
 
     public int obtenirCoursHeures () {
-        return heuresCours;
+        return this.heuresGeologue.obtenirHeuresCours();
     }
+
     public int obtenirProjetRechercheHeures () {
-        return heuresProjetDeRecherche;
+        return this.heuresGeologue.obtenirHeuresProjetDeRecherche();
     }
+
     public int obtenirGroupeDiscussionHeures () {
-        return heuresGroupeDeDiscussion;
+        return this.heuresGeologue.obtenirHeuresGroupeDeDiscussion();
     }
-
-
 }

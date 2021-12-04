@@ -1,9 +1,8 @@
 package Entite;
 
 import Exception.CleJSONInexistanteException;
-import Service.ServiceJSON;
+import Service.ServiceDeclarationJSON;
 import Service.ServiceMessages;
-import Service.ServiceReponse;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import java.util.List;
@@ -21,17 +20,6 @@ public class Declaration {
     private int heuresTransfereesDuCyclePrecedent;
     private List<Activite> activites;
 
-    /**
-     * constructeur qui transforme le document JSON dans une liste d'activités
-     */
-    public Declaration(ServiceJSON serviceJson) {
-        initialiserNumeroDePermis(serviceJson);
-        initiliserCycle(serviceJson);
-        initialiserOrdre(serviceJson);
-        initialiserHeuresTransfere(serviceJson);
-        initialiserActivites(serviceJson);
-    }
-
     //Constructeur pour les testes
     public Declaration(String numeroDePermis,
                        String cycle, String ordre,
@@ -44,96 +32,18 @@ public class Declaration {
         this.activites = activites;
     }
 
-    private void termierExecution(Exception e) {
-        System.out.println(e.getMessage());
-        Reponse.obtenirInstance().ajouterMessageErreur(e.getMessage());
-        ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
-        System.exit(1);
-    }
-
-    private void initialiserNumeroDePermis(ServiceJSON serviceJson) {
-        try {
-            this.numeroDePermis = serviceJson.obtenirStringDeCle(
-                    Constantes.CLE_NUMERO_DE_PERMIS);
-        } catch (CleJSONInexistanteException e) {
-            termierExecution(e);
-        }
-    }
-
-    private void initiliserCycle(ServiceJSON serviceJson) {
-        try {
-            this.cycle = serviceJson.obtenirStringDeCle(Constantes.CLE_CYCLE);
-        } catch (CleJSONInexistanteException e) {
-            termierExecution(e);
-        }
-    }
-
-    private void initialiserOrdre( ServiceJSON serviceJson) {
-        try {
-            this.ordre = serviceJson.obtenirStringDeCle(Constantes.CLE_ORDRE);
-        } catch (CleJSONInexistanteException e) {
-            termierExecution(e);
-        }
-    }
-
-    private void initialiserHeuresTransfere( ServiceJSON serviceJson) {
-        if( ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES)) {
-            verifierHeureTransfereExistante(serviceJson);
-        }
-        else {
-            try {
-                verifierHeuresTransfereInexistante(serviceJson);
-            } catch (CleJSONInexistanteException e) {
-                termierExecution(e);
-            }
-        }
-    }
-
-    private void verifierHeureTransfereExistante(ServiceJSON serviceJson) {
-        try {
-            this.heuresTransfereesDuCyclePrecedent =
-                    serviceJson.obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE);
-        } catch (CleJSONInexistanteException e) {
-            termierExecution(e);
-        }
-    }
-
-    private void verifierHeuresTransfereInexistante(ServiceJSON serviceJson)
-            throws CleJSONInexistanteException {
-        if ( serviceJson.contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
-            throw new CleJSONInexistanteException(
-                    ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre)
-            );
-        }
-    }
-
-    private void initialiserActivites( ServiceJSON serviceJson) {
-        try {
-            this.activites = serviceJson.obtenirActivites();
-        } catch (CleJSONInexistanteException e) {
-            termierExecution(e);
-        }
-    }
-    public Declaration(){
-        this.numeroDePermis = null;
-        this.cycle = null;
-        this.activites = null;
-        this.heuresTransfereesDuCyclePrecedent = 0;
-        this.ordre = null;
-    }
-
     public void setCycle(String cycle) {
         this.cycle = cycle;
     }
-    public void setNumeroDePermis(String numeroDePermis){
-        this.numeroDePermis = numeroDePermis;
-    }
+
     public void setOrdre(String ordre){
         this.ordre = ordre;
     }
+
     public void setHeuresTransfereesDuCyclePrecedent(int heuresTransfereesDuCyclePrecedent){
         this.heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent;
     }
+
     public  void setActivites(List<Activite> activites){
         this.activites = activites;
     }

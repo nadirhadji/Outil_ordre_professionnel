@@ -3,38 +3,49 @@ import Entite.*;
 import Utils.Constantes;
 import Utils.ConstantesPsychologues;
 import static Utils.ConstantesPsychologues.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ServiceValidationPsychologues implements InterfaceVerification {
 
-    private int heuresConference;
-    private int heuresCours;
-    private int heuresAutreActivitesPsy;
+    ServiceRedondanceDate serviceRedondanceDate;
+    ServiceValidationActivite serviceValidationActivite;
+    private final HeuresPsycologue heuresPsycologue;
 
-    public ServiceValidationPsychologues() {
-        this.heuresConference=0;
-        this.heuresCours=0;
-        this.heuresAutreActivitesPsy=0;
+    public ServiceValidationPsychologues(ServiceRedondanceDate serviceRedondanceDate,
+                         ServiceValidationActivite serviceValidationActivite) {
+        this.serviceRedondanceDate = serviceRedondanceDate;
+        this.serviceValidationActivite = serviceValidationActivite;
+        this.heuresPsycologue = new HeuresPsycologue();
     }
 
     public ServiceValidationPsychologues(int cours, int conference, int autre){
-        this.heuresConference=conference;
-        this.heuresCours= cours;
-        this.heuresAutreActivitesPsy= autre;
+        this.heuresPsycologue = new HeuresPsycologue(conference,cours,autre);
+    }
+
+    public void verifier(Declaration declaration) {
+        verifiationGeneral(declaration);
+        verificationDesActivite(declaration);
+        verifierSpecifiqueOrdre(declaration);
     }
 
     @Override
-    public void verifier(Declaration general) {
-        if ( verifierCyclePsychologue( general) ) {
-            ServiceValidationNumeroDePermis.psychologues(general.obtenirNumeroDePermis());
-            verifierActivites(general);
-            verifierNombreHeuresMinimumCours();
-            verifierNombreHeuresPourConferenceSupA15(heuresConference);
-            verifierNombreHeuresTotaleDansDeclaration();
+    public void verifiationGeneral(Declaration declaration) {
+        if ( verifierCyclePsychologue( declaration) ) {
+            ServiceValidationNumeroDePermis.psychologues(declaration.obtenirNumeroDePermis());
         }
+    }
+
+    @Override
+    public void verificationDesActivite(Declaration declaration) {
+        verifierActivites(declaration);
+    }
+
+    @Override
+    public void verifierSpecifiqueOrdre(Declaration declaration) {
+        verifierNombreHeuresMinimumCours();
+        verifierNombreHeuresPourConferenceSupA15(heuresPsycologue.obtenirHeuresConference());
+        verifierNombreHeuresTotaleDansDeclaration();
     }
 
     /*################ verification du cycle #################*/
@@ -74,8 +85,9 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     public void verifierAutreCategories(String categorie, int nbrHeures) {
         List<String> autreCategorie = obtenirAutresActivites();
         if(autreCategorie.contains(categorie))
-            this.heuresAutreActivitesPsy += nbrHeures;
+            this.heuresPsycologue.incrementerHeuresAutreActivitesPsy(nbrHeures);
     }
+
     public List<String> obtenirAutresActivites(){
         List<String> autreActivitePsychologue = new ArrayList<>();
 
@@ -93,15 +105,15 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
 
     public void verifierNombreHeuresCours(String categorie,int nbrHeure) {
         if ( categorie.equals(Categorie.COURS.toString()))
-            this.heuresCours += nbrHeure;
+            this.heuresPsycologue.incrementerHeuresCours(nbrHeure);
     }
 
     public int obtenirHeuresCoursPsycho(){
-        return heuresCours;
+        return this.heuresPsycologue.obtenirHeuresCours();
     }
 
     public void verifierNombreHeuresMinimumCours(){
-        if(this.heuresCours < ConstantesPsychologues.MINIMUM_HEURE_COURS){
+        if(this.heuresPsycologue.obtenirHeuresCours() < ConstantesPsychologues.MINIMUM_HEURE_COURS){
             Reponse.obtenirInstance().ajouterMessageErreur(
                     ServiceMessages.messageErreurNombreHeuresPourCours());
         }
@@ -110,7 +122,7 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     public void verifierNombreHeuresConference(String categorie,int nbrHeure) {
         if ( categorie.equals(Categorie.CONFERENCE.toString())){
             int temp = verifierNombreHeuresPourConferenceSupA15(nbrHeure);
-            this.heuresConference += temp;
+            this.heuresPsycologue.incrementerHeuresConference(temp);
         }
     }
 
@@ -121,10 +133,12 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
         return heuresConference;
     }
     public int obtenirHeuresConference(){
-        return heuresConference;
+        return this.heuresPsycologue.obtenirHeuresConference();
     }
 
-    public int obtenirHeuresAutreActivitesPsy(){ return heuresAutreActivitesPsy; }
+    public int obtenirHeuresAutreActivitesPsy(){
+        return this.heuresPsycologue.obtenirHeuresAutreActivitesPsy();
+    }
 
     public void verifierNombreHeuresTotaleDansDeclaration() {
         int nombreHeuresManquante = obtenirNombreHeuresManquante();
@@ -145,6 +159,8 @@ public class ServiceValidationPsychologues implements InterfaceVerification {
     }
 
     public int obtenirNombreTotalHeures() {
-        return heuresConference + heuresCours + heuresAutreActivitesPsy;
+        return this.heuresPsycologue.obtenirHeuresAutreActivitesPsy() +
+                this.heuresPsycologue.obtenirHeuresConference() +
+                this.heuresPsycologue.obtenirHeuresCours();
     }
 }

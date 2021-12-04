@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.List;
 
 class TestServiceValidationPsychologues {
     Declaration declaration;
@@ -17,7 +16,12 @@ class TestServiceValidationPsychologues {
 
     @BeforeEach
     void initialiser() {
-        service = new ServiceValidationPsychologues();
+        ServiceRedondanceDate serviceDate = new ServiceRedondanceDate();
+        ServiceValidationActivite serviceActivite = new ServiceValidationActivite(
+                ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES,
+                null
+        );
+        service = new ServiceValidationPsychologues(serviceDate,serviceActivite);
         declaration = creerDeclaration(obtenirListeActivitePsychologue());
     }
 
@@ -25,6 +29,7 @@ class TestServiceValidationPsychologues {
     void detruire() throws Exception{
         declaration = null;
         Reponse.supprimerInstance();
+        service.serviceRedondanceDate.destructeur();
     }
 
     public Declaration creerDeclaration(ArrayList<Activite> liste) {
