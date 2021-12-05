@@ -87,13 +87,34 @@ public class ServiceDeclarationJSON {
     /***************************Méthode pour la declaration******************************/
 
     public Declaration obtenirDeclaration() {
-        return new Declaration(
+        return new Declaration( obtenirNom(), obtenirPrenom(), obtenirSexe(),
                 obtenirNumeroDePermis(),
                 obtenirCycle(),
                 obtenirOrdre(),
                 obtenirHeuresTransfere(obtenirOrdre()),
                 obtenirActivites()
         );
+    }
+
+    private String obtenirNom(){
+        String nom;
+        nom = contientCleObligatoire(Constantes.CLE_NOM) ?
+                obtenirStringDeCle(Constantes.CLE_NOM) : null;
+        return  nom;
+    }
+
+    private String obtenirPrenom(){
+        String prenom;
+        prenom = contientCleObligatoire(Constantes.CLE_PRENOM) ?
+                obtenirStringDeCle(Constantes.CLE_PRENOM) : null;
+        return  prenom;
+    }
+
+    private int obtenirSexe(){
+        int sexe = -1;
+        sexe = contientCleObligatoire(Constantes.CLE_SEXE) ?
+                obtenirIntDeCle(Constantes.CLE_SEXE) : -1;
+        return  sexe;
     }
 
     private String obtenirNumeroDePermis() {
