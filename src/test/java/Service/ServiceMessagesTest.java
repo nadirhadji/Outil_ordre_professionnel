@@ -13,6 +13,12 @@ class ServiceMessagesTest {
     Activite activite = new Activite("description","cours",4,"2020-02-02");
 
     @Test
+    void messageErreurSexeInvalide(){
+       String message = "Le champ sexe doit avoir seulement les valeurs 0,1,2";
+       Assertions.assertEquals(message, ServiceMessages.messageErreurSexeInvalide());
+    }
+
+    @Test
     void messageErreurCycleInvalide() {
         String message = "Le cycle entré n'est pas valide, " +
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
