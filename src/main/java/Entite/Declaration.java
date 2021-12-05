@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class Declaration {
 
+    private String nom;
+    private String prenom;
+    private int sexe;
     private String numeroDePermis;
     private String cycle;
     private String ordre;
@@ -21,15 +24,30 @@ public class Declaration {
     private List<Activite> activites;
 
     //Constructeur pour les testes
-    public Declaration(String numeroDePermis,
-                       String cycle, String ordre,
+    public Declaration(String nom, String prenom, int sexe,
+                       String numeroDePermis, String cycle, String ordre,
                        int heuresTransfereesDuCyclePrecedent,
                        List<Activite> activites) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.sexe = sexe;
         this.numeroDePermis = numeroDePermis;
         this.cycle = cycle;
         this.ordre = ordre;
         this.heuresTransfereesDuCyclePrecedent = heuresTransfereesDuCyclePrecedent;
         this.activites = activites;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setSexe(int sexe) {
+        this.sexe = sexe;
     }
 
     public void setCycle(String cycle) {
@@ -48,6 +66,17 @@ public class Declaration {
         this.activites = activites;
     }
 
+    public String obtenirNom() {
+        return this.nom;
+    }
+
+    public String obtenirPrenom() {
+        return this.prenom;
+    }
+
+    public int obtenirSexe() {
+        return this.sexe;
+    }
     public String obtenirNumeroDePermis (){
         return this.numeroDePermis;
     }
