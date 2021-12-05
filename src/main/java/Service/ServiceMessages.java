@@ -9,6 +9,10 @@ import Utils.ConstantesPsychologues;
 
 public class ServiceMessages {
 
+    public static String messageErreurSexeInvalide (){
+        return "Le champ sexe doit avoir seulement les valeurs 0,1,2";
+    }
+
     public static String messageErreurCycleInvalide () {
         return "Le cycle entrée n'est pas valide, " +
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
