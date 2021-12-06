@@ -186,4 +186,9 @@ public class ServiceMessages {
     public static String messageErreurChampDansJsonInexistante(String champ) {
         return "Le champ "+ champ +"est inexistant dans votre fichier d'entrée.";
     }
+
+    public static String messageErreurNumPermisGeoLettres() {
+        return "Le numero de Permis est invalide car les deux premieres lettres ne correspondent " +
+                "pas aux premieres lettres du nom et prenom";
+    }
 }

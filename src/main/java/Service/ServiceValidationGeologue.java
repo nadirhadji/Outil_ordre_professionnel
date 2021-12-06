@@ -33,11 +33,8 @@ public class ServiceValidationGeologue implements InterfaceVerification {
         if (verifierCycleGeologue(declaration)) {
             ServiceValidationNumeroDePermis.geologue(declaration.obtenirNumeroDePermis());
             if(!(verifierLettreNumPermis(declaration))){
-                //TODO - service message pour numero Permis invalide car
-                //TODO - les deux premieres lettre correspondent pas aux
-                //TODO - premieres lettres du nom et prenom
-                System.out.println("message erreur: numero permis invalide lettre");//a retirer plus tard
-
+                Reponse.obtenirInstance().ajouterMessageErreur(
+                        ServiceMessages.messageErreurNumPermisGeoLettres());
             }
         }
     }
