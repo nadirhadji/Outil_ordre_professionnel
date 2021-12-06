@@ -33,7 +33,7 @@ class TestServiceValidationPsychologues {
     }
 
     public Declaration creerDeclaration(ArrayList<Activite> liste) {
-        return new Declaration("A0001",
+        return new Declaration("nom","prenom",0,"A0001",
                 "2018-2023",
                 "psychologues",
                 0,
@@ -41,7 +41,7 @@ class TestServiceValidationPsychologues {
     }
 
     public Declaration creerDeclarationCycleInvalide(ArrayList<Activite> liste){
-        return new Declaration("A0001",
+        return new Declaration("nom","prenom",0,"A0001",
                 "2015-2018",
                 "psychologues",
                 0,

@@ -405,14 +405,14 @@ public class TestServiceGeologue {
     /*############# Methode pour initialiser different scenario pour les testes  ############*/
 
     public Declaration creerDecladationGeo(List<Activite> listeActivites) {
-        return new Declaration("A0001",
+        return new Declaration("nom","prenom",0,"A0001",
                 "2018-2021",
                 "géologues",
                 0,
                 listeActivites);
     }
     public Declaration creerDecladationGeoCycleInv(List<Activite> listeActivites) {
-        return new Declaration("A0001",
+        return new Declaration("nom","prenom",0,"A0001",
                 "2018-2020",
                 "géologues",
                 0,
