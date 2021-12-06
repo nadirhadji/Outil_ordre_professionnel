@@ -12,7 +12,8 @@ public class ServiceValidationPodiatre extends ServiceValidationGeologue {
     public void verifier(Declaration declaration) {
         verifiationGeneral(declaration);
         verificationDesActivite(declaration);
-        verifierSpecifiqueOrdre(declaration);
+        //verifierSpecifiqueOrdre(declaration);
+        verifierNombreHeuresTotaleDansDeclarationPodiatre();
     }
 
     @Override
