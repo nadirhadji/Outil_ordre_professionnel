@@ -13,7 +13,7 @@ public class ServiceValidationNumeroDePermis {
     }
 
     public static boolean geologueOUpodologue(String numeroDePermis) {
-        return verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.GEOLOGUE_PODOLOGUE);
+        return verifierNumeroDePermis(numeroDePermis, RegexNumeroDePermis.GEOLOGUE);
     }
 
     public static boolean psychologues(String numeroDePermis) {

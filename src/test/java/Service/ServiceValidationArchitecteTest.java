@@ -585,7 +585,7 @@ public class ServiceValidationArchitecteTest {
     }
 
     public Declaration creerDecladation(List<Activite> listeActivites, int nombreHeuresTransfere) {
-        return new Declaration("A0001",
+        return new Declaration("nom","prenom",0,"A0001",
                 "2016-2018",
                 "architectes",
                 nombreHeuresTransfere,
