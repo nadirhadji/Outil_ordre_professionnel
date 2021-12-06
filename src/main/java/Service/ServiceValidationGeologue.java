@@ -31,7 +31,14 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     @Override
     public void verifiationGeneral(Declaration declaration) {
         if (verifierCycleGeologue(declaration)) {
-            ServiceValidationNumeroDePermis.geologueOUpodologue(declaration.obtenirNumeroDePermis());
+            ServiceValidationNumeroDePermis.geologue(declaration.obtenirNumeroDePermis());
+            if(!(verifierLettreNumPermis(declaration))){
+                //TODO - service message pour numero Permis invalide car
+                //TODO - les deux premieres lettre correspondent pas aux
+                //TODO - premieres lettres du nom et prenom
+                System.out.println("message erreur: numero permis invalide lettre");//a retirer plus tard
+
+            }
         }
     }
 
@@ -58,6 +65,18 @@ public class ServiceValidationGeologue implements InterfaceVerification {
     public boolean estCycleGeologueValide(String cycle) {
         return cycle.equals(ConstantesGeologue.CYCLE_GEOLOGUE);
     }
+
+    /*##################### Service.Verification des activités #######################*/
+
+    public boolean verifierLettreNumPermis(Declaration declaration){
+        char prenom = declaration.obtenirPrenom().charAt(0);
+        char nom = declaration.obtenirNom().charAt(0);
+        if(declaration.obtenirNumeroDePermis().charAt(0) == nom &&
+                declaration.obtenirNumeroDePermis().charAt(1) == prenom) return true;
+        else return false;
+    }
+
+
 
     /*##################### Service.Verification des activités #######################*/
     public void verifierActivites(Declaration general) {
