@@ -7,6 +7,9 @@ import java.util.List;
 
 public class ServiceValidationGeologue implements InterfaceVerification {
 
+    public ServiceValidationGeologue(){
+
+    }
     ServiceRedondanceDate serviceRedondanceDate;
     ServiceValidationActivite serviceValidationActivite;
     HeuresGeologue heuresGeologue;
