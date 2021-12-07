@@ -7,41 +7,31 @@ import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
 import Utils.ConstantesPsychologues;
 import com.github.stefanbirkner.systemlambda.SystemLambda;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Before; 
 import org.junit.After;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-
+import org.junit.Before;
+import org.junit.jupiter.api.*;
+import org.junit.Test;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 public class ServiceValidationActiviteTest {
 
-    ServiceValidationActivite service;
+    ServiceValidationActivite service = null;
 
     @Before
-    public void before() throws Exception {
+    public void beforeAll() throws Exception {
         Constantes.ARG1="src/test/ressources/reponse.json";
-        initialiserService(null,null);
-        Reponse.obtenirInstance();
-    }
-
-    @AfterEach
-    public void after() throws Exception {
+        this.service = initialiserService(null,null);
         Reponse.supprimerInstance();
     }
 
     @After
-    public void afterA() {
+    public void afterAll() {
         Constantes.ARG1 = "";
+        Reponse.supprimerInstance();
     }
 
-    public void initialiserService(String ordre, String cycle) {
-        this.service = new ServiceValidationActivite(ordre,cycle);
+    public ServiceValidationActivite initialiserService(String ordre, String cycle) {
+        return new ServiceValidationActivite(ordre,cycle);
     }
 
     public Activite obtenirActiviteDescriptionValide() {
@@ -54,88 +44,88 @@ public class ServiceValidationActiviteTest {
                 "cours",5,"2020-06-02");
     }
 
-    public void verifierCategorie(String description) {
-        Activite a = new Activite("description",description,5,"2020-06-02");
-        service.verifierCategorie(a);
+    public Activite obtenirActivite(String description) {
+        return new Activite("description de plus de 20 carac",description,5,"2020-06-02");
     }
 
     @Test
     public void testVerifierDescriptionValide() throws Exception {
         service.verifierDescription(obtenirActiviteDescriptionValide());
-        Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().get(0).);
+        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty() &&
+                Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
     }
 
     @Test
     public void testVerifierDescriptionInvalide() throws Exception {
-        initialiserService(null,null);
-        service.verifierDescription(obtenirActiviteDescriptionInvalide());
-        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        int status = SystemLambda.catchSystemExit(() ->
+                service.verifierDescription(obtenirActiviteDescriptionInvalide()));
+        Assertions.assertEquals(status,7);
     }
 
     @Test
     public void testVerifierCategorieCours() throws Exception {
-        verifierCategorie("cours");
+        this.service.verifierCategorie(obtenirActivite("cours"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieAtelier() throws Exception {
-        verifierCategorie("atelier");
+        this.service.verifierCategorie(obtenirActivite("atelier"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieSeminaire() throws Exception {
-        verifierCategorie("séminaire");
+        this.service.verifierCategorie(obtenirActivite("séminaire"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieColloque() throws Exception {
-        verifierCategorie("colloque");
+        this.service.verifierCategorie(obtenirActivite("colloque"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieConference() throws Exception {
-        verifierCategorie("conférence");
+        this.service.verifierCategorie(obtenirActivite("conférence"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieLecture() throws Exception {
-        verifierCategorie("lecture dirigée");
+        this.service.verifierCategorie(obtenirActivite("lecture dirigée"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategoriePresentation() throws Exception {
-        verifierCategorie("présentation");
+        this.service.verifierCategorie(obtenirActivite("présentation"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieGroupe() throws Exception {
-        verifierCategorie("groupe de discussion");
+        this.service.verifierCategorie(obtenirActivite("groupe de discussion"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieProjet() throws Exception {
-        verifierCategorie("projet de recherche");
+        this.service.verifierCategorie(obtenirActivite("projet de recherche"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieRedaction() throws Exception {
-        verifierCategorie("rédaction professionnelle");
+        this.service.verifierCategorie(obtenirActivite("rédaction professionnelle"));
         Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
     public void testVerifierCategorieInvalide() throws Exception {
-        verifierCategorie("categorie");
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        this.service.verifierCategorie(obtenirActivite("categorie"));
+        Assertions.assertEquals(112,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
 
     @Test
@@ -192,8 +182,9 @@ public class ServiceValidationActiviteTest {
     @Test
     public void testVerifierNombreHeureNegatifVrai() throws Exception {
         Activite a = new Activite("description","cours",-1,"2020-04-12");
-        service.verifierNombreHeureNegatif(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
+        int status = SystemLambda.catchSystemExit(() ->
+                service.verifierNombreHeureNegatif(a));
+        Assertions.assertEquals(5,status);
     }
 
     @Test
@@ -214,9 +205,8 @@ public class ServiceValidationActiviteTest {
     public void testVerifierNombreHeuresMaximumFaux() throws Exception {
         Activite a = new Activite("description","cours",12,"2020-04-12");
         service.verifierNombreHeuresMaximum(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(118,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
-
 
     @Test
     public void testANombreHeuresSuperieurAuMaximumVrai() throws Exception {
@@ -241,7 +231,7 @@ public class ServiceValidationActiviteTest {
         service = new ServiceValidationActivite("architectes","2018-2020");
         Activite a = new Activite("description","cours",3,"2020-04-02");
         service.verifierDateActivite(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(107,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
 
     @Test
@@ -265,7 +255,7 @@ public class ServiceValidationActiviteTest {
         service = new ServiceValidationActivite("architectes","2016-2018");
         Activite a = new Activite("description","cours",3,"2016-03-02");
         service.verifierDateActivite(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(106,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
 
     @Test
@@ -273,7 +263,7 @@ public class ServiceValidationActiviteTest {
         service = new ServiceValidationActivite(ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES,"2018-2021");
         Activite a = new Activite("description","cours",3,"2017-03-02");
         service.verifierDateActivite(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(109,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
 
     @Test
@@ -297,7 +287,7 @@ public class ServiceValidationActiviteTest {
         service = new ServiceValidationActivite(ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES,"2018-2023");
         Activite a = new Activite("description","cours",3,"2017-02-02");
         service.verifierDateActivite(a);
-        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(109,Reponse.obtenirInstance().obtenirMessageInformation().get(0).getCode());
     }
 
     @Test

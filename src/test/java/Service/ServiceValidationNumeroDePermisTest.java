@@ -1,12 +1,10 @@
 package Service;
 
 import Entite.Reponse;
+import Utils.CodeErreur;
 import Utils.Constantes;
 import com.github.stefanbirkner.systemlambda.SystemLambda;
-import com.sun.source.tree.AssertTree;
 import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceValidationNumeroDePermisTest {
 
@@ -48,7 +46,7 @@ class ServiceValidationNumeroDePermisTest {
         int status = SystemLambda.catchSystemExit(() ->
                 ServiceValidationNumeroDePermis.architecte(
                         "M0000"));
-        Assertions.assertEquals(status,5);
+        Assertions.assertEquals(CodeErreur.FATAL_NUMERO_PERMIS,status);
     }
 
     /**
@@ -60,7 +58,7 @@ class ServiceValidationNumeroDePermisTest {
         int status = SystemLambda.catchSystemExit(() ->
                 ServiceValidationNumeroDePermis.architecte(
                         "A00000"));
-        Assertions.assertEquals(status,5);
+        Assertions.assertEquals(CodeErreur.FATAL_NUMERO_PERMIS,status);
     }
 
     /**
@@ -72,7 +70,7 @@ class ServiceValidationNumeroDePermisTest {
         int status = SystemLambda.catchSystemExit(() ->
                 ServiceValidationNumeroDePermis.architecte(
                         "X00000"));
-        Assertions.assertEquals(status,5);
+        Assertions.assertEquals(CodeErreur.FATAL_NUMERO_PERMIS,status);
     }
 
     /**
@@ -84,7 +82,7 @@ class ServiceValidationNumeroDePermisTest {
         int status = SystemLambda.catchSystemExit(() ->
                 ServiceValidationNumeroDePermis.architecte(
                         "00000"));
-        Assertions.assertEquals(status,5);
+        Assertions.assertEquals(CodeErreur.FATAL_NUMERO_PERMIS,status);
     }
 
     /**
@@ -96,6 +94,6 @@ class ServiceValidationNumeroDePermisTest {
         int status = SystemLambda.catchSystemExit(() ->
                 ServiceValidationNumeroDePermis.architecte(
                         "XCTRT"));
-        Assertions.assertEquals(status,5);
+        Assertions.assertEquals(CodeErreur.FATAL_NUMERO_PERMIS,status);
     }
 }

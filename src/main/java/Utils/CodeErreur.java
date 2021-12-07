@@ -8,6 +8,12 @@ public class CodeErreur {
     public static final int STATUS_NUMERO_PERMIS_INVALIDE = 2;
     public static final int STATUS_ERREUR_INCOMPLETE = 3;
 
+    /***********Code de Fin Execution Fatale**************/
+    public static final int FATAL_NUMERO_PERMIS = 8;
+    public static final int FATAL_DESCRIPTION = 7;
+    public static final int FATAL_CHAMP_MANQUANT = 6;
+    public static final int FATAL_HEURES_NEGATIVES = 5;
+
     /************Code d'erreur a des fin de test**********/
     public static final int SEXE = 100;
     public static final int CYCLE_ARCHITECTE = 101;

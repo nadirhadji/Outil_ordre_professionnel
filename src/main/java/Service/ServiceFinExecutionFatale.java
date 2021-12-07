@@ -2,6 +2,7 @@ package Service;
 
 import Entite.MessageErreur;
 import Entite.Reponse;
+import Utils.CodeErreur;
 import Utils.Constantes;
 
 public class ServiceFinExecutionFatale {
@@ -28,7 +29,7 @@ public class ServiceFinExecutionFatale {
      */
     public static void finExecutionHeuresNegatives(MessageErreur message) {
         finExecutionFatale(message);
-        System.exit(5);
+        System.exit(CodeErreur.FATAL_HEURES_NEGATIVES);
     }
 
     /**
@@ -36,7 +37,7 @@ public class ServiceFinExecutionFatale {
      */
     public static void finExecutionChampManquant(MessageErreur message) {
         finExecutionFatale(message);
-        System.exit(6);
+        System.exit(CodeErreur.FATAL_CHAMP_MANQUANT);
     }
 
     /**
@@ -44,7 +45,7 @@ public class ServiceFinExecutionFatale {
      */
     public static void finExecutionDescription(MessageErreur message) {
         finExecutionFatale(message);
-        System.exit(7);
+        System.exit(CodeErreur.FATAL_DESCRIPTION);
     }
 
     /**
@@ -52,6 +53,6 @@ public class ServiceFinExecutionFatale {
      */
     public static void finExecutionPermisInvalide(MessageErreur message) {
         finExecutionFatale(message);
-        System.exit(8);
+        System.exit(CodeErreur.FATAL_NUMERO_PERMIS);
     }
 }
