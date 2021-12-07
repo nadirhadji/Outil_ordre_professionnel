@@ -8,33 +8,34 @@ import org.json.simple.JSONObject;
 
 public class ServiceDeclarationJSONTest {
 
-    private ServiceDeclarationJSON serviceDeclarationJson;
+    private ServiceDeclarationJSON declarationJSON;
 
     @Before
     public void before() throws Exception {
-        serviceDeclarationJson = new ServiceDeclarationJSON("src/test/ressourcesTeste/declaration.json");
+        declarationJSON = new ServiceDeclarationJSON("src/test/ressources/declaration.json");
     }
 
     @Test
     public void testContientCleExistante() {
-        Assertions.assertTrue(serviceDeclarationJson.contientCleObligatoire("ordre"));
+        Assertions.assertTrue(OutilsJson.contientCleObligatoire(declarationJSON,"ordre"));
     }
 
     @Test
     public void testContientCleInexistante() {
-        Assertions.assertFalse(serviceDeclarationJson.contientCle("test"));
+        Assertions.assertFalse(OutilsJson.contientCle(declarationJSON,"test"));
     }
 
     @Test
     public void testObtenirStringDeCleExistante() throws CleJSONInexistanteException {
-        Assertions.assertEquals("A0001", serviceDeclarationJson.obtenirStringDeCle("numero_de_permis"));
+        Assertions.assertEquals("A0001",
+                OutilsJson.obtenirStringDeCle(declarationJSON,"numero_de_permis"));
     }
 
     @Test
     public void testObtenirStringDeCleInexistante() throws CleJSONInexistanteException {
         CleJSONInexistanteException e = Assertions.assertThrows(
                 CleJSONInexistanteException.class,
-                () -> serviceDeclarationJson.obtenirStringDeCle("test"),
+                () -> OutilsJson.obtenirStringDeCle(declarationJSON,"test"),
                 "La clé est inexistante"
         );
         Assertions.assertTrue(e.getMessage().contains("le champ test n'existe pas dans le fichier JSON"));
@@ -42,8 +43,8 @@ public class ServiceDeclarationJSONTest {
 
     @Test
     public void testObtenirIntDeCle() throws Exception {
-        Assertions.assertEquals(
-                2, serviceDeclarationJson.obtenirIntDeCle("heures_transferees_du_cycle_precedent")
+        Assertions.assertEquals(2,
+                OutilsJson.obtenirIntDeCle(declarationJSON,"heures_transferees_du_cycle_precedent")
         );
     }
 
@@ -51,7 +52,7 @@ public class ServiceDeclarationJSONTest {
     public void testObtenirIntDeCleInexistante() throws Exception{
         CleJSONInexistanteException e = Assertions.assertThrows(
                 CleJSONInexistanteException.class,
-                () -> serviceDeclarationJson.obtenirIntDeCle("test"),
+                () -> OutilsJson.obtenirIntDeCle(declarationJSON,"test"),
                 "La cle est inexistante"
         );
         Assertions.assertTrue(e.getMessage().contains("le champ test n'existe pas dans le fichier JSON"));
@@ -61,7 +62,7 @@ public class ServiceDeclarationJSONTest {
     public void testObtenirIntDeNonString() throws Exception {
         ClassCastException e = Assertions.assertThrows(
                 ClassCastException.class,
-                () -> serviceDeclarationJson.obtenirIntDeCle("ordre"),
+                () -> OutilsJson.obtenirIntDeCle(declarationJSON,"ordre"),
                 "Cette element n'est pas un entier"
         );
         Assertions.assertTrue(e.getMessage().contains("cannot be cast to class"));

@@ -1,5 +1,6 @@
 package Service;
 
+import Entite.MessageErreur;
 import Entite.Reponse;
 import Utils.Constantes;
 import Utils.RegexNumeroDePermis;
@@ -27,7 +28,7 @@ public class ServiceValidationNumeroDePermis {
     private static boolean verifierNumeroDePermis(String numeroDePermis, String regex) {
         boolean estNumeroDePermisValide = estNumeroDePermisValide(numeroDePermis, regex);
         if (! estNumeroDePermisValide ) {
-            String message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis).getErreur();
+            MessageErreur message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis);
             ServiceFinExecutionFatale.finExecutionPermisInvalide(message);
         }
         return estNumeroDePermisValide;

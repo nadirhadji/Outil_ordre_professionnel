@@ -2,6 +2,7 @@ package Service;
 
 import Entite.Activite;
 import Entite.Categorie;
+import Entite.MessageErreur;
 import Entite.Reponse;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
@@ -46,7 +47,7 @@ public class ServiceValidationActivite {
     public void verifierDescription(Activite activite) {
         if (activite.obtenirDescription().length() < 20 ) {
             ServiceFinExecutionFatale.finExecutionDescription(
-                    ServiceMessages.messageErreurDescription(activite).getErreur()
+                    ServiceMessages.messageErreurDescription(activite)
             );
         }
     }
@@ -77,7 +78,7 @@ public class ServiceValidationActivite {
 
     public void verifierNombreHeureNegatif(Activite activite) {
         if ( activite.obtenirHeures() < 0) {
-            String message = ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite).getErreur();
+            MessageErreur message = ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite);
             ServiceFinExecutionFatale.finExecutionHeuresNegatives(message);
         }
     }

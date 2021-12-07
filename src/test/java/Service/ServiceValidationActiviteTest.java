@@ -6,11 +6,15 @@ import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
 import Utils.ConstantesPsychologues;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -21,17 +25,23 @@ public class ServiceValidationActiviteTest {
 
     @Before
     public void before() throws Exception {
+        Constantes.ARG1="src/test/ressources/reponse.json";
         initialiserService(null,null);
         Reponse.obtenirInstance();
     }
 
-    @After
+    @AfterEach
     public void after() throws Exception {
         Reponse.supprimerInstance();
     }
 
+    @After
+    public void afterA() {
+        Constantes.ARG1 = "";
+    }
+
     public void initialiserService(String ordre, String cycle) {
-        service = new ServiceValidationActivite(ordre,cycle);
+        this.service = new ServiceValidationActivite(ordre,cycle);
     }
 
     public Activite obtenirActiviteDescriptionValide() {
@@ -51,9 +61,8 @@ public class ServiceValidationActiviteTest {
 
     @Test
     public void testVerifierDescriptionValide() throws Exception {
-        initialiserService(null,null);
         service.verifierDescription(obtenirActiviteDescriptionValide());
-        Assertions.assertTrue(Reponse.obtenirInstance().obtenirMessageInformation().isEmpty());
+        Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().get(0).);
     }
 
     @Test

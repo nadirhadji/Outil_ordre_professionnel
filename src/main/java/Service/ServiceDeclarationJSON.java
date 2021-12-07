@@ -2,6 +2,7 @@ package Service;
 
 import Entite.Activite;
 import Entite.Declaration;
+import Entite.MessageErreur;
 import Entite.Reponse;
 import Exception.CleJSONInexistanteException;
 import Utils.Constantes;
@@ -26,10 +27,9 @@ import java.util.List;
    * informations spécifiques désirées
    * pour éventuellement les analyser.
 */
-public class ServiceDeclarationJSON {
+public class ServiceDeclarationJSON extends JSONObject {
 
     private final String fichierEntree;
-    private JSONObject jsonObj;
 
     public ServiceDeclarationJSON(String fichierEntre)
             throws Exception {
@@ -39,46 +39,8 @@ public class ServiceDeclarationJSON {
 
     private void charger() throws Exception {
         Object obj = new JSONParser().parse(new FileReader(fichierEntree));
-        jsonObj = (JSONObject) obj;
-    }
-
-    public boolean contientCle(String cle) {
-        return jsonObj.containsKey(cle);
-    }
-
-    public String obtenirStringDeCle(String cle) {
-        String resultat = null;
-        if( jsonObj.containsKey(cle))
-            resultat = (String) jsonObj.get(cle);
-        return resultat;
-    }
-
-    public int obtenirIntDeCle(String cle) {
-        int resultat = -1;
-        if (jsonObj.containsKey(cle))
-            resultat = (int) (long) jsonObj.get(cle);
-        return resultat;
-    }
-
-    /*
-     * L'appel a cette méthodes  implique que la clé doit etreexistante dans le JSON
-     * en entrée dans le cas contraire, on doit interrompre l'execution du programme
-     * pour cause de fichier JSON incomplet
-     */
-    public boolean contientCleObligatoire(String cle) {
-        if ( jsonObj.containsKey(cle) )
-            return true;
-        else {
-            return finExecutionChampManquant(cle);
-        }
-    }
-
-    public boolean contientCleObligatoire(String cle , JSONObject json) {
-        if ( json.containsKey(cle) )
-            return true;
-        else {
-            return finExecutionChampManquant(cle);
-        }
+        JSONObject jsonObj = (JSONObject) obj;
+        this.putAll(jsonObj);
     }
 
     /***************************Méthode pour la declaration******************************/
@@ -95,54 +57,54 @@ public class ServiceDeclarationJSON {
 
     private String obtenirNom(){
         String nom;
-        nom = contientCleObligatoire(Constantes.CLE_NOM) ?
-                obtenirStringDeCle(Constantes.CLE_NOM) : null;
+        nom = OutilsJson.contientCleObligatoire(this,Constantes.CLE_NOM) ?
+                OutilsJson.obtenirStringDeCle(this,Constantes.CLE_NOM) : null;
         return  nom;
     }
 
     private String obtenirPrenom(){
         String prenom;
-        prenom = contientCleObligatoire(Constantes.CLE_PRENOM) ?
-                obtenirStringDeCle(Constantes.CLE_PRENOM) : null;
+        prenom = OutilsJson.contientCleObligatoire(this,Constantes.CLE_PRENOM) ?
+                OutilsJson.obtenirStringDeCle(this,Constantes.CLE_PRENOM) : null;
         return  prenom;
     }
 
     private int obtenirSexe(){
         int sexe = -1;
-        sexe = contientCleObligatoire(Constantes.CLE_SEXE) ?
-                obtenirIntDeCle(Constantes.CLE_SEXE) : -1;
+        sexe = OutilsJson.contientCleObligatoire(this,Constantes.CLE_SEXE) ?
+                OutilsJson.obtenirIntDeCle(this,Constantes.CLE_SEXE) : -1;
         return  sexe;
     }
 
     private String obtenirNumeroDePermis() {
         String numeroDePermis;
-        numeroDePermis = contientCleObligatoire(Constantes.CLE_NUMERO_DE_PERMIS) ?
-            obtenirStringDeCle(Constantes.CLE_NUMERO_DE_PERMIS) : null;
+        numeroDePermis = OutilsJson.contientCleObligatoire(this,Constantes.CLE_NUMERO_DE_PERMIS) ?
+                OutilsJson.obtenirStringDeCle(this,Constantes.CLE_NUMERO_DE_PERMIS) : null;
         return numeroDePermis;
     }
 
     private String obtenirCycle() {
         String cycle;
-        cycle = contientCleObligatoire(Constantes.CLE_CYCLE) ?
-                obtenirStringDeCle(Constantes.CLE_CYCLE) : null;
+        cycle = OutilsJson.contientCleObligatoire(this,Constantes.CLE_CYCLE) ?
+                OutilsJson.obtenirStringDeCle(this,Constantes.CLE_CYCLE) : null;
         return cycle;
     }
 
     private String obtenirOrdre() {
         String ordre;
-        ordre = contientCleObligatoire(Constantes.CLE_ORDRE) ?
-                obtenirStringDeCle(Constantes.CLE_ORDRE) : null;
+        ordre = OutilsJson.contientCleObligatoire(this,Constantes.CLE_ORDRE) ?
+                OutilsJson.obtenirStringDeCle(this,Constantes.CLE_ORDRE) : null;
         return ordre;
     }
 
     private int obtenirHeuresTransfere(String ordre) {
         int heuresTransfere = -1;
         if (ordre.equals(ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES) ) {
-            heuresTransfere = contientCleObligatoire(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ?
-                    obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) : -1;
+            heuresTransfere = OutilsJson.contientCleObligatoire(this,Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ?
+                    OutilsJson.obtenirIntDeCle(this,Constantes.CLE_NOMBRE_HEURE_TRANSFERE) : -1;
         }
-        else if ( contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
-            String message = ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre).getErreur();
+        else if ( OutilsJson.contientCle(this,Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
+            MessageErreur message = ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre);
             Reponse.obtenirInstance().ajouterMessageInformation(message);
         }
         return heuresTransfere;
@@ -151,14 +113,14 @@ public class ServiceDeclarationJSON {
     /***************************Méthode pour les activités******************************/
 
     public List<Activite> obtenirActivites() {
-        if( contientCleObligatoire(Constantes.CLE_LISTE_ACTIVITE) ) {
+        if( OutilsJson.contientCleObligatoire(this,Constantes.CLE_LISTE_ACTIVITE) ) {
             return construireListeActivites(new ArrayList<>());
         }
         else return null;
     }
 
     private JSONArray obtenirListeDesActiviteEnJSONArray() {
-        return (JSONArray) jsonObj.get(Constantes.CLE_LISTE_ACTIVITE);
+        return (JSONArray) this.get(Constantes.CLE_LISTE_ACTIVITE);
     }
 
     private List<Activite> construireListeActivites(List<Activite> listeActivites) {
@@ -180,36 +142,30 @@ public class ServiceDeclarationJSON {
 
     private String obtenirDescription(JSONObject activitesJson) {
         String description;
-        description = contientCleObligatoire(Constantes.CLE_DESCRIPTION, activitesJson) ?
+        description = OutilsJson.contientCleObligatoire(Constantes.CLE_DESCRIPTION, activitesJson) ?
                 (String) activitesJson.get(Constantes.CLE_DESCRIPTION) : null;
         return description;
     }
 
     private String obtenirCategorie(JSONObject activitesJson) {
         String categorie;
-        categorie = contientCleObligatoire(Constantes.CLE_CATEGORIE, activitesJson) ?
+        categorie = OutilsJson.contientCleObligatoire(Constantes.CLE_CATEGORIE, activitesJson) ?
                 (String) activitesJson.get(Constantes.CLE_CATEGORIE) : null;
         return categorie;
     }
 
     private int obtenirHeures( JSONObject activitesJson ) {
         int heures;
-        heures = contientCleObligatoire(Constantes.CLE_NOMBRE_HEURE,activitesJson) ?
+        heures = OutilsJson.contientCleObligatoire(Constantes.CLE_NOMBRE_HEURE,activitesJson) ?
                 (int) (long) activitesJson.get(Constantes.CLE_NOMBRE_HEURE) : -1;
         return heures;
     }
 
     private String obtenirDate(JSONObject activitesJson ) {
         String date;
-        date = contientCleObligatoire(Constantes.CLE_DATE,activitesJson) ?
+        date = OutilsJson.contientCleObligatoire(Constantes.CLE_DATE,activitesJson) ?
                 (String) activitesJson.get(Constantes.CLE_DATE) : null;
         return date;
-    }
-
-    private boolean finExecutionChampManquant(String cle) {
-        String message = ServiceMessages.messageErreurChampDansJsonInexistante(cle).getErreur();
-        ServiceFinExecutionFatale.finExecutionChampManquant(message);
-        return false;
     }
     /**********************************************************************************/
 }

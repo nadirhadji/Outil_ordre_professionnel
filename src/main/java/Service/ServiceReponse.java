@@ -44,16 +44,18 @@ public class ServiceReponse {
         return obtenirJolieJson(reponseJSON.toJSONString());
     }
 
-    public static JSONArray obtenirListEnJson(List<String> liste) {
+    public static JSONArray obtenirListEnJson(List<MessageErreur> liste) {
         JSONArray listeJson = new JSONArray();
-        listeJson.addAll(liste);
+        for (MessageErreur message : liste) {
+            listeJson.add(message.getErreur());
+        }
         return listeJson;
     }
 
-    public static JSONArray fusionnerDeuxListEnJson(List<String> liste1, List<String> liste2) {
+    public static JSONArray fusionnerDeuxListEnJson(List<MessageErreur> liste1, List<MessageErreur> liste2) {
         JSONArray listeJson = new JSONArray();
-        listeJson.addAll(liste1);
-        listeJson.addAll(liste2);
+        listeJson.addAll(obtenirListEnJson(liste1));
+        listeJson.addAll(obtenirListEnJson(liste2));
         return listeJson;
     }
 
