@@ -1,9 +1,44 @@
 package Service;
 
 import Entite.MessageErreur;
+import Utils.Constantes;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class OutilsJson {
+
+    public static JSONObject obtenirJsonObjectDeFichier(String nom_fichier) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject =  chargerFichierJson(nom_fichier);
+        } catch (Exception e) {
+            gererException(e);
+        }
+        return jsonObject;
+    }
+
+    private static void gererException(Exception e) {
+        if (e.getClass() == FileNotFoundException.class) {
+            System.out.println("Le fichier " + Constantes.ARG0 + " n'existe pas");
+            System.exit(-1);
+        } else if (e.getClass() == ParseException.class) {
+            System.out.println("Le format du fichier +" + Constantes.ARG0 + " ne respecte pas le format JSON");
+            System.exit(-1);
+        } else {
+            System.out.println(e.getMessage());
+            System.exit(-1);
+        }
+    }
+
+    public static JSONObject chargerFichierJson(String nom_fichier) throws IOException, ParseException {
+        Object obj = new JSONParser().parse(new FileReader(nom_fichier));
+        return (JSONObject) obj;
+    }
 
     public static boolean contientCle(JSONObject json, String cle) {
         return json.containsKey(cle);

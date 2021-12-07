@@ -29,18 +29,9 @@ import java.util.List;
 */
 public class ServiceDeclarationJSON extends JSONObject {
 
-    private final String fichierEntree;
-
-    public ServiceDeclarationJSON(String fichierEntre)
-            throws Exception {
-        this.fichierEntree = fichierEntre;
-        charger();
-    }
-
-    private void charger() throws Exception {
-        Object obj = new JSONParser().parse(new FileReader(fichierEntree));
-        JSONObject jsonObj = (JSONObject) obj;
-        this.putAll(jsonObj);
+    public ServiceDeclarationJSON(String nom_fichier) {
+        JSONObject jsonObject = OutilsJson.obtenirJsonObjectDeFichier(nom_fichier);
+        this.putAll(jsonObject);
     }
 
     /***************************Méthode pour la declaration******************************/

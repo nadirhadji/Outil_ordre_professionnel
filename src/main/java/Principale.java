@@ -1,10 +1,8 @@
-import Service.ServiceDeclarationJSON;
+import Service.*;
 import Entite.Declaration;
 import Entite.Reponse;
-import Service.ServiceReponse;
-import Service.ServiceStatistique;
-import Service.ServiceValidation;
 import Utils.Constantes;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,29 +36,10 @@ public class Principale {
     }
 
     private static void verifierDeclaration(String[] args) {
-        ServiceDeclarationJSON serviceDeclarationJson = initlialiserServiceJson();
-        Declaration declaration = serviceDeclarationJson.obtenirDeclaration();
+        ServiceDeclarationJSON declarationJSON = new ServiceDeclarationJSON(args[0]);
+        Declaration declaration = declarationJSON.obtenirDeclaration();
         ServiceValidation service = new ServiceValidation();
         service.validerDeclaration(declaration);
         ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
-    }
-
-    private static ServiceDeclarationJSON initlialiserServiceJson() {
-        ServiceDeclarationJSON serviceDeclarationJSON = null;
-        try {
-            serviceDeclarationJSON = new ServiceDeclarationJSON(Constantes.ARG0);
-        } catch (Exception e) {
-            if (e.getClass() == FileNotFoundException.class) {
-                System.out.println("Le fichier " + Constantes.ARG0 + " n'existe pas");
-                System.exit(-1);
-            } else if (e.getClass() == ParseException.class) {
-                System.out.println("Le format du fichier +" + Constantes.ARG0 + " ne respecte pas le format JSON");
-                System.exit(-1);
-            } else {
-                System.out.println(e.getMessage());
-                System.exit(-1);
-            }
-        }
-        return serviceDeclarationJSON;
     }
 }
