@@ -1,6 +1,7 @@
 package Service;
 
 import Entite.Activite;
+import Entite.MessageErreur;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import Utils.ConstantesGeologue;
@@ -21,7 +22,9 @@ class ServiceMessagesTest {
     @Test
     void messageErreurCycleInvalide() {
         String message = "Le cycle entrée n'est pas valide, " +
-                "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
+                "Le cycle doit être "+ ConstantesArchitecte.CYCLE_2016_2018 +
+                " ou " + ConstantesArchitecte.CYCLE_2018_2020+ " ou "+
+                ConstantesArchitecte.CYCLE_2020_2022;
         Assertions.assertEquals(message, ServiceMessages.messageErreurCycleInvalideArchitecte().getErreur());
     }
 
@@ -41,6 +44,13 @@ class ServiceMessagesTest {
     }
 
     @Test
+    void messageErreurDate() {
+        String message = " La date de l'activité "+activite.obtenirDescription() +
+                " n'est pas valide. Verifier votre declaration";
+        Assertions.assertEquals(message,ServiceMessages.messageErreurDateDefault(activite).getErreur());
+    }
+
+    @Test
     void messageErreurDescription() {
         String message = "Erreur : L'activite "+activite.obtenirDescription() +
                 "contient une description inferieur a 20 caracteres.";
@@ -56,10 +66,15 @@ class ServiceMessagesTest {
     }
 
     @Test
-    void messageErreurDate() {
+    void choisirMessageErreurArchitecteDate() {
+        String message = " L'activité " + activite.obtenirDescription() + " realisée en date du " +
+                activite.obtenirDate() + " a été faite en dehors des dates du cycle 2016-2018 " +
+                " soit entre le " + ConstantesArchitecte.ARCHITECTE_DATE_DEBUT_2016 +
+                " et " + ConstantesArchitecte.ARCHITECTE_DATE_FIN_2018;
+        Assertions.assertEquals(message,ServiceMessages.messageErreurDateArchitecte2016a2018(activite).getErreur());
     }
 
-    @Test
+        @Test
     void messageErreurDateArchitecte2016a2018() {
         String message = " L'activité " + activite.obtenirDescription() + " realisée en date du " +
                 activite.obtenirDate() + " a été faite en dehors des dates du cycle 2016-2018 " +
