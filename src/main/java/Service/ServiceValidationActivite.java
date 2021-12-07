@@ -46,7 +46,7 @@ public class ServiceValidationActivite {
     public void verifierDescription(Activite activite) {
         if (activite.obtenirDescription().length() < 20 ) {
             ServiceFinExecutionFatale.finExecutionDescription(
-                    ServiceMessages.messageErreurDescription(activite)
+                    ServiceMessages.messageErreurDescription(activite).getErreur()
             );
         }
     }
@@ -77,7 +77,7 @@ public class ServiceValidationActivite {
 
     public void verifierNombreHeureNegatif(Activite activite) {
         if ( activite.obtenirHeures() < 0) {
-            String message = ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite);
+            String message = ServiceMessages.messageErreurNombreHeuresPourActiviteNegatif(activite).getErreur();
             ServiceFinExecutionFatale.finExecutionHeuresNegatives(message);
         }
     }

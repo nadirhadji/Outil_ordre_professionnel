@@ -1,5 +1,6 @@
 package Service;
 
+import Entite.MessageErreur;
 import Entite.Reponse;
 import Utils.Constantes;
 import com.google.gson.Gson;
@@ -27,14 +28,14 @@ public class ServiceReponse {
 
     private static String obtenirReponsePrete(Reponse reponse) {
         JSONObject reponseJSON = new JSONObject();
-        ArrayList<String> messagesErreur = reponse.obtenirMessagesErreur();
-        ArrayList<String> messageInformation = reponse.obtenirMessageInformation();
+        ArrayList<MessageErreur> messagesErreur = reponse.obtenirMessagesErreur();
+        ArrayList<MessageErreur> messageInformation = reponse.obtenirMessageInformation();
 
         if ( messagesErreur.isEmpty() ) {
             reponseJSON.put(Constantes.cleReponseComplet,"true");
             JSONArray liste = obtenirListEnJson(messageInformation);
-            if(! obtenirListEnJson(messageInformation).isEmpty())
-                reponseJSON.put(Constantes.cleReponseErreur, obtenirListEnJson(messageInformation));
+            if(! liste.isEmpty())
+                reponseJSON.put(Constantes.cleReponseErreur, liste);
         }
         else {
             reponseJSON.put(Constantes.cleReponseComplet,"false");

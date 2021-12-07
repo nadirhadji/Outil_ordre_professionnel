@@ -6,6 +6,7 @@ import Service.ServiceStatistique;
 import Service.ServiceValidation;
 import Utils.Constantes;
 import org.json.simple.parser.ParseException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Principale {
@@ -16,8 +17,8 @@ public class Principale {
 
     private static void run(String[] args) {
         switch (args[0]) {
-            case "-S" -> genererStatistiques();
-            case "-SR" -> reinitialiserStatistiques();
+            case "-S" -> ServiceStatistique.afficher();
+            case "-SR" -> ServiceStatistique.reinitialiser();
             default -> {
                 verifierSyntaxe(args);
                 verifierDeclaration(args);
@@ -44,30 +45,21 @@ public class Principale {
         ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
     }
 
-    private static void genererStatistiques() {
-        initialiserFichierStatistique();
-    }
-
-    private static void initialiserFichierStatistique() {
-        try {
-            ServiceStatistique.initialiserFichier();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void reinitialiserStatistiques() {
-
-    }
-
     private static ServiceDeclarationJSON initlialiserServiceJson() {
         ServiceDeclarationJSON serviceDeclarationJSON = null;
         try {
             serviceDeclarationJSON = new ServiceDeclarationJSON(Constantes.ARG0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            if (e.getClass() == FileNotFoundException.class) {
+                System.out.println("Le fichier " + Constantes.ARG0 + " n'existe pas");
+                System.exit(-1);
+            } else if (e.getClass() == ParseException.class) {
+                System.out.println("Le format du fichier +" + Constantes.ARG0 + " ne respecte pas le format JSON");
+                System.exit(-1);
+            } else {
+                System.out.println(e.getMessage());
+                System.exit(-1);
+            }
         }
         return serviceDeclarationJSON;
     }

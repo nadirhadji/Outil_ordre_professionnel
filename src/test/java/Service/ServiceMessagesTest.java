@@ -22,7 +22,7 @@ class ServiceMessagesTest {
     void messageErreurCycleInvalide() {
         String message = "Le cycle entré n'est pas valide, " +
                 "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE;
-        Assertions.assertEquals(message, ServiceMessages.messageErreurCycleInvalide());
+        Assertions.assertEquals(message, ServiceMessages.messageErreurCycleInvalideArchitecte());
     }
 
     @Test

@@ -49,7 +49,7 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     public boolean verifierCycle(Declaration declaration) {
         if ( ! estCycleValide(declaration.obtenirCycle()) ) {
             Reponse.obtenirInstance().ajouterMessageErreur(
-                    ServiceMessages.messageErreurCycleInvalide());
+                    ServiceMessages.messageErreurCycleInvalideArchitecte());
             return false;
         }
         return true;

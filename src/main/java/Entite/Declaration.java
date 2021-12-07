@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class Declaration {
 
+    private String numeroDePermis;
     private String nom;
     private String prenom;
     private int sexe;
-    private String numeroDePermis;
     private String cycle;
     private String ordre;
     private int heuresTransfereesDuCyclePrecedent;

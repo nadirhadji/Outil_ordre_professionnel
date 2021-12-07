@@ -7,8 +7,6 @@ import Utils.ConstantesPodiatre;
 
 public class ServiceValidationPodiatre extends ServiceValidationGeologue {
 
-
-
     public void verifier(Declaration declaration) {
         verifiationGeneral(declaration);
         verificationDesActivite(declaration);

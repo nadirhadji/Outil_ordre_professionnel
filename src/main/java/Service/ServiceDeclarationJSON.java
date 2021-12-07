@@ -11,6 +11,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,18 +31,13 @@ public class ServiceDeclarationJSON {
     private final String fichierEntree;
     private JSONObject jsonObj;
 
-    public ServiceDeclarationJSON(String fichierEntre) throws IOException, ParseException {
+    public ServiceDeclarationJSON(String fichierEntre)
+            throws Exception {
         this.fichierEntree = fichierEntre;
         charger();
     }
 
-    //Constructeur a utiliser dans les testes
-    public ServiceDeclarationJSON(String fichierEntree, JSONObject jsonObj ) {
-        this.fichierEntree = fichierEntree;
-        this.jsonObj = jsonObj;
-    }
-
-    private void charger() throws IOException, ParseException {
+    private void charger() throws Exception {
         Object obj = new JSONParser().parse(new FileReader(fichierEntree));
         jsonObj = (JSONObject) obj;
     }
@@ -145,7 +142,7 @@ public class ServiceDeclarationJSON {
                     obtenirIntDeCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) : -1;
         }
         else if ( contientCle(Constantes.CLE_NOMBRE_HEURE_TRANSFERE) ) {
-            String message = ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre);
+            String message = ServiceMessages.messageErreurHeureTranfereNonSupporte(ordre).getErreur();
             Reponse.obtenirInstance().ajouterMessageInformation(message);
         }
         return heuresTransfere;
@@ -210,7 +207,7 @@ public class ServiceDeclarationJSON {
     }
 
     private boolean finExecutionChampManquant(String cle) {
-        String message = ServiceMessages.messageErreurChampDansJsonInexistante(cle);
+        String message = ServiceMessages.messageErreurChampDansJsonInexistante(cle).getErreur();
         ServiceFinExecutionFatale.finExecutionChampManquant(message);
         return false;
     }
