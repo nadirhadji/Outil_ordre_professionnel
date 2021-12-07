@@ -21,6 +21,7 @@
 |             EF-004             |             ST-004             |  Tester le serviceGeologue    |     20       |
 |             EF-005             |             ST-005             |  Tester le servicePsychologue |     15       | 
 |             EF-006             |             ST-006             |  Tester le servicePodiatre    |     20       |
+
 ###Cas de Tests
 
 |Identifiants des suites de tests|Identifiants des cas de tests| Description des cas de Tests  |          Préconditions          |                            Sortie attendue                                           |Priorité|
