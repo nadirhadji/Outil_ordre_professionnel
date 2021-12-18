@@ -8,19 +8,24 @@ import java.nio.file.Paths;
 
 public class ServiceStatistique {
 
-    private static final String PATH_TO_STATS = "src/main/java/Fichier/statistiques.json";
+    public static final String PATH_TO_STATS = "src/main/java/Fichier/statistiques.json";
 
     public static boolean fichierExiste(String chemin_du_fichier) {
         Path chemin = Paths.get(chemin_du_fichier);
         return Files.exists(chemin) && !Files.isDirectory(chemin);
     }
 
-    public static void initialiserFichier() throws IOException {
+    public static void initialiserFichier() {
         Path chemin = Paths.get(PATH_TO_STATS);
         if(! Files.exists(chemin) && !Files.isDirectory(chemin)) {
-            System.out.println("Fichier n'existe pas");
+            System.out.println("Fichier n'existe pas -> Creation en cours ...");
             File fichier = new File(PATH_TO_STATS);
-            fichier.createNewFile();
+            try {
+                fichier.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Echec de l'initialisation du fichier statistique");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -36,7 +41,6 @@ public class ServiceStatistique {
     }
 
     public static void mettreAjour() {
-
     }
 
 }

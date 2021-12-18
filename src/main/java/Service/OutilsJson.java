@@ -2,20 +2,30 @@ package Service;
 
 import Entite.MessageErreur;
 import Utils.Constantes;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class OutilsJson {
 
+    public static JSONArray obtenirJsonArrayDeFichier(String nom_fichier) {
+        JSONArray jsonArray = null ;
+        try {
+            jsonArray =  chargerFichierEnJsonArray(nom_fichier);
+        } catch (Exception e) {
+            gererException(e);
+        }
+        return jsonArray;
+    }
+
     public static JSONObject obtenirJsonObjectDeFichier(String nom_fichier) {
         JSONObject jsonObject = null;
         try {
-            jsonObject =  chargerFichierJson(nom_fichier);
+            jsonObject =  chargerFichierEnJsonObject(nom_fichier);
         } catch (Exception e) {
             gererException(e);
         }
@@ -35,7 +45,12 @@ public class OutilsJson {
         }
     }
 
-    public static JSONObject chargerFichierJson(String nom_fichier) throws IOException, ParseException {
+    public static JSONArray chargerFichierEnJsonArray(String nomFichier) throws IOException, ParseException{
+        Object array = new JSONParser().parse(new FileReader(nomFichier));
+        return (JSONArray) array;
+    }
+
+    public static JSONObject chargerFichierEnJsonObject(String nom_fichier) throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader(nom_fichier));
         return (JSONObject) obj;
     }

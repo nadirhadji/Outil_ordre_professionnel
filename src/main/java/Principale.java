@@ -1,16 +1,15 @@
+import Entite.StatistiqueGeneral;
 import Service.*;
 import Entite.Declaration;
 import Entite.Reponse;
 import Utils.Constantes;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class Principale {
 
     public static void main(String[] args) {
-        run(args);
+        //run(args);
+        StatistiqueGeneral statistiqueGeneral = new StatistiqueGeneral();
+        ServiceEcriture.ecrireFichierStatistique(ServiceStatistique.PATH_TO_STATS, statistiqueGeneral);
     }
 
     private static void run(String[] args) {
@@ -40,6 +39,6 @@ public class Principale {
         Declaration declaration = declarationJSON.obtenirDeclaration();
         ServiceValidation service = new ServiceValidation();
         service.validerDeclaration(declaration);
-        ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
+        ServiceEcriture.ecrireFichierReponse(args[1],Reponse.obtenirInstance());
     }
 }

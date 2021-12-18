@@ -20,7 +20,7 @@ public class ServiceFinExecutionFatale {
     private static void finExecutionFatale(MessageErreur message) {
         Reponse.supprimerInstance();
         Reponse.obtenirInstance().ajouterMessageErreur(message);
-        ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
+        ServiceEcriture.ecrireFichierReponse(Constantes.ARG1,Reponse.obtenirInstance());
         System.out.println(message);
     }
 

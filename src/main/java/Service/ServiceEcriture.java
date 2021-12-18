@@ -2,6 +2,7 @@ package Service;
 
 import Entite.MessageErreur;
 import Entite.Reponse;
+import Entite.StatistiqueGeneral;
 import Utils.Constantes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,16 +15,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceReponse {
+public class ServiceEcriture {
 
-    public static void ecrireFichierDeSortie(String nomFichierSortie, Reponse reponse) {
+    public static void ecrireFichier(String nomFichier, String contenue) {
         try {
-            FileWriter file = new FileWriter(nomFichierSortie);
-            file.write(obtenirReponsePrete(reponse));
+            FileWriter file = new FileWriter(nomFichier);
+            file.write(contenue);
             file.flush();
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void ecrireFichierReponse(String nomFichier, Reponse reponse) {
+        String reponseString = obtenirReponsePrete(reponse);
+        ecrireFichier(nomFichier,reponseString);
+    }
+
+    public static void ecrireFichierStatistique(String nomFichier, StatistiqueGeneral statistiqueGeneral) {
+        String statistiqueString = obtenirJolieJson(statistiqueGeneral.toJSONString());
+        ecrireFichier(nomFichier,statistiqueString);
     }
 
     private static String obtenirReponsePrete(Reponse reponse) {
