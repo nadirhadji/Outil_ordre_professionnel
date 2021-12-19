@@ -42,7 +42,7 @@ public class Statistique extends JSONObject {
         liste.put(ConstanteStatistique.CLE_ATELIER,0);
         liste.put(ConstanteStatistique.CLE_COLLOQUE,0);
         liste.put(ConstanteStatistique.CLE_CONFERENCE,0);
-        liste.put(ConstanteStatistique.CLE_COUR,0);
+        liste.put(ConstanteStatistique.CLE_COURS,0);
         liste.put(ConstanteStatistique.CLE_PRESENTATION,0);
         liste.put(ConstanteStatistique.CLE_PROJET,0);
         liste.put(ConstanteStatistique.CLE_DISCUSSION,0);

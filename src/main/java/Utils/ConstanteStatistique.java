@@ -111,7 +111,7 @@ public class ConstanteStatistique {
 
     public static final String CLE_CONFERENCE = "total_conference";
 
-    public static final String CLE_COUR = "total_cour";
+    public static final String CLE_COURS = "total_cours";
 
     public static final String CLE_PRESENTATION = "total_presentation";
 
