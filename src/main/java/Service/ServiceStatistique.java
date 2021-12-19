@@ -61,11 +61,40 @@ public class ServiceStatistique {
     }
 
     public static boolean estComplet() {
+        if ( ! Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty() )
+            return false;
+        for ( MessageErreur message : Reponse.obtenirInstance().obtenirMessageInformation() ) {
+            int code = message.getStatus();
+            if (code == CodeErreur.STATUS_ERREUR_INCOMPLETE ||
+                code == CodeErreur.STATUS_ERREUR_INVALIDE ||
+                code == CodeErreur.STATUS_NUMERO_PERMIS_INVALIDE )
+                return false;
+        }
         return true;
+    }
+
+    public static boolean estIncomplet() {
+        for ( MessageErreur message : Reponse.obtenirInstance().obtenirMessagesErreur() ) {
+            if (message.getStatus() == CodeErreur.STATUS_ERREUR_INCOMPLETE)
+                return true;
+        }
+        return false;
     }
 
     public static void mettreAjour(Declaration declaration) {
         Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_TRAITE);
+        if ( estInvalide())
+            miseAjourDeclarationInvalide();
+        else
+            miseAjourValide(declaration);
+        ServiceEcriture.ecrireFichierStatistique(PATH_TO_STATS,Statistique.obtenirInstance());
+    }
+
+    public static void miseAjourDeclarationInvalide() {
+
+    }
+
+    public static void miseAjourValide(Declaration declaration) {
 
     }
 
