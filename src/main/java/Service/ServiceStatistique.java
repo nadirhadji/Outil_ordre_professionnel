@@ -39,6 +39,30 @@ public class ServiceStatistique {
 
     }
 
+    public static void declarationSexe() {
+
+    }
+
+    public static void declaratrionNombreActivite() {
+
+    }
+
+    public static void declarationActiviteParCategorie() {
+
+    }
+
+    public static void declarationValideComplete() {
+
+    }
+
+    public static void declarationValideIncomplete() {
+
+    }
+
+    public static void declarationNumeroPermisInvalide() {
+
+    }
+
 }
 /*
 À chaque exécution, vous devrez calculer les statistiques suivantes :
