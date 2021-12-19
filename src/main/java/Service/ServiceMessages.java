@@ -16,7 +16,9 @@ public class ServiceMessages {
         return new MessageErreur(CodeErreur.STATUS_ERREUR_INVALIDE,
                 CodeErreur.CYCLE_ARCHITECTE,
                 "Le cycle entrée n'est pas valide, " +
-                "Le cycle doit être "+ Constantes.CYCLE_AUTORISE_POUR_ARCHITECTE);
+                        "Le cycle doit être "+ ConstantesArchitecte.CYCLE_2016_2018 +
+                        " ou " + ConstantesArchitecte.CYCLE_2018_2020+ " ou "+
+                        ConstantesArchitecte.CYCLE_2020_2022);
     }
 
     public static MessageErreur messageErreurCycleInvalidePsycho () {

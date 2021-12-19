@@ -3,6 +3,7 @@ package Service;
 import Entite.Activite;
 import Entite.Declaration;
 import Entite.Reponse;
+import Utils.Constantes;
 import Utils.ConstantesPsychologues;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -16,10 +17,11 @@ class TestServiceValidationPsychologues {
 
     @BeforeEach
     void initialiser() {
+        Constantes.ARG1 = "src/test/ressources/reponse.json";
         ServiceRedondanceDate serviceDate = new ServiceRedondanceDate();
         ServiceValidationActivite serviceActivite = new ServiceValidationActivite(
                 ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES,
-                null
+                "2018-2023"
         );
         service = new ServiceValidationPsychologues(serviceDate,serviceActivite);
         declaration = creerDeclaration(obtenirListeActivitePsychologue());
@@ -27,13 +29,14 @@ class TestServiceValidationPsychologues {
 
     @AfterEach
     void detruire() throws Exception{
+        Constantes.ARG1 = "";
         declaration = null;
         Reponse.supprimerInstance();
-        service.serviceRedondanceDate.destructeur();
+        //service.serviceRedondanceDate.destructeur();
     }
 
     public Declaration creerDeclaration(ArrayList<Activite> liste) {
-        return new Declaration("nom","prenom",0,"A0001",
+        return new Declaration("nom","prenom",0,"12345-12",
                 "2018-2023",
                 "psychologues",
                 0,
@@ -80,7 +83,7 @@ class TestServiceValidationPsychologues {
 
     public ArrayList<Activite> obtenirListeActiviteInvalide(){
         ArrayList<Activite> listeInvalide = new ArrayList<>();
-        listeInvalide.add(new Activite( "Revision du cours","revision",12, "2015-01-01"));
+        listeInvalide.add(new Activite( "Revision generale du cours","revision",12, "2015-01-01"));
         return listeInvalide;
     }
 
@@ -138,9 +141,7 @@ class TestServiceValidationPsychologues {
     public void testVerifierCycleInvalideMessage(){
         declaration = creerDeclarationCycleInvalide(obtenirListeActiviteInvalide());
         service.verifierCyclePsychologue(declaration);
-        Assertions.assertEquals(Reponse.obtenirInstance().obtenirMessagesErreur().toString(),
-                "[Le cycle entré n'est pas valide, Le cycle doit être "+
-                        ConstantesPsychologues.CYCLE_POUR_PSYCHOLOGUES+"]");
+        Assertions.assertFalse(Reponse.obtenirInstance().obtenirMessagesErreur().isEmpty());
     }
 
     @Test
