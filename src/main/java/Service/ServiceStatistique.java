@@ -1,5 +1,8 @@
 package Service;
 
+import Entite.Declaration;
+import Entite.Statistique;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,8 +42,12 @@ public class ServiceStatistique {
 
     }
 
-    public static void declarationSexe() {
+    /*####################### Methodes de declarations pour changer les stats ##########################*/
 
+    public static void declarationSexe(Declaration declaration) {
+        if(declaration.obtenirSexe() == 0) {/*statistique.incrementerStats(1, declarationNonconnu)*/}
+        if(declaration.obtenirSexe() == 1) {/*statistique.incrementerStats(1, declarationHomme); */}
+        if(declaration.obtenirSexe() == 2) {/*statistique.incrementerStats(1, declarationFemme); */}
     }
 
     public static void declaratrionNombreActivite() {
