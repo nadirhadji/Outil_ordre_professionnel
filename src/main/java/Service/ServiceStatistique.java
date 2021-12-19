@@ -99,7 +99,6 @@ public class ServiceStatistique {
     }
 
     /*####################### Methodes de declarations pour changer les stats ##########################*/
-
     public static void declarationSexe(Declaration declaration) {
         if(declaration.obtenirSexe() == 0) {
             Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_NON_BINAIRE);
