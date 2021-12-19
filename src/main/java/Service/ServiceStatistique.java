@@ -1,9 +1,6 @@
 package Service;
 
-import Entite.Declaration;
-import Entite.MessageErreur;
-import Entite.Reponse;
-import Entite.Statistique;
+import Entite.*;
 import Utils.CodeErreur;
 import Utils.ConstanteStatistique;
 import Utils.Constantes;
@@ -103,16 +100,56 @@ public class ServiceStatistique {
         if(declaration.obtenirSexe() == 0) {
             Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_NON_BINAIRE);
         }
-        if(declaration.obtenirSexe() == 1) {/*statistique.incrementerStats(1, declarationHomme); */}
-        if(declaration.obtenirSexe() == 2) {/*statistique.incrementerStats(1, declarationFemme); */}
+        if(declaration.obtenirSexe() == 1) {
+            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_HOMME);
+        }
+        if(declaration.obtenirSexe() == 2) {
+            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_FEMME);
+        }
     }
 
-    public static void declaratrionNombreActivite() {
-
+    public static void declaratrionNombreActivite(Declaration declaration) {
+        Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_ACTIVITE,
+                declaration.obtenirActivites().size());
     }
 
-    public static void declarationActiviteParCategorie() {
+    public static boolean verificationCategorie(Declaration declaration,String categorie, int i){
+        return declaration.obtenirActivites().get(i).obtenirCategorie().equals(categorie);
+    }
 
+    public static void declarationActiviteParCategorie(Declaration declaration) {
+        for(int i = 0 ; i < declaration.obtenirActivites().size() ; i++){
+            if(verificationCategorie(declaration,Categorie.ATELIER.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_ATELIER);
+            }
+            if(verificationCategorie(declaration,Categorie.COLLOQUE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COLLOQUE);
+            }
+            if(verificationCategorie(declaration,Categorie.CONFERENCE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_CONFERENCE);
+            }
+            if(verificationCategorie(declaration,Categorie.COURS.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COURS);
+            }
+            if(verificationCategorie(declaration,Categorie.PRESENTATION.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_PRESENTATION);
+            }
+            if(verificationCategorie(declaration,Categorie.PROJET_DE_RECHERCHE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_PROJET);
+            }
+            if(verificationCategorie(declaration,Categorie.GROUPE_DE_DISCUSSION.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DISCUSSION);
+            }
+            if(verificationCategorie(declaration,Categorie.LECTURE_DIRIGEE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_LECTURE);
+            }
+            if(verificationCategorie(declaration,Categorie.SEMINAIRE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_SEMINAIRE);
+            }
+            if(verificationCategorie(declaration,Categorie.REDACTION_PROFESSIONNELLE.toString(),i)){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_REDACTION);
+            }
+        }
     }
 
     public static void declarationValideComplete() {
@@ -120,7 +157,7 @@ public class ServiceStatistique {
     }
 
     public static void declarationValideIncomplete() {
-
+        
     }
 
     public static void declarationNumeroPermisInvalide() {
