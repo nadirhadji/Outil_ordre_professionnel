@@ -9,6 +9,16 @@ import java.util.Map;
 
 public class Statistique extends JSONObject {
 
+    private static Statistique instance;
+
+
+    public static Statistique obtenirInstance() {
+        if (instance == null){
+            instance = new Statistique();
+        }
+        return instance;
+    }
+
     public Statistique() {
         String nom_fichier = "src/main/java/Fichier/statistiques.json";
         if (ServiceStatistique.fichierExiste(nom_fichier)) {

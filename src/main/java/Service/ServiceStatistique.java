@@ -1,7 +1,12 @@
 package Service;
 
 import Entite.Declaration;
+import Entite.MessageErreur;
+import Entite.Reponse;
 import Entite.Statistique;
+import Utils.CodeErreur;
+import Utils.ConstanteStatistique;
+import Utils.Constantes;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,13 +48,33 @@ public class ServiceStatistique {
     public static void reinitialiser() {
     }
 
-    public static void mettreAjour() {
+    public static boolean estInvalide() {
+        for (MessageErreur message: Reponse.obtenirInstance().obtenirMessagesErreur()) {
+            if (message.getStatus() == CodeErreur.STATUS_ERREUR_INVALIDE)
+                return true;
+        }
+        for (MessageErreur message: Reponse.obtenirInstance().obtenirMessageInformation()) {
+            if (message.getStatus() == CodeErreur.STATUS_ERREUR_INVALIDE)
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean estComplet() {
+        return true;
+    }
+
+    public static void mettreAjour(Declaration declaration) {
+        Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_TRAITE);
+
     }
 
     /*####################### Methodes de declarations pour changer les stats ##########################*/
 
     public static void declarationSexe(Declaration declaration) {
-        if(declaration.obtenirSexe() == 0) {/*statistique.incrementerStats(1, declarationNonconnu)*/}
+        if(declaration.obtenirSexe() == 0) {
+            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_NON_BINAIRE);
+        }
         if(declaration.obtenirSexe() == 1) {/*statistique.incrementerStats(1, declarationHomme); */}
         if(declaration.obtenirSexe() == 2) {/*statistique.incrementerStats(1, declarationFemme); */}
     }

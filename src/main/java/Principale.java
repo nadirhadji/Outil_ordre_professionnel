@@ -35,11 +35,11 @@ public class Principale {
     }
 
     private static void verifierDeclaration(String[] args) {
-        Statistique statistique = new Statistique();
         ServiceDeclarationJSON declarationJSON = new ServiceDeclarationJSON(args[0]);
         Declaration declaration = declarationJSON.obtenirDeclaration();
         ServiceValidation service = new ServiceValidation();
         service.validerDeclaration(declaration);
+        ServiceStatistique.mettreAjour(declaration);
         ServiceEcriture.ecrireFichierReponse(args[1],Reponse.obtenirInstance());
     }
 }
