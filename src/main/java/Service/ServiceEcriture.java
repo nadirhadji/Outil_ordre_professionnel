@@ -2,7 +2,7 @@ package Service;
 
 import Entite.MessageErreur;
 import Entite.Reponse;
-import Entite.StatistiqueGeneral;
+import Entite.Statistique;
 import Utils.Constantes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,8 +32,8 @@ public class ServiceEcriture {
         ecrireFichier(nomFichier,reponseString);
     }
 
-    public static void ecrireFichierStatistique(String nomFichier, StatistiqueGeneral statistiqueGeneral) {
-        String statistiqueString = obtenirJolieJson(statistiqueGeneral.toJSONString());
+    public static void ecrireFichierStatistique(String nomFichier, Statistique statistique) {
+        String statistiqueString = obtenirJolieJson(statistique.toJSONString());
         ecrireFichier(nomFichier,statistiqueString);
     }
 

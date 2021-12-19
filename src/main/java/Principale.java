@@ -1,4 +1,4 @@
-import Entite.StatistiqueGeneral;
+import Entite.Statistique;
 import Service.*;
 import Entite.Declaration;
 import Entite.Reponse;
@@ -8,8 +8,8 @@ public class Principale {
 
     public static void main(String[] args) {
         //run(args);
-        StatistiqueGeneral statistiqueGeneral = new StatistiqueGeneral();
-        ServiceEcriture.ecrireFichierStatistique(ServiceStatistique.PATH_TO_STATS, statistiqueGeneral);
+        Statistique statistique = new Statistique();
+        ServiceEcriture.ecrireFichierStatistique(ServiceStatistique.PATH_TO_STATS, statistique);
     }
 
     private static void run(String[] args) {
@@ -35,6 +35,7 @@ public class Principale {
     }
 
     private static void verifierDeclaration(String[] args) {
+        Statistique statistique = new Statistique();
         ServiceDeclarationJSON declarationJSON = new ServiceDeclarationJSON(args[0]);
         Declaration declaration = declarationJSON.obtenirDeclaration();
         ServiceValidation service = new ServiceValidation();
