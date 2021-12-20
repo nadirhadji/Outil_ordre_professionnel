@@ -1,9 +1,7 @@
 package Service;
 
 import Entite.*;
-import Utils.CodeErreur;
-import Utils.ConstanteStatistique;
-import Utils.Constantes;
+import Utils.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -152,16 +150,51 @@ public class ServiceStatistique {
         }
     }
 
-    public static void declarationValideComplete() {
-
+    public static void declarationValideComplete(Declaration declaration) {
+        if(estComplet()){
+            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_COMPLETE);
+            if(declaration.obtenirOrdre() == ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COMPLET_GEOLOGUE);
+            }
+            if(declaration.obtenirOrdre() == ConstantesPodiatre.PODIATRE){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COMPLET_PODIATRE);
+            }
+            if(declaration.obtenirOrdre() == ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COMPLET_ARCHI);
+            }
+            if(declaration.obtenirOrdre() == ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COMPLET_PSYCHO);
+            }
+        }
     }
 
-    public static void declarationValideIncomplete() {
-        
+    public static void declarationValideIncomplete(Declaration declaration) {
+        if(estIncomplet()){
+            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_INVALIDE);
+            if(declaration.obtenirOrdre() == ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_INCOMPLET_GEOLOGUE);
+            }
+            if(declaration.obtenirOrdre() == ConstantesPodiatre.PODIATRE){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_INCOMPLET_PODIATRE);
+            }
+            if(declaration.obtenirOrdre() == ConstantesArchitecte.VALEUR_ORDRE_ARCHITECTES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_INCOMPLET_ARCHI);
+            }
+            if(declaration.obtenirOrdre() == ConstantesPsychologues.VALEUR_ORDRE_PSHYCOLOGUES){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_INCOMPLET_PSHYCO);
+            }
+        }
     }
 
     public static void declarationNumeroPermisInvalide() {
-
+        for ( MessageErreur message : Reponse.obtenirInstance().obtenirMessageInformation() ) {
+            int code = message.getStatus();
+            if (code == CodeErreur.NUMERO_PERMIS ||
+                    code == CodeErreur.STATUS_NUMERO_PERMIS_INVALIDE ||
+                    code == CodeErreur.NUMERO_PERMIS_GEOLOGUE_INVALIDE ){
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_PERMIS_INVALIDE);
+            }
+        }
     }
 
 }
