@@ -40,7 +40,7 @@ public class ServiceStatistique {
         {
             Map.Entry<String, String> entry = itr.next();
             String cle = entry.getKey();
-            int value=(int)(long)Statistique.obtenirInstance().get(cle);
+            int value = (int)(long)Statistique.obtenirInstance().get(cle);
             System.out.println(entry.getKey()+ " = " + value);
         }
     }
@@ -99,7 +99,13 @@ public class ServiceStatistique {
     }
 
     public static void miseAjourDeclarationInvalide() {
-        declarationInvalide();
+        Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_INVALIDE);
+        for (MessageErreur message : Reponse.obtenirInstance().obtenirMessagesErreur()) {
+            if (message.getStatus() == CodeErreur.STATUS_NUMERO_PERMIS_INVALIDE) {
+                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_PERMIS_INVALIDE);
+                break;
+            }
+        }
     }
 
     public static void miseAjourValide(Declaration declaration) {
@@ -109,13 +115,11 @@ public class ServiceStatistique {
         declarationActiviteParCategorie(declaration);
         declarationValideComplete(declaration);
         declarationValideIncomplete(declaration);
-        declarationNumeroPermisInvalide();
     }
 
     /*####################### Methodes de declarations pour changer les stats ##########################*/
 
-    public static void declarationInvalide() {
-        Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_INVALIDE);
+    public static void declarationInvalide(Declaration declaration) {
     }
 
     public static void declarationSexe(Declaration declaration) {
@@ -207,17 +211,5 @@ public class ServiceStatistique {
             }
         }
     }
-
-    public static void declarationNumeroPermisInvalide() {
-        for ( MessageErreur message : Reponse.obtenirInstance().obtenirMessageInformation() ) {
-            int code = message.getStatus();
-            if (code == CodeErreur.NUMERO_PERMIS ||
-                    code == CodeErreur.STATUS_NUMERO_PERMIS_INVALIDE ||
-                    code == CodeErreur.NUMERO_PERMIS_GEOLOGUE_INVALIDE ){
-                Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_PERMIS_INVALIDE);
-            }
-        }
-    }
-
 }
 
