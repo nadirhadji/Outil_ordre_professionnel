@@ -95,7 +95,7 @@ public class ConstanteStatistique {
 
     public static final String CLE_DECLARATION_COMPLETE = "total_complet";
 
-    public static final String CLE_DECLARATION_INVALIDE = "total_incomplet";
+    public static final String CLE_DECLARATION_INVALIDE = "total_invalide";
 
     public static final String CLE_HOMME = "total_homme";
 

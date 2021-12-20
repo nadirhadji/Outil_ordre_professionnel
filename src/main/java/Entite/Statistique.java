@@ -26,7 +26,6 @@ public class Statistique extends JSONObject {
         }
         else {
             initialiserStatistique();
-            ServiceStatistique.initialiserFichier();
         }
     }
 
@@ -63,14 +62,14 @@ public class Statistique extends JSONObject {
 
     public void incrementerCle(String cle) {
         if (this.containsKey(cle)) {
-            int nouvelleValeur = (int) this.get(cle) + 1;
+            int nouvelleValeur =  (int)(long) this.get(cle) + 1;
             this.replace(cle,nouvelleValeur);
         }
     }
 
     public void incrementerCle(String cle, int nombre) {
         if (this.containsKey(cle)) {
-            int nouvelleValeur = (int) this.get(cle) + nombre;
+            int nouvelleValeur = (int)(long) this.get(cle) + nombre;
             this.replace(cle,nouvelleValeur);
         }
     }

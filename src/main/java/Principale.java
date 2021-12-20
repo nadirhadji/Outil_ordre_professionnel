@@ -7,7 +7,7 @@ import Utils.Constantes;
 public class Principale {
 
     public static void main(String[] args) {
-        //run(args);
+        run(args);
         Statistique statistique = new Statistique();
         ServiceEcriture.ecrireFichierStatistique(ServiceStatistique.PATH_TO_STATS, statistique);
     }

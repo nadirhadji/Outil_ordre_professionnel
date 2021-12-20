@@ -1,12 +1,16 @@
 package Service;
 
+import Entite.Declaration;
 import Entite.MessageErreur;
 import Entite.Reponse;
+import Entite.Statistique;
 import Utils.CodeErreur;
+import Utils.ConstanteStatistique;
 import Utils.Constantes;
+import Service.ServiceStatistique;
 
 public class ServiceFinExecutionFatale {
-
+    public static final String PATH_TO_STATS = "src/main/java/Fichier/statistiques.json";
     /**
      * Méthode a executer dans le cas d'une fin d'execution due a une erreur fatale
      *
@@ -21,7 +25,7 @@ public class ServiceFinExecutionFatale {
         Reponse.supprimerInstance();
         Reponse.obtenirInstance().ajouterMessageErreur(message);
         ServiceEcriture.ecrireFichierReponse(Constantes.ARG1,Reponse.obtenirInstance());
-        System.out.println(message);
+        System.out.println(message.getErreur());
     }
 
     /**

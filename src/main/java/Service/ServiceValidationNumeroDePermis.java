@@ -29,6 +29,7 @@ public class ServiceValidationNumeroDePermis {
         boolean estNumeroDePermisValide = estNumeroDePermisValide(numeroDePermis, regex);
         if (! estNumeroDePermisValide ) {
             MessageErreur message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis);
+            System.out.println(message.getErreur());
             ServiceFinExecutionFatale.finExecutionPermisInvalide(message);
         }
         return estNumeroDePermisValide;

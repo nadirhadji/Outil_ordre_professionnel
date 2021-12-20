@@ -1,5 +1,8 @@
 {
-  "numero_de_permis": "R8877",
+  "numero_de_permis": "NF4877",
+  "nom": "Nom",
+  "prenom": "Felix",
+  "sexe": 1,
   "ordre": "géologues",
   "cycle": "2018-2021",
   "activites": [{
