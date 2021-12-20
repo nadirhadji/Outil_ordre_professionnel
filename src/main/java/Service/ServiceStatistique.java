@@ -86,14 +86,25 @@ public class ServiceStatistique {
     }
 
     public static void miseAjourDeclarationInvalide() {
-
+        declarationInvalide();
     }
 
     public static void miseAjourValide(Declaration declaration) {
-
+        declarationSexe(declaration);
+        declaratrionNombreActivite(declaration);
+        declaratrionNombreActivite(declaration);
+        declarationActiviteParCategorie(declaration);
+        declarationValideComplete(declaration);
+        declarationValideIncomplete(declaration);
+        declarationNumeroPermisInvalide();
     }
 
     /*####################### Methodes de declarations pour changer les stats ##########################*/
+
+    public static void declarationInvalide() {
+        Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_INVALIDE);
+    }
+
     public static void declarationSexe(Declaration declaration) {
         if(declaration.obtenirSexe() == 0) {
             Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_NON_BINAIRE);
@@ -152,7 +163,6 @@ public class ServiceStatistique {
 
     public static void declarationValideComplete(Declaration declaration) {
         if(estComplet()){
-            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_COMPLETE);
             if(declaration.obtenirOrdre() == ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES){
                 Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_COMPLET_GEOLOGUE);
             }
@@ -170,7 +180,6 @@ public class ServiceStatistique {
 
     public static void declarationValideIncomplete(Declaration declaration) {
         if(estIncomplet()){
-            Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_DECLARATION_INVALIDE);
             if(declaration.obtenirOrdre() == ConstantesGeologue.VALEUR_ORDRE_GEOLOGUES){
                 Statistique.obtenirInstance().incrementerCle(ConstanteStatistique.CLE_INCOMPLET_GEOLOGUE);
             }
