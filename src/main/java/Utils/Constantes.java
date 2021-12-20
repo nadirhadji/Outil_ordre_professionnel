@@ -21,10 +21,15 @@ public class Constantes {
     public static final String CLE_NOMBRE_HEURE = "heures";
     public static final String CLE_DATE = "date";
     public static final String CLE_ORDRE = "ordre";
+    public static final String CLE_NOM = "nom";
+    public static final String CLE_PRENOM = "prenom";
+    public static final String CLE_SEXE = "sexe";
+
     public static final String CYCLE_AUTORISE_POUR_ARCHITECTE = "2018-2020";
     public static final String CYCLE_AUTORISE_POUR_PSYCHOLOGUES = "2018-2023";
     public static final int NOMBRE_HEURES_MAXIMALE_A_TRANSFERE = 7;
     public static final int NOMBRE_HEURE_MAXIMALE_POUR_UNE_ACTIVITE = 10;
+    public static final int NOMBRE_HEURE_ACTIVITE_MAX_PAR_JOUR = 10;
     public static final String cleReponseComplet = "complet";
     public static final String cleReponseErreur = "erreurs";
     public static final int MAXIMUM_HEURE_PRESENTATION_ARCHITECTE = 23;

@@ -1,0 +1,75 @@
+{
+  "numero_de_permis": "NF4877",
+  "nom": "Nom",
+  "prenom": "Felix",
+  "sexe": 1,
+  "ordre": "géologues",
+  "cycle": "2018-2021",
+  "activites": [{
+    "description": "Cours sur la déontologie",
+    "categorie": "cours",
+    "heures": 21,
+    "date": "2018-11-20"
+  },
+    {
+      "description": "Migration de système orienté objet ",
+      "categorie": "projet de recherche",
+      "heures": 1,
+      "date": "2020-06-02"
+    },
+    {
+      "description": "Laboratoire de programmation",
+      "categorie": "atelier",
+      "heures": 1,
+      "date": "2019-06-07"
+    },
+    {
+      "description": "Séminaire sur l'architecture contemporaine",
+      "categorie": "séminaire",
+      "heures": 1,
+      "date": "2019-01-07"
+    },
+    {
+      "description": "Réunion des professeurs d'informatique",
+      "categorie": "colloque",
+      "heures": 1,
+      "date": "2019-03-21"
+    },
+    {
+      "description": "conférence sur l'architecture contemporaine",
+      "categorie": "conférence",
+      "heures": 2,
+      "date": "2019-04-01"
+    },
+    {
+      "description": "Lectures scientifiques",
+      "categorie": "lecture dirigée",
+      "heures": 2,
+      "date": "2019-03-01"
+    },
+    {
+      "description": "Rédaction pour le magazine Architecture moderne",
+      "categorie": "rédaction professionnelle",
+      "heures": 14,
+      "date": "2019-06-01"
+    },
+    {
+      "description": "Visite d'établissements architecturaux",
+      "categorie": "voyage",
+      "heures": 2,
+      "date": "2020-04-01"
+    },
+    {
+      "description": "Séminaire sur l'architecture contemporaine",
+      "categorie": "séminaire",
+      "heures": 10,
+      "date": "2018-05-31"
+    },
+    {
+      "description": "Lectures scientifiques",
+      "categorie": "lecture dirigée",
+      "heures": 2,
+      "date": "2022-06-02"
+    }
+  ]
+}

@@ -6,12 +6,12 @@ public class Reponse {
 
     private static Reponse instance;
 
-    private final ArrayList<String> messagesErreur;
-    private final ArrayList<String> messageInformation;
+    private final ArrayList<MessageErreur> messagesErreur;
+    private final ArrayList<MessageErreur> messageInformation;
 
     public Reponse() {
-        this.messagesErreur = new ArrayList<String>();
-        this.messageInformation = new ArrayList<String>();
+        this.messagesErreur = new ArrayList<MessageErreur>();
+        this.messageInformation = new ArrayList<MessageErreur>();
     }
 
     public static Reponse obtenirInstance() {
@@ -25,19 +25,19 @@ public class Reponse {
         instance = null;
     }
 
-    public void ajouterMessageErreur(String message) {
+    public void ajouterMessageErreur(MessageErreur message) {
         this.messagesErreur.add(message);
     }
 
-    public void ajouterMessageInformation(String message) {
+    public void ajouterMessageInformation(MessageErreur message) {
         this.messageInformation.add(message);
     }
 
-    public ArrayList<String> obtenirMessagesErreur() {
+    public ArrayList<MessageErreur> obtenirMessagesErreur() {
         return messagesErreur;
     }
 
-    public ArrayList<String> obtenirMessageInformation() {
+    public ArrayList<MessageErreur> obtenirMessageInformation() {
         return messageInformation;
     }
 }

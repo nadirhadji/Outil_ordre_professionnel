@@ -4,37 +4,52 @@ import Entite.*;
 import Utils.Constantes;
 import Utils.ConstantesArchitecte;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ServiceValidationArchitecte implements InterfaceVerification {
 
-    Map<String, Integer> dateMap;
+    ServiceRedondanceDate serviceRedondanceDate;
+    ServiceValidationActivite serviceValidationActivite;
     HeuresArchitecte heuresArchitecte;
 
-    public ServiceValidationArchitecte() {
-        this.dateMap = new HashMap<>();
+    public ServiceValidationArchitecte(ServiceRedondanceDate serviceRedondanceDate,
+                    ServiceValidationActivite serviceValidationActivite ) {
+        this.serviceRedondanceDate = serviceRedondanceDate;
+        this.serviceValidationActivite = serviceValidationActivite;
         this.heuresArchitecte = new HeuresArchitecte();
     }
 
-    @Override
     public void verifier(Declaration declaration) {
+        verifiationGeneral(declaration);
+        verificationDesActivite(declaration);
+        verifierSpecifiqueOrdre(declaration);
+    }
+
+    @Override
+    public void verifiationGeneral(Declaration declaration) {
         if ( verifierCycle(declaration) ) {
+            ServiceValidationNumeroDePermis.architecte(declaration.obtenirNumeroDePermis());
             verifierHeureTransfere(declaration);
-            verifierActivites(declaration);
-            verifierNombreHeuresPourActiviteDeGroupe(declaration);
-            verifierMaximumHeureParGroupeDeCategorie();
-            verifierNombreHeuresTotaleDansDeclaration(declaration.obtenirHeurestransfere());
         }
     }
 
-    /*############################### Service.Verification Cycle ##################################*/
+    @Override
+    public void verificationDesActivite(Declaration declaration) {
+        verifierActivites(declaration);
+    }
 
+    @Override
+    public void verifierSpecifiqueOrdre(Declaration declaration) {
+        verifierNombreHeuresPourActiviteDeGroupe(declaration);
+        verifierMaximumHeureParGroupeDeCategorie();
+        verifierNombreHeuresTotaleDansDeclaration(declaration.obtenirHeurestransfere());
+    }
+
+    /*############################### Service.Verification Cycle ##################################*/
     public boolean verifierCycle(Declaration declaration) {
         if ( ! estCycleValide(declaration.obtenirCycle()) ) {
             Reponse.obtenirInstance().ajouterMessageErreur(
-                    ServiceMessages.messageErreurCycleInvalide());
+                    ServiceMessages.messageErreurCycleInvalideArchitecte());
             return false;
         }
         return true;
@@ -69,7 +84,6 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
     }
 
     /*################## Service.Verification Heures Transfere ######################*/
-
     public void verifierHeureTransfere(Declaration declaration) {
         verifierSiHeuresTransfereSuperieurA7(declaration);
         verifierSiHeuresTransfereNegatif(declaration);
@@ -94,34 +108,13 @@ public class ServiceValidationArchitecte implements InterfaceVerification {
 
     /*##################### Service.Verification des activités #######################*/
     public void verifierActivites(Declaration declaration) {
-        ServiceValidationActivite serviceValidationActivite = new
-                ServiceValidationActivite(declaration.obtenirOrdre(),declaration.obtenirCycle());
         for (Activite activite : declaration.obtenirActivites() ) {
+            serviceRedondanceDate.estUneDateDisponible(activite);
             serviceValidationActivite.verifierActivite(activite);
-            if ( ! activite.estIgnoree() && ! estActiviteRedondante(activite) ){
-                dateMap.put(activite.obtenirDate(),activite.obtenirHeures());
+            if ( ! activite.estIgnoree() ) {
                 incrementerCompteurHeures(activite);
             }
         }
-    }
-
-    public boolean estActiviteRedondante(Activite activite) {
-        String date = activite.obtenirDate();
-        int nombreHeures = activite.obtenirHeures();
-        return estUneDateExistante(date,nombreHeures);
-    }
-
-    public boolean estUneDateExistante(String date, int nombreHeures) {
-        if ( dateMap.containsKey(date) ) {
-            int totalHeures = dateMap.get(date) + nombreHeures;
-            if ( totalHeures > 10) {
-                return true;
-            } else {
-                dateMap.replace(date,totalHeures);
-                return false;
-            }
-        }
-        return false;
     }
 
     public void incrementerCompteurHeures(Activite activite) {

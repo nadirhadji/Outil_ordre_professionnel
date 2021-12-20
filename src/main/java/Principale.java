@@ -1,44 +1,45 @@
-import Service.ServiceJSON;
+import Entite.Statistique;
+import Service.*;
 import Entite.Declaration;
 import Entite.Reponse;
-import Service.ServiceReponse;
-import Service.ServiceValidation;
 import Utils.Constantes;
-import org.json.simple.parser.ParseException;
-import java.io.IOException;
 
 public class Principale {
 
     public static void main(String[] args) {
-        verifierSiArgumentExiste(args);
-        ServiceJSON serviceJson = new ServiceJSON(Constantes.ARG0);
-        charger(serviceJson);
-        Declaration declaration = new Declaration(serviceJson);
-        ServiceValidation service = new ServiceValidation();
-        service.validerDeclaration(declaration);
-        ServiceReponse.ecrireFichierDeSortie(args[1],Reponse.obtenirInstance());
+        run(args);
+        Statistique statistique = new Statistique();
+        ServiceEcriture.ecrireFichierStatistique(ServiceStatistique.PATH_TO_STATS, statistique);
     }
 
-    private static void verifierSiArgumentExiste(String[] args) {
-        if (args.length < 2) {
+    private static void run(String[] args) {
+        switch (args[0]) {
+            case "-S" -> ServiceStatistique.afficher();
+            case "-SR" -> ServiceStatistique.reinitialiser();
+            default -> {
+                verifierSyntaxe(args);
+                verifierDeclaration(args);
+            }
+        }
+    }
+
+    private static void verifierSyntaxe(String[] args) {
+        if (args.length == 2) {
+            Constantes.ARG0 = args[0];
+            Constantes.ARG1 = args[1];
+        }
+        else {
             System.out.println("Argument invalide");
             System.exit(1);
         }
-        else {
-            Constantes.ARG0 = args[0];
-            System.out.println(args[0]);
-            Constantes.ARG1 = args[1];
-            System.out.println(args[1]);
-        }
     }
 
-    private static void charger(ServiceJSON json) {
-        try {
-            json.charger();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    private static void verifierDeclaration(String[] args) {
+        ServiceDeclarationJSON declarationJSON = new ServiceDeclarationJSON(args[0]);
+        Declaration declaration = declarationJSON.obtenirDeclaration();
+        ServiceValidation service = new ServiceValidation();
+        service.validerDeclaration(declaration);
+        ServiceStatistique.mettreAjour(declaration);
+        ServiceEcriture.ecrireFichierReponse(args[1],Reponse.obtenirInstance());
     }
 }

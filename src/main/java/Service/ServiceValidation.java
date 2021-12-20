@@ -1,30 +1,18 @@
 package Service;
 
-import Exception.NumeroDePermisInvalideException;
 import Entite.Declaration;
-import Entite.Reponse;
-import Utils.Constantes;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ServiceValidation {
 
     public void validerDeclaration(Declaration declaration) {
-        InterfaceVerification interfaceVerification = VerificationFactory.obtenirInstance(declaration.obtenirOrdre());
-        validerNumeroDePermis(declaration.obtenirNumeroDePermis());
-        interfaceVerification.verifier(declaration);
-    }
-
-    public void validerNumeroDePermis(String numeroDePermis) {
-        Pattern pattern = Pattern.compile("^(A|R|S|Z)[0-9]{4}$");
-        Matcher matcher = pattern.matcher(numeroDePermis);
-        if ( ! matcher.find() ) {
-            String message = ServiceMessages.messageErreurNumeroDePermis(numeroDePermis);
-            Reponse.obtenirInstance().ajouterMessageErreur(message);
-            ServiceReponse.ecrireFichierDeSortie(Constantes.ARG1,Reponse.obtenirInstance());
-            System.out.println(message);
-            System.exit(1);
-        }
+        String nom = declaration.obtenirNom();
+        String prenom = declaration.obtenirPrenom();
+        int sexe = declaration.obtenirSexe();
+        String ordre = declaration.obtenirOrdre();
+        String cycle = declaration.obtenirCycle();
+        InterfaceVerification interfaceVerification = VerificationFactory.obtenirInstance(ordre,cycle);
+        interfaceVerification.verifiationGeneral(declaration);
+        interfaceVerification.verificationDesActivite(declaration);
+        interfaceVerification.verifierSpecifiqueOrdre(declaration);
     }
 }

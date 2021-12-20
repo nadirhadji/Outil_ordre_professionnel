@@ -1,6 +1,8 @@
 package Service;
 
+import Entite.MessageErreur;
 import Entite.Reponse;
+import Entite.Statistique;
 import Utils.Constantes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,28 +15,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceReponse {
+public class ServiceEcriture {
 
-    public static void ecrireFichierDeSortie(String nomFichierSortie, Reponse reponse) {
+    public static void ecrireFichier(String nomFichier, String contenue) {
         try {
-            FileWriter file = new FileWriter(nomFichierSortie);
-            file.write(obtenirReponsePrete(reponse));
+            FileWriter file = new FileWriter(nomFichier);
+            file.write(contenue);
             file.flush();
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public static void ecrireFichierReponse(String nomFichier, Reponse reponse) {
+        String reponseString = obtenirReponsePrete(reponse);
+        ecrireFichier(nomFichier,reponseString);
+    }
+
+    public static void ecrireFichierStatistique(String nomFichier, Statistique statistique) {
+        String statistiqueString = obtenirJolieJson(statistique.toJSONString());
+        ecrireFichier(nomFichier,statistiqueString);
+    }
+
     private static String obtenirReponsePrete(Reponse reponse) {
         JSONObject reponseJSON = new JSONObject();
-        ArrayList<String> messagesErreur = reponse.obtenirMessagesErreur();
-        ArrayList<String> messageInformation = reponse.obtenirMessageInformation();
+        ArrayList<MessageErreur> messagesErreur = reponse.obtenirMessagesErreur();
+        ArrayList<MessageErreur> messageInformation = reponse.obtenirMessageInformation();
 
         if ( messagesErreur.isEmpty() ) {
             reponseJSON.put(Constantes.cleReponseComplet,"true");
             JSONArray liste = obtenirListEnJson(messageInformation);
-            if(! obtenirListEnJson(messageInformation).isEmpty())
-                reponseJSON.put(Constantes.cleReponseErreur, obtenirListEnJson(messageInformation));
+            if(! liste.isEmpty())
+                reponseJSON.put(Constantes.cleReponseErreur, liste);
         }
         else {
             reponseJSON.put(Constantes.cleReponseComplet,"false");
@@ -43,16 +55,18 @@ public class ServiceReponse {
         return obtenirJolieJson(reponseJSON.toJSONString());
     }
 
-    public static JSONArray obtenirListEnJson(List<String> liste) {
+    public static JSONArray obtenirListEnJson(List<MessageErreur> liste) {
         JSONArray listeJson = new JSONArray();
-        listeJson.addAll(liste);
+        for (MessageErreur message : liste) {
+            listeJson.add(message.getErreur());
+        }
         return listeJson;
     }
 
-    public static JSONArray fusionnerDeuxListEnJson(List<String> liste1, List<String> liste2) {
+    public static JSONArray fusionnerDeuxListEnJson(List<MessageErreur> liste1, List<MessageErreur> liste2) {
         JSONArray listeJson = new JSONArray();
-        listeJson.addAll(liste1);
-        listeJson.addAll(liste2);
+        listeJson.addAll(obtenirListEnJson(liste1));
+        listeJson.addAll(obtenirListEnJson(liste2));
         return listeJson;
     }
 
